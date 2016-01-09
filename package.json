@@ -1,0 +1,29 @@
+{
+  "name": "blog",
+  "version": "1.0.0",
+  "description": "GeekHub Symfony HW7",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "gulp": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maximzh/Blog.git"
+  },
+  "author": "Maxim Zhurilo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/maximzh/Blog/issues"
+  },
+  "homepage": "https://github.com/maximzh/Blog#readme",
+  "dependencies": {
+    "bower": "^1.7.2",
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-less": "^3.0.5",
+    "gulp-rimraf": "^0.2.0",
+    "gulp-uglify": "^1.5.1",
+    "less": "^2.5.3"
+  }
+}

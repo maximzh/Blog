@@ -1,0 +1,23 @@
+{
+  "name": "blog",
+  "description": "GeekHub Symfony HW7",
+  "main": "index.js",
+  "authors": [
+    "Maxim Zhurilo"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/maximzh/Blog",
+  "moduleType": [
+    "amd"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.6"
+  }
+}
