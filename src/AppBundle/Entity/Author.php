@@ -2,6 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\Post;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -52,12 +54,25 @@ class Author
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="small_avatar", type="string", length=150, nullable=true)
+     * @Assert\Length(max="150")
+     */
+    private $smallAvatar;
+
+    /**
+     * @var string
      * @ORM\Column(name="email", type="string", length=50)
      * @Assert\NotBlank()
      * @Assert\Email()
      * @Assert\Length(max="50")
      */
     private $email;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Post", mappedBy="author")
+     */
+    private $posts;
 
     /**
      * @var \DateTime
@@ -262,5 +277,70 @@ class Author
     public function getDeletedAt()
     {
         return $this->deletedAt;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->posts = new ArrayCollection();
+    }
+
+    /**
+     * Add post
+     *
+     * @param Post $post
+     *
+     * @return Author
+     */
+    public function addPost(Post $post)
+    {
+        $this->posts[] = $post;
+
+        return $this;
+    }
+
+    /**
+     * Remove post
+     *
+     * @param Post $post
+     */
+    public function removePost(Post $post)
+    {
+        $this->posts->removeElement($post);
+    }
+
+    /**
+     * Get posts
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPosts()
+    {
+        return $this->posts;
+    }
+
+    /**
+     * Set smallAvatar
+     *
+     * @param string $smallAvatar
+     *
+     * @return Author
+     */
+    public function setSmallAvatar($smallAvatar)
+    {
+        $this->smallAvatar = $smallAvatar;
+
+        return $this;
+    }
+
+    /**
+     * Get smallAvatar
+     *
+     * @return string
+     */
+    public function getSmallAvatar()
+    {
+        return $this->smallAvatar;
     }
 }

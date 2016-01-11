@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+    {% for post in posts %}
+        <a href="{{ path('show_post', {'slug': post.slug}) }}">
+            <h3 class="h3">{{ post.title }}</h3>
+        </a>
+            <img src="{{ post.mainPicture }}">
+        <br>
+
+        <br>
+    {% endfor %}
+
+{% endblock %}

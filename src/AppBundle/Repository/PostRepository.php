@@ -12,4 +12,23 @@ use Doctrine\ORM\EntityRepository;
  */
 class PostRepository extends EntityRepository
 {
+    public function findAllPostsWithDependencies()
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p, a')
+            ->join('p.author', 'a')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findPostBySlug($slug)
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p, a')
+            ->join('p.author', 'a')
+            ->where('p.slug = :slug')
+            ->setParameter('slug', $slug)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

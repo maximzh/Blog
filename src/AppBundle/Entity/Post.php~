@@ -58,6 +58,19 @@ class Post
     private $text;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Author", inversedBy="posts")
+     */
+    private $author;
+
+    /**
+     * @var string
+     * @ORM\Column(name="main_picture", type="string", length=150, nullable=true)
+     * @Assert\Length(max="150")
+     */
+    private $mainPicture;
+
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="created_at", type="datetime")
@@ -235,5 +248,53 @@ class Post
     public function getDeletedAt()
     {
         return $this->deletedAt;
+    }
+
+    /**
+     * Set author
+     *
+     * @param \AppBundle\Entity\Author $author
+     *
+     * @return Post
+     */
+    public function setAuthor(\AppBundle\Entity\Author $author = null)
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * Get author
+     *
+     * @return \AppBundle\Entity\Author
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    /**
+     * Set mainPicture
+     *
+     * @param string $mainPicture
+     *
+     * @return Post
+     */
+    public function setMainPicture($mainPicture)
+    {
+        $this->mainPicture = $mainPicture;
+
+        return $this;
+    }
+
+    /**
+     * Get mainPicture
+     *
+     * @return string
+     */
+    public function getMainPicture()
+    {
+        return $this->mainPicture;
     }
 }
