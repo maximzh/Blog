@@ -41,6 +41,10 @@ class PostController extends Controller
             throw $this->createNotFoundException('No post found'.$slug);
         }
 
-        return ['post' => $post];
+
+
+        return [
+            'post' => $post
+        ];
     }
 }

@@ -16,7 +16,7 @@ class PostRepository extends EntityRepository
     {
         return $this->createQueryBuilder('p')
             ->select('p, a')
-            ->join('p.author', 'a')
+            ->leftJoin('p.author', 'a')
             ->getQuery()
             ->getResult();
     }
@@ -24,7 +24,8 @@ class PostRepository extends EntityRepository
     public function findPostBySlug($slug)
     {
         return $this->createQueryBuilder('p')
-            ->select('p, a')
+            ->select('p, a, c')
+            ->join('p.comments', 'c')
             ->join('p.author', 'a')
             ->where('p.slug = :slug')
             ->setParameter('slug', $slug)

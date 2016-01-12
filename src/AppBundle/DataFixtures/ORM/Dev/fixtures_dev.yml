@@ -14,3 +14,12 @@ AppBundle\Entity\Post:
         author: @author*
         mainPicture: "/images/sampler.jpg"
         mainPicturePreview: <preview()>
+
+AppBundle\Entity\Comment:
+    comment{1..120}:
+        commentAuthor: <name()>
+        text: <text(700)>
+        rating: <randomElement([0, 1, 2, 3, 4, 5])>
+        post: '@post*'
+        createdAt: <dateTimeBetween('-2 years', 'now')>
+
