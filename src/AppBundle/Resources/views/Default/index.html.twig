@@ -1,38 +1,37 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-
-
     <div class="clearfix">
-        <div class="pull-left center-block homepage-body-container">
+        <div class="pull-left center-block homepage-body-container img-rounded">
             {% for post in posts %}
-                <a href="{{ path('show_post', {'slug': post.slug}) }}">
-                    <h3 class="h3 text-right">{{ post.title }}</h3>
-                </a>
-                <br>
-                <div class="clearfix">
-                    <div class="pull-left">
-                        <img src="{{ post.mainPicturePreview }}">
+                <div class="post-preview-container">
+                    <div class="clearfix">
+                        <div class="pull-left">
+                            <img src="{{ post.mainPicturePreview }}">
+                        </div>
+                        <div class="pull-right post-preview">
+                            <a href="{{ path('show_post', {'slug': post.slug}) }}">
+                                <h3 class="h3 text-right">{{ post.title }}</h3>
+                            </a>
+                            {{ post.text|length > 600 ? post.text|slice(0, 600) ~ '...' :post.text }}
+                        </div>
                     </div>
-                    <div class="pull-right post-preview">
-                        {{ post.text|length > 600 ? post.text|slice(0, 600) ~ '...' :post.text }}
-                    </div>
+
+
+                    <p>
+                        {% if post.author.smallAvatar is not null %}
+                            <img src="{{ post.author.smallAvatar }}">
+                        {% endif %}
+
+                        Author: {{ post.author.name }}
+                    </p>
+                    <p class="bg-info" style="margin-bottom: 30px">
+                        Posted at: {{ post.createdAt|date('d-m-Y') }}
+                    </p>
                 </div>
-
-
-                <p>
-                    {% if post.author.smallAvatar is not null %}
-                        <img src="{{ post.author.smallAvatar }}">
-                    {% endif %}
-
-                    Author: {{ post.author.name }}
-                </p>
-                <p class="bg-info">
-                    Posted at: {{ post.createdAt|date('d-m-Y') }}
-                </p>
 
             {% endfor %}
         </div>
-        <div id="homepage-sidebar" class="pull-right">
+        <div id="homepage-sidebar" class="pull-right img-rounded">
             <p>
                 {% for post in posts %}
                     <a href="{{ path('show_post', {'slug': post.slug}) }}">

@@ -5,3 +5,4 @@ body {width: 1100px; margin: auto; background-color: #F2F5F6}
 .post-preview {width: 400px; padding: 20px}
 nav ul li a {color: #F2F2F2;}
 .homepage-body-container {background-color: white; padding-right: 5px}
+.post-preview-container {margin-top: 50px}
