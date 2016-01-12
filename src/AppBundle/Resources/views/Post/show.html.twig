@@ -1,4 +1,16 @@
 {% extends 'base.html.twig' %}
 {% block body %}
+<div class="body-container center-block">
+    <h1 class="text-center">{{ post.title }}</h1>
+    <img class="center-block" src="{{ post.mainPicture }}">
+    <div>{{ post.text }}</div>
+    <div class="bg-info">
 
+        {% if post.author.smallAvatar is not null %}
+            <img src="{{ post.author.smallAvatar }}">
+        {% endif %}
+        Author: {{ post.author.name }}
+    </div>
+
+</div>
 {% endblock %}

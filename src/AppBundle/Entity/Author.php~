@@ -319,4 +319,28 @@ class Author
     {
         return $this->posts;
     }
+
+    /**
+     * Set smallAvatar
+     *
+     * @param string $smallAvatar
+     *
+     * @return Author
+     */
+    public function setSmallAvatar($smallAvatar)
+    {
+        $this->smallAvatar = $smallAvatar;
+
+        return $this;
+    }
+
+    /**
+     * Get smallAvatar
+     *
+     * @return string
+     */
+    public function getSmallAvatar()
+    {
+        return $this->smallAvatar;
+    }
 }

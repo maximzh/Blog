@@ -29,6 +29,6 @@ class PostRepository extends EntityRepository
             ->where('p.slug = :slug')
             ->setParameter('slug', $slug)
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getSingleResult();
     }
 }

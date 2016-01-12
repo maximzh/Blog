@@ -69,6 +69,13 @@ class Post
      */
     private $mainPicture;
 
+    /**
+     * @var string
+     * @ORM\Column(name="main_picture_preview", type="string",length=160, nullable=true)
+     * @Assert\Length(max="160")
+     */
+    private $mainPicturePreview;
+
 
     /**
      * @var \DateTime
@@ -296,5 +303,29 @@ class Post
     public function getMainPicture()
     {
         return $this->mainPicture;
+    }
+
+    /**
+     * Set mainPicturePreview
+     *
+     * @param string $mainPicturePreview
+     *
+     * @return Post
+     */
+    public function setMainPicturePreview($mainPicturePreview)
+    {
+        $this->mainPicturePreview = $mainPicturePreview;
+
+        return $this;
+    }
+
+    /**
+     * Get mainPicturePreview
+     *
+     * @return string
+     */
+    public function getMainPicturePreview()
+    {
+        return $this->mainPicturePreview;
     }
 }

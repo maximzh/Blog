@@ -69,6 +69,13 @@ class Post
      */
     private $mainPicture;
 
+    /**
+     * @var string
+     * @ORM\Column(name="main_picture_preview", type="string",length=160, nullable=true)
+     * @Assert\Length(max="160")
+     */
+    private $mainPicturePreview;
+
 
     /**
      * @var \DateTime

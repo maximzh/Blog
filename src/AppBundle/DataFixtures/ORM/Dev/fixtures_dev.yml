@@ -2,13 +2,15 @@ AppBundle\Entity\Author:
     author{1..2}:
         name: <firstNameMale()> <lastName()>
         email: <email>
+        smallAvatar: "/images/small_avatar.png"
         createdAt: <dateTimeBetween('-2 years', 'now')>
 
 AppBundle\Entity\Post:
     post{1..30}:
         title: <text(30)>
-        slug: <slug()>
-        text: <text(10000)>
+        slug: <createSlug($title)>
+        text: <paragraphs(20, true)>
         createdAt: <dateTimeBetween('-2 years', 'now')>
         author: @author*
-        mainPicture: "images/sampler.jpg"
+        mainPicture: "/images/sampler.jpg"
+        mainPicturePreview: <preview()>

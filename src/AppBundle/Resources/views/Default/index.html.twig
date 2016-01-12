@@ -1,14 +1,48 @@
 {% extends 'base.html.twig' %}
 {% block body %}
 
-    {% for post in posts %}
-        <a href="{{ path('show_post', {'slug': post.slug}) }}">
-            <h3 class="h3">{{ post.title }}</h3>
-        </a>
-            <img src="{{ post.mainPicture }}">
-        <br>
 
-        <br>
-    {% endfor %}
+    <div class="clearfix">
+        <div class="pull-left center-block homepage-body-container">
+            {% for post in posts %}
+                <a href="{{ path('show_post', {'slug': post.slug}) }}">
+                    <h3 class="h3 text-right">{{ post.title }}</h3>
+                </a>
+                <br>
+                <div class="clearfix">
+                    <div class="pull-left">
+                        <img src="{{ post.mainPicturePreview }}">
+                    </div>
+                    <div class="pull-right post-preview">
+                        {{ post.text|length > 600 ? post.text|slice(0, 600) ~ '...' :post.text }}
+                    </div>
+                </div>
+
+
+                <p>
+                    {% if post.author.smallAvatar is not null %}
+                        <img src="{{ post.author.smallAvatar }}">
+                    {% endif %}
+
+                    Author: {{ post.author.name }}
+                </p>
+                <p class="bg-info">
+                    Posted at: {{ post.createdAt|date('d-m-Y') }}
+                </p>
+
+            {% endfor %}
+        </div>
+        <div id="homepage-sidebar" class="pull-right">
+            <p>
+                {% for post in posts %}
+                    <a href="{{ path('show_post', {'slug': post.slug}) }}">
+                        {{ post.title }}
+                        <br>
+                    </a>
+                {% endfor %}
+            </p>
+        </div>
+    </div>
+
 
 {% endblock %}

@@ -9,6 +9,7 @@ echo "4) run tests"
 echo "5) clear cache"
 echo "6) generate entities AppBundle"
 echo "7) update database schema"
+echo "8) run gulp"
 echo "0) exit"
 
 read choice
@@ -48,6 +49,10 @@ app/console doctrine:generate:entities AppBundle
 
 7) echo "updating schema..."
 app/console doctrine:schema:update --force
+;;
+
+8) echo "running gulp"
+npm run gulp
 ;;
 
 0)

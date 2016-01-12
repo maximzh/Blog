@@ -9,6 +9,17 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
+        {% block header %}
+            <nav class="navbar header-menu">
+
+                <ul class="nav navbar-nav">
+                    <li class="active">
+                        <a href="{{ path('homepage') }}">Homepage</a>
+                    </li>
+
+                </ul>
+            </nav>
+        {% endblock %}
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>
