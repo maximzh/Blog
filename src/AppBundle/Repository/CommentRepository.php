@@ -22,4 +22,16 @@ class CommentRepository extends EntityRepository
             ->setMaxResults($number)
             ->getResult();
     }
+
+    public function findCommentsByPost($slug)
+    {
+        return $this->createQueryBuilder('c')
+            ->select('c, p')
+            ->join('c.post', 'p')
+            ->where('p.slug =:slug')
+            ->setParameter('slug', $slug)
+            ->orderBy('c.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }

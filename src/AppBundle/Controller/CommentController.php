@@ -75,8 +75,5 @@ class CommentController extends Controller
         return [
             'form' => $form->createView(),
         ];
-
     }
-
-
 }

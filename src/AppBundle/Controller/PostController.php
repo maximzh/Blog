@@ -41,10 +41,15 @@ class PostController extends Controller
             throw $this->createNotFoundException('No post found'.$slug);
         }
 
+        $comments = $this->getDoctrine()
+            ->getRepository('AppBundle:Comment')
+            ->findCommentsByPost($slug);
+
 
 
         return [
-            'post' => $post
+            'post' => $post,
+            'comments' => $comments
         ];
     }
 }

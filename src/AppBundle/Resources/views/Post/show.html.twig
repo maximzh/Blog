@@ -17,8 +17,9 @@
         </h2>
         <div class="comment-form">{{ render(controller('AppBundle:Comment:new', {'slug': post.slug})) }}
         </div>
-        {% if post.comments is not empty %}
-            {% for comment in post.comments %}
+
+        {% if comments is not empty %}
+            {% for comment in comments %}
                 <h4 class="bg-warning">{{ comment.commentAuthor }}({{ comment.createdAt|date('d-m-Y') }}):</h4>
                 <p>
                     {{ comment.text }}

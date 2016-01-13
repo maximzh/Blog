@@ -27,7 +27,7 @@ class CommentType extends AbstractType
             ->add('rating', ChoiceType::class, array(
                 'choices' => range(1, 5),
                 'choices_as_values' => true,
-                'placeholder' => 'rating'
+                'placeholder' => 'Rating'
             ))
         ;
 

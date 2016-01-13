@@ -25,11 +25,11 @@ class PostRepository extends EntityRepository
     {
         return $this->createQueryBuilder('p')
             ->select('p, a, c')
-            ->join('p.comments', 'c')
-            ->join('p.author', 'a')
+            ->leftJoin('p.comments', 'c')
+            ->leftJoin('p.author', 'a')
             ->where('p.slug = :slug')
             ->setParameter('slug', $slug)
             ->getQuery()
-            ->getSingleResult();
+            ->getOneOrNullResult();
     }
 }
