@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-<div class="body-container center-block">
+<div class="body-container center-block" id="single-post-container">
     <h1 class="text-center">{{ post.title }}</h1>
     <img class="center-block" src="{{ post.mainPicture }}">
     <div>{{ post.text }}</div>
@@ -15,6 +15,8 @@
         <h2 class="bg-success">
             Comments:
         </h2>
+        <div class="comment-form">{{ render(controller('AppBundle:Comment:new', {'slug': post.slug})) }}
+        </div>
         {% if post.comments is not empty %}
             {% for comment in post.comments %}
                 <h4 class="bg-warning">{{ comment.commentAuthor }}({{ comment.createdAt|date('d-m-Y') }}):</h4>
