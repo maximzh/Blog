@@ -81,6 +81,12 @@ class Post
      */
     private $comments;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Tag", inversedBy="posts")
+     * @ORM\JoinTable(name="posts_tags")
+     */
+    private $tags;
+
 
     /**
      * @var \DateTime

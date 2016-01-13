@@ -7,5 +7,5 @@ body {margin: auto;}
 #header-menu {background-color: #dbdbdb; height: 120px;}
 .content-container {width: 1100px; background-color: white}
 #last-comments-container {width: 250px; padding: 20px}
-#single-post-container {width: 1000px; background-color: white}
+#single-post-container {width: 1000px; background-color: white; padding: 50px}
 .comment-form {width: 500px}

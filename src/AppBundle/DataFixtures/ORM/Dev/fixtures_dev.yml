@@ -5,6 +5,11 @@ AppBundle\Entity\Author:
         smallAvatar: "/images/small_avatar.png"
         createdAt: <dateTimeBetween('-2 years', 'now')>
 
+AppBundle\Entity\Tag:
+    tag{1..10}:
+        name (unique): <word()>
+        slug: <($name)>
+
 AppBundle\Entity\Post:
     post{1..30}:
         title: <text(30)>
@@ -14,6 +19,8 @@ AppBundle\Entity\Post:
         author: @author*
         mainPicture: "/images/sampler.jpg"
         mainPicturePreview: <preview()>
+        tags: 2x @tag*
+
 
 AppBundle\Entity\Comment:
     comment{1..120}:

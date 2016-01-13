@@ -47,6 +47,11 @@ class Tag
     private $slug;
 
     /**
+     * @ORM\ManyToMany(targetEntity="Post", mappedBy="tags")
+     */
+    private $posts;
+
+    /**
      * Get id
      *
      * @return integer

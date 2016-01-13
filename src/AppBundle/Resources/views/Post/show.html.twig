@@ -1,19 +1,30 @@
 {% extends 'base.html.twig' %}
 {% block body %}
 <div class="body-container center-block" id="single-post-container">
-    <h1 class="text-center">{{ post.title }}</h1>
+    <h1>{{ post.title }}</h1>
     <img class="center-block" src="{{ post.mainPicture }}">
-    <div>{{ post.text }}</div>
-    <div class="bg-info">
+    <div>
+        {{ post.text }}
+        {% if post.tags is not empty %}
+            <p class="text-success text-right">Tags:
+                {% for tag in post.tags %}
+                    {{ tag.name }}
+                {% endfor %}
+            </p>
+
+        {% endif %}
+    </div>
+    <div>
 
         {% if post.author.smallAvatar is not null %}
             <img src="{{ post.author.smallAvatar }}">
         {% endif %}
         Author: {{ post.author.name }}
+
     </div>
     <div class="comments-container">
         <h2 class="bg-success">
-            Comments:
+            Leave your comment:
         </h2>
         <div class="comment-form">{{ render(controller('AppBundle:Comment:new', {'slug': post.slug})) }}
         </div>
