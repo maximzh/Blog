@@ -8,17 +8,21 @@
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
-    <body>
+    <body class="bg-warning">
         {% block header %}
-            <nav class="navbar header-menu">
+            <div id="header-menu">
+                <nav class="header-menu">
 
-                <ul class="nav navbar-nav">
-                    <li class="active">
-                        <a href="{{ path('homepage') }}">Homepage</a>
-                    </li>
+                    <ul class="nav navbar-nav">
+                        <li class="active">
+                            <a href="{{ path('homepage') }}">Homepage</a>
+                        </li>
 
-                </ul>
-            </nav>
+                    </ul>
+                </nav>
+            </div>
+
+
         {% endblock %}
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}

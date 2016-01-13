@@ -1,8 +1,9 @@
-body {width: 1100px; margin: auto; background-color: #F2F5F6}
-.body-container {padding: 20px; background-color:white}
-#homepage-sidebar {width: 285px; padding: 15px; background-color: #E0E4EC; margin-left: 10px}
-.header-menu {background-color: #333333}
+body {margin: auto;}
+.body-container {padding: 20px;}
+#homepage-sidebar {width: 285px; padding-left: 35px; margin-left: 10px; padding-top: 50px}
 .post-preview {width: 400px; padding: 20px}
-nav ul li a {color: #F2F2F2;}
-.homepage-body-container {background-color: white; padding-right: 5px}
+.homepage-body-container {padding-right: 5px}
 .post-preview-container {margin-top: 50px}
+#header-menu {background-color: #dbdbdb; height: 120px;}
+.content-container {width: 1100px; background-color: white}
+#last-comments-container {width: 250px; padding: 20px}

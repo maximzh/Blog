@@ -25,8 +25,13 @@ class DefaultController extends Controller
             throw $this->createNotFoundException('No posts found');
         }
 
+        $lastComments = $this->getDoctrine()
+            ->getRepository('AppBundle:Comment')
+            ->findLastComments();
+
         return [
             'posts' => $posts,
+            'last_comments' => $lastComments
         ];
     }
 }

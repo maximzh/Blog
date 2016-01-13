@@ -12,5 +12,14 @@ use Doctrine\ORM\EntityRepository;
  */
 class CommentRepository extends EntityRepository
 {
-
+    public function findLastComments($number = 5)
+    {
+        return $this->createQueryBuilder('c')
+            ->select('c, p')
+            ->join('c.post', 'p')
+            ->orderBy('c.createdAt', 'DESC')
+            ->getQuery()
+            ->setMaxResults($number)
+            ->getResult();
+    }
 }
