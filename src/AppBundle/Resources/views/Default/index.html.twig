@@ -5,14 +5,15 @@
             <div class="pull-left center-block homepage-body-container img-rounded">
                 {% for post in posts %}
                     <div class="post-preview-container center-block">
+                        <a href="{{ path('show_post', {'slug': post.slug}) }}">
+                            <h3 class="h3 text-left">{{ post.title }}</h3>
+                        </a>
                         <div class="clearfix">
                             <div class="pull-left">
                                 <img src="{{ post.mainPicturePreview }}">
                             </div>
                             <div class="pull-right post-preview">
-                                <a href="{{ path('show_post', {'slug': post.slug}) }}">
-                                    <h3 class="h3 text-right">{{ post.title }}</h3>
-                                </a>
+
                                 {{ post.text|length > 600 ? post.text|slice(0, 600) ~ '...' :post.text }}
                             </div>
                         </div>
@@ -24,7 +25,7 @@
                             Author: {{ post.author.name }}
                         </p>
 
-                        <p class="bg-info text-right" style="margin-bottom: 30px">
+                        <p class="text-right" style="margin-bottom: 30px">
                             Posted at: {{ post.createdAt|date('d-m-Y') }}
                         </p>
                     </div>

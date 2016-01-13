@@ -1,11 +1,11 @@
 body {margin: auto;}
-.body-container {padding: 20px;}
-#homepage-sidebar {width: 285px; padding-left: 35px; margin-left: 10px; padding-top: 50px}
-.post-preview {width: 400px; padding: 20px}
+.blog-post-body-container {width: 800px}
+#homepage-sidebar {width: 260px; padding-left: 35px}
+.post-preview {width: 250px; padding: 20px}
 .homepage-body-container {padding-right: 5px}
-.post-preview-container {margin-top: 50px}
-#header-menu {background-color: #dbdbdb; height: 120px;}
-.content-container {width: 1100px; background-color: white}
-#last-comments-container {width: 250px; padding: 20px}
+.post-preview-container {margin-top: 50px; padding-left: 25px; background-color: #eafffc; margin-left: 20px}
+#header-menu {background-color: #d0f7ff ; height: 60px;}
+.content-container {width: 1000px; background-color: white}
+#last-comments-container {padding: 20px}
 #single-post-container {width: 1000px; background-color: white; padding: 50px}
 .comment-form {width: 500px}

@@ -1,8 +1,10 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-<div class="body-container center-block" id="single-post-container">
+<div class="blog-post-body-container center-block" id="single-post-container" style="padding: 100px; background-color: #eafffc; margin-top: 50px">
     <h1>{{ post.title }}</h1>
     <img class="center-block" src="{{ post.mainPicture }}">
+
+
     <div>
         {{ post.text }}
         {% if post.tags is not empty %}
