@@ -12,4 +12,13 @@ use Doctrine\ORM\EntityRepository;
  */
 class TagRepository extends EntityRepository
 {
+    public function findAllTagsWithCountPosts()
+    {
+        return $this->createQueryBuilder('t')
+            ->select('t, count(p.id) as countPosts')
+            ->leftJoin('t.posts', 'p')
+            ->orderBy('count(p.id)', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }
