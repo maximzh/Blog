@@ -23,7 +23,7 @@
         {% if post.author.smallAvatar is not null %}
             <img src="{{ post.author.smallAvatar }}">
         {% endif %}
-        Author: {{ post.author.name }} <p class="text-right text-success">Posted at: {{ post.createdAt|date('d-m-Y') }}</p>
+        Author: {{ post.author.name }} <p class="text-right text-success">Posted at: {{ post.createdAt|date('d M Y') }}</p>
 
     </div>
     <div class="comments-container">
@@ -35,7 +35,8 @@
 
         {% if comments is not empty %}
             {% for comment in comments %}
-                <h4 class="bg-warning">{{ comment.commentAuthor }}({{ comment.createdAt|date('d-m-Y') }} at {{ comment.createdAt|date('H:m:s') }}):</h4>
+                <h4 class="bg-warning">{{ comment.commentAuthor }}:</h4>
+                <p>({{ comment.createdAt|date('d M Y') }} at {{ comment.createdAt|date('H:m:s') }})</p>
                 <p>
                     {{ comment.text }}
                 </p>
