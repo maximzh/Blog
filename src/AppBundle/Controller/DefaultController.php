@@ -37,12 +37,17 @@ class DefaultController extends Controller
         $cloud = new TagCloud();
         $tagCloud = $cloud->getCloud($tags);
 
+        $topPosts = $this->getDoctrine()
+            ->getRepository('AppBundle:Post')
+            ->findTopPosts();
+
 
         return [
             'posts' => $posts,
             'last_comments' => $lastComments,
             'tag_cloud' => $tagCloud,
-            'tags' => $tags
+            'tags' => $tags,
+            'top_posts' => $topPosts
         ];
     }
 }

@@ -57,6 +57,19 @@
 
                     {% endfor %}
                 </div>
+                <div>
+                    {% if top_posts %}
+                        <h3>Top 5 posts:</h3>
+                        {% for post in top_posts %}
+                            <p>
+                                <a href="{{ path('show_post', {'slug': post.0.slug}) }}">
+                                    {{ post.0.title }} (rating: {{ post.rating|number_format(2, '.', ',') }})
+                                </a>
+
+                            </p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
 
             </div>
         </div>

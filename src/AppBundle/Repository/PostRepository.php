@@ -32,4 +32,17 @@ class PostRepository extends EntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    public function findTopPosts($number = 5)
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p, c, a, avg(c.rating) as rating')
+            ->leftJoin('p.comments', 'c')
+            ->join('p.author', 'a')
+            ->groupBy('p, a')
+            ->orderBy('rating', 'DESC')
+            ->getQuery()
+            ->setMaxResults($number)
+            ->getResult();
+    }
 }
