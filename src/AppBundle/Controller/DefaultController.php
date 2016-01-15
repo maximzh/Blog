@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AppBundle\Model\TagCloud;
 
 class DefaultController extends Controller
 {
@@ -29,9 +30,19 @@ class DefaultController extends Controller
             ->getRepository('AppBundle:Comment')
             ->findLastComments();
 
+        $tags = $this->getDoctrine()
+            ->getRepository('AppBundle:Tag')
+            ->findAllTagsWithDependencies();
+
+        $cloud = new TagCloud();
+        $tagCloud = $cloud->getCloud($tags);
+
+
         return [
             'posts' => $posts,
-            'last_comments' => $lastComments
+            'last_comments' => $lastComments,
+            'tag_cloud' => $tagCloud,
+            'tags' => $tags
         ];
     }
 }

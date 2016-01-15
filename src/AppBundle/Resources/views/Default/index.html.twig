@@ -48,6 +48,15 @@
                         {% endfor %}
                 </div>
                     {% endif %}
+                <div id="tag-cloud" class="bg-info">
+
+                    {% for key,tag in tag_cloud %}
+                        <a href="{{ path('show_tag', {'slug': tag.slug}) }}">
+                            <span style="font-size: {{ tag.font }}px">{{ key }}</span>
+                        </a>
+
+                    {% endfor %}
+                </div>
 
             </div>
         </div>
