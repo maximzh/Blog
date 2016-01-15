@@ -8,9 +8,14 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\Author;
+use AppBundle\Entity\Comment;
+use AppBundle\Entity\Tag;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 
 /**
@@ -18,6 +23,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @package AppBundle\Entity
  * @ORM\Table(name="post")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PostRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Post
 {
@@ -44,7 +50,7 @@ class Post
      *
      * @ORM\Column(name="slug", type="string", length=160)
      * @Gedmo\Slug(fields={"title"}, updatable=true, separator="-")
-     * @Assert\NotBlank()
+     *
      * @Assert\Length(max="160")
      */
     private $slug;
@@ -61,6 +67,13 @@ class Post
      * @ORM\ManyToOne(targetEntity="Author", inversedBy="posts")
      */
     private $author;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="image", type="string", length=255, nullable=true)
+     */
+    private $path;
 
     /**
      * @var string
@@ -86,6 +99,16 @@ class Post
      * @ORM\JoinTable(name="posts_tags")
      */
     private $tags;
+
+    /**
+     * @Assert\File(
+     *     maxSize="6000000",
+     *     mimeTypes={"image/jpeg", "image/pjpeg", "image/png", "image/x-png"}
+     * )
+     */
+    private $file;
+
+    private $temp;
 
 
     /**
@@ -271,11 +294,11 @@ class Post
     /**
      * Set author
      *
-     * @param \AppBundle\Entity\Author $author
+     * @param Author $author
      *
      * @return Post
      */
-    public function setAuthor(\AppBundle\Entity\Author $author = null)
+    public function setAuthor(Author $author = null)
     {
         $this->author = $author;
 
@@ -285,7 +308,7 @@ class Post
     /**
      * Get author
      *
-     * @return \AppBundle\Entity\Author
+     * @return Author
      */
     public function getAuthor()
     {
@@ -344,17 +367,17 @@ class Post
      */
     public function __construct()
     {
-        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     /**
      * Add comment
      *
-     * @param \AppBundle\Entity\Comment $comment
+     * @param Comment $comment
      *
      * @return Post
      */
-    public function addComment(\AppBundle\Entity\Comment $comment)
+    public function addComment(Comment $comment)
     {
         $this->comments[] = $comment;
 
@@ -364,9 +387,9 @@ class Post
     /**
      * Remove comment
      *
-     * @param \AppBundle\Entity\Comment $comment
+     * @param Comment $comment
      */
-    public function removeComment(\AppBundle\Entity\Comment $comment)
+    public function removeComment(Comment $comment)
     {
         $this->comments->removeElement($comment);
     }
@@ -381,26 +404,29 @@ class Post
         return $this->comments;
     }
 
+
     /**
      * Add tag
      *
-     * @param \AppBundle\Entity\Tag $tag
+     * @param Tag $tag
      *
      * @return Post
      */
-    public function addTag(\AppBundle\Entity\Tag $tag)
+    public function addTag(Tag $tag)
     {
         $this->tags[] = $tag;
 
         return $this;
     }
 
+
+
     /**
      * Remove tag
      *
-     * @param \AppBundle\Entity\Tag $tag
+     * @param Tag $tag
      */
-    public function removeTag(\AppBundle\Entity\Tag $tag)
+    public function removeTag(Tag $tag)
     {
         $this->tags->removeElement($tag);
     }
@@ -413,5 +439,171 @@ class Post
     public function getTags()
     {
         return $this->tags;
+    }
+
+
+
+    /**
+     * @param UploadedFile|null $file
+     * @return $this
+     */
+    public function setFile(UploadedFile $file = null)
+    {
+        $this->file = $file;
+        // check if we have an old image path
+        if (isset($this->path)) {
+            // store the old name to delete after the update
+            $this->temp = $this->path;
+            $this->path = null;
+        } else {
+            $this->path = 'initial';
+        }
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function preUpload()
+    {
+        if (null !== $this->getFile()) {
+            //$filename = sha1(uniqid(mt_rand(), true));
+            $this->path = $this->getImageName() . '.' . $this->getFile()->guessExtension();
+        }
+    }
+
+
+
+    /**
+     * @ORM\PostPersist()
+     * @ORM\PostUpdate()
+     */
+    public function upload()
+    {
+        if (null === $this->getFile()) {
+            return;
+        }
+
+        // check if we have an old image
+        if (isset($this->temp)) {
+            // delete the old image
+            unlink($this->temp);
+            // clear the temp image path
+            $this->temp = null;
+        }
+
+        // you must throw an exception here if the file cannot be moved
+        // so that the entity is not persisted to the database
+        // which the UploadedFile move() method does
+        $this->getFile()->move(
+            $this->getUploadRootDir().'/'.$this->id,
+            $this->getImageName().'.'.$this->getFile()->guessExtension()
+        );
+
+        $this->setFile(null);
+    }
+
+    /**
+     * @ORM\PreRemove()
+     */
+    public function storeFilenameForRemove()
+    {
+        $this->temp = $this->getAbsolutePath();
+    }
+
+
+    /**
+     * @ORM\PostRemove()
+     */
+    public function removeUpload()
+    {
+        $file = $this->getAbsolutePath();
+        if ($file) {
+            unlink($file);
+        }
+    }
+
+
+    public function getAbsolutePath()
+    {
+        return null === $this->path
+            ? null
+            : $this->getUploadRootDir().'/'.$this->id.'/'.$this->path;
+    }
+
+
+
+    protected function getUploadRootDir()
+    {
+        return __DIR__.'/../../../web/'.$this->getUploadDir();
+    }
+
+    public function getImageUrl()
+    {
+        return null === $this->path
+            ? null
+            : '/uploads/images'.'/'.$this->id.'/' . $this->path;
+    }
+
+
+
+    protected function getUploadDir()
+    {
+        return 'uploads/images';
+    }
+
+
+    /**
+     * Set path
+     *
+     * @param string $path
+     *
+     * @return Post
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+
+        return $this;
+    }
+
+    /**
+     * Get path
+     *
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    private function getImageName()
+    {
+        return 'image';
+    }
+
+    public function getRating()
+    {
+        $comments = $this->getComments();
+        $rating = 0;
+
+        foreach ($comments as $comment) {
+            if (null !== $comment->getRating()) {
+                $rating = $rating + $comment->getRating();
+            }
+        }
+        $rating = $rating/count($comments);
+
+        return $rating;
     }
 }

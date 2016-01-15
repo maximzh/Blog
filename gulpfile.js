@@ -13,7 +13,7 @@ gulp.task('images', function () {
     return gulp.src([
             'web-src/images/*'
         ])
-        .pipe(gulp.dest('web/images/'))
+        .pipe(gulp.dest('web/uploads/images/'))
 });
 gulp.task('fonts', function () {
     return gulp.src(['bower_components/bootstrap/fonts/*', 'web-src/fonts/*'])

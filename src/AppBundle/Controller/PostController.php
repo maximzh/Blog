@@ -27,7 +27,7 @@ class PostController extends Controller
     /**
      * @param $slug
      * @return array
-     * @Route("/{slug}", requirements={"slug" = "^[a-z-]+$"}, name="show_post")
+     * @Route("/{slug}", requirements={"slug" = "^[a-z0-9-]+$"}, name="show_post")
      * @Method("GET")
      * @Template()
      */

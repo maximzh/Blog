@@ -2,10 +2,11 @@
 {% block body %}
 <div class="blog-post-body-container center-block" id="single-post-container" style="padding: 100px; background-color: #eafffc; margin-top: 50px">
     <h1>{{ post.title }}</h1>
-    <img class="center-block" src="{{ post.mainPicture }}">
+    <img class="center-block" src="{{ post.imageUrl }}">
 
 
     <div>
+        <p>Post rating: {{ post.rating|number_format(2, '.', ',') }}</p>
         {{ post.text }}
         {% if post.tags is not empty %}
             <p class="text-success text-right">Tags:
@@ -16,16 +17,17 @@
 
         {% endif %}
     </div>
+
     <div>
 
         {% if post.author.smallAvatar is not null %}
             <img src="{{ post.author.smallAvatar }}">
         {% endif %}
-        Author: {{ post.author.name }}
+        Author: {{ post.author.name }} <p class="text-right text-success">Posted at: {{ post.createdAt|date('d-m-Y') }}</p>
 
     </div>
     <div class="comments-container">
-        <h2 class="bg-success">
+        <h2 class="bg-info">
             Leave your comment:
         </h2>
         <div class="comment-form">{{ render(controller('AppBundle:Comment:new', {'slug': post.slug})) }}
@@ -33,7 +35,7 @@
 
         {% if comments is not empty %}
             {% for comment in comments %}
-                <h4 class="bg-warning">{{ comment.commentAuthor }}({{ comment.createdAt|date('d-m-Y') }}):</h4>
+                <h4 class="bg-warning">{{ comment.commentAuthor }}({{ comment.createdAt|date('d-m-Y') }} at {{ comment.createdAt|date('H:m:s') }}):</h4>
                 <p>
                     {{ comment.text }}
                 </p>
