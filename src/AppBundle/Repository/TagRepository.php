@@ -25,7 +25,7 @@ class TagRepository extends EntityRepository
     {
         return $this->createQueryBuilder('t')
             ->select('t, p')
-            ->join('t.posts', 'p')
+            ->leftJoin('t.posts', 'p')
             ->where('t.slug = :slug')
             ->setParameter('slug', $slug)
             ->getQuery()
