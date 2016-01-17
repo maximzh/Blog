@@ -8,14 +8,11 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Entity\Author;
-use AppBundle\Entity\Comment;
-use AppBundle\Entity\Tag;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
@@ -362,6 +359,7 @@ class Post
     {
         return $this->mainPicturePreview;
     }
+
     /**
      * Constructor
      */
@@ -420,7 +418,6 @@ class Post
     }
 
 
-
     /**
      * Remove tag
      *
@@ -440,7 +437,6 @@ class Post
     {
         return $this->tags;
     }
-
 
 
     /**
@@ -478,10 +474,9 @@ class Post
     {
         if (null !== $this->getFile()) {
             $filename = sha1(uniqid(mt_rand(), true));
-            $this->path = $filename . '.' . $this->getFile()->guessExtension();
+            $this->path = $filename.'.'.$this->getFile()->guessExtension();
         }
     }
-
 
 
     /**
@@ -544,7 +539,6 @@ class Post
     }
 
 
-
     protected function getUploadRootDir()
     {
         return __DIR__.'/../../../web/'.$this->getUploadDir();
@@ -554,16 +548,14 @@ class Post
     {
         return null === $this->path
             ? null
-            : $this->getUploadDir() .'/'. $this->path;
+            : $this->getUploadDir().'/'.$this->path;
     }
-
 
 
     protected function getUploadDir()
     {
         return '/uploads/images';
     }
-
 
 
     /**
@@ -589,7 +581,7 @@ class Post
                 }
             }
 
-            $rating = $rating/count($comments);
+            $rating = $rating / count($comments);
         }
 
 
