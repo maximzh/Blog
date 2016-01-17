@@ -1,0 +1,30 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+{{ parent() }}
+
+    <p>
+        <a href="{{ path('new_post') }}">Create post</a>
+    </p>
+    <table class="table table-striped table-hover">
+        <tr>
+            <th>Post</th>
+            <th>Edit</th>
+            <th>Remove</th>
+        </tr>
+
+        {% for post in posts %}
+            <tr>
+                <td>
+                    {{ post.title }}
+                    <span class="text-danger">(Author: {{ post.author.name }})</span>
+                    <span class="text-primary">created: {{ post.createdAt|date('d M Y') }}</span>
+                </td>
+                <td><a href="{{ path('edit_post', {'slug': post.slug}) }}">Edit</a> </td>
+                <td><a href="{{ path('remove_post', {'slug': post.slug}) }}">Remove</a> </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}
+

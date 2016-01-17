@@ -11,6 +11,7 @@ namespace AppBundle\Controller\Admin;
 
 use AppBundle\Entity\Post;
 use AppBundle\Form\PostType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,6 +25,23 @@ use Symfony\Component\Routing\Annotation\Route;
 class PostController extends Controller
 {
     /**
+     * @Route("/manage", name="manage_posts")
+     * @Method("GET")
+     * @Template()
+     */
+    public function indexAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $posts = $em->getRepository('AppBundle:Post')
+            ->findAllPostsWithDependencies();
+
+        return [
+            'posts' => $posts,
+        ];
+    }
+
+    /**
      * @param Request $request
      * @return array
      * @Route("/new", name="new_post")
@@ -35,12 +53,12 @@ class PostController extends Controller
         $post = new Post();
 
         $form = $this->createForm(
-          PostType::class ,
-          $post,
-          array(
-              //'action' => $this->generateUrl('create_post'),
-              'method' => 'POST',
-          )
+            PostType::class,
+            $post,
+            array(
+                //'action' => $this->generateUrl('create_post'),
+                'method' => 'POST',
+            )
         );
 
         if ($request->getMethod() == 'POST') {
@@ -60,5 +78,82 @@ class PostController extends Controller
             'post' => $post,
             'form' => $form->createView(),
         ];
+    }
+
+    /**
+     * @param $slug
+     * @param Request $request
+     * @Route("/edit/{slug}", name="edit_post")
+     * @Template()
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function editAction($slug, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $post = $em->getRepository('AppBundle:Post')
+            ->findOneBy(['slug' => $slug]);
+
+        $form = $this->createForm(
+            PostType::class,
+            $post,
+            [
+                'em' => $em,
+                'action' => $this->generateUrl('edit_post', ['slug' => $slug]),
+                'method' => Request::METHOD_POST,
+            ]
+        );
+
+        if ($request->getMethod() == 'POST') {
+
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $em->persist($post);
+                $em->flush();
+
+                return $this->redirectToRoute('manage_posts');
+            }
+        }
+
+        return ['form' => $form->createView()];
+    }
+
+    /**
+     * @param $slug
+     * @param Request $request
+     * @Route("/remove/{slug}", name="remove_post")
+     * @Template()
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function removeAction($slug, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $post = $em->getRepository('AppBundle:Post')
+            ->findPostBySlug($slug);
+
+        $form = $this->createForm(
+            PostType::class,
+            $post,
+            [
+                'em' => $em,
+                'action' => $this->generateUrl('remove_post', ['slug' => $slug]),
+                'method' => Request::METHOD_POST,
+            ]
+        );
+
+        if ($request->getMethod() == 'POST') {
+
+            $form->handleRequest($request);
+
+            if ($form->isValid()) {
+                $em->remove($post);
+                $em->flush();
+
+                return $this->redirectToRoute('manage_posts');
+            }
+        }
+
+        return ['form' => $form->createView()];
     }
 }

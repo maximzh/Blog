@@ -17,6 +17,7 @@ class PostRepository extends EntityRepository
         return $this->createQueryBuilder('p')
             ->select('p, a')
             ->leftJoin('p.author', 'a')
+            ->orderBy('p.createdAt', 'DESC')
             ->getQuery()
             ->getResult();
     }

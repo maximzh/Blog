@@ -90,7 +90,7 @@ class Post
     private $mainPicturePreview;
 
     /**
-     * @ORM\OneToMany(targetEntity="Comment", mappedBy="post")
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="post", cascade={"remove"})
      */
     private $comments;
 
@@ -525,20 +525,22 @@ class Post
     /**
      * @ORM\PostRemove()
      */
-    public function removeUpload()
+
+    /*public function removeUpload()
     {
         $file = $this->getAbsolutePath();
+        $file = $this->getImageUrl();
         if ($file) {
             unlink($file);
         }
-    }
+    }*/
 
 
     public function getAbsolutePath()
     {
         return null === $this->path
             ? null
-            : $this->getUploadRootDir().'/'.$this->id.'/'.$this->path;
+            : $this->getUploadRootDir().'/'.$this->id.$this->path;
     }
 
 
