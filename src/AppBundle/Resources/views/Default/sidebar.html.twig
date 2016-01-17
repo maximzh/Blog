@@ -1,0 +1,39 @@
+<div>
+    {% if top_posts %}
+        <h4>Top 5 posts:</h4>
+        {% for post in top_posts %}
+            <p>
+                <a href="{{ path('show_post', {'slug': post.0.slug}) }}">
+                    {{ post.0.title }} (rating: {{ post.rating|number_format(2, '.', ',') }})
+                </a>
+            </p>
+        {% endfor %}
+    {% endif %}
+    <br>
+</div>
+
+{% if last_comments is not empty %}
+    <div id="last-comments-container">
+        <h4>Last comments:</h4>
+        {% for comment in last_comments %}
+            <h6>
+                {{ comment.commentAuthor }} ({{ comment.createdAt|date('d-m-Y') }})
+            </h6>
+            <a href="{{ path('show_post', {'slug': comment.post.slug}) }}">
+                {{ comment.text|length > 50 ? comment.text|slice(0, 50) ~ '...' :comment.text }}
+            </a>
+
+        {% endfor %}
+    </div>
+    <br>
+{% endif %}
+<div id="tag-cloud" class="bg-info">
+
+    {% for key,tag in tag_cloud %}
+        <a href="{{ path('show_tag', {'slug': tag.slug}) }}">
+            <span style="font-size: {{ tag.font }}px">{{ key }}</span>
+        </a>
+
+    {% endfor %}
+</div>
+

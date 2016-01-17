@@ -4,45 +4,14 @@
         <div class="clearfix">
             <div class="pull-left center-block homepage-body-container img-rounded">
 
-                {% for post in posts %}
-                    <div class="post-preview-container center-block">
-                        <a href="{{ path('show_post', {'slug': post.slug}) }}">
-                            <h3 class="h3 text-left">{{ post.title }}</h3>
-                        </a>
-                        <div class="clearfix">
-                            <div class="pull-left">
-                                {% if post.webPath is not null %}
-                                    <img src="{{ post.webPath | imagine_filter('my_thumb') }}" alt="image">
-                                {% endif %}
-
-                            </div>
-                            <div class="pull-right post-preview">
-
-                                {{ post.text|length > 600 ? post.text|slice(0, 600) ~ '...' :post.text }}
-                            </div>
-                        </div>
-                        <p>
-                            {% if post.author.smallAvatar is not null %}
-                                <img src="{{ post.author.smallAvatar }}">
-                            {% endif %}
-
-                            Author: {{ post.author.name }}
-                        </p>
-
-                        <p class="text-right" style="margin-bottom: 30px">
-                            Posted at: {{ post.createdAt|date('d M Y') }}
-                        </p>
-                    </div>
-
-                {% endfor %}
-                {{ knp_pagination_render(posts) }}
+                {% include 'AppBundle:Default:postsList.html.twig' %}
 
             </div>
             <div id="homepage-sidebar" class="pull-left img-rounded">
 
-                    {% if last_comments is not empty %}
-                <div id="last-comments-container">
-                    <h3>Last comments:</h3>
+                {% if last_comments is not empty %}
+                    <div id="last-comments-container">
+                        <h3>Last comments:</h3>
                         {% for comment in last_comments %}
                             <h5>
                                 {{ comment.commentAuthor }} ({{ comment.createdAt|date('d-m-Y') }})
@@ -52,8 +21,8 @@
                             </a>
 
                         {% endfor %}
-                </div>
-                    {% endif %}
+                    </div>
+                {% endif %}
                 <div id="tag-cloud" class="bg-info">
 
                     {% for key,tag in tag_cloud %}
@@ -83,14 +52,26 @@
 
 {% block javascripts %}
     {{ parent() }}
+
     <script type="text/javascript">
-        var ias = $.ias({
-            container: ".post-container",
-            item: ".blog-post",
-            pagination: ".pagination",
-            next: ".next a"
+        function loadRows() {
+            var url = $('.pagination span a').attr('href');
+            $.get(url, function (data) {
+                var content = $(data),
+                        articlesList = content.closest('.blog-article'),
+                        nextLink = content.find('.next-page');
+                $('.homepage-body-container').append(articlesList);
+                if (nextLink.length) {
+                    $('.pagination').html(nextLink);
+                } else {
+                    $('.pagination').remove();
+                }
+            });
+        }
+        $(window).scroll(function () {
+            if ($(window).scrollTop() == $(document).height() - $(window).height() && $('.pagination span a').length) {
+                loadRows();
+            }
         });
-        ias.extension(new IASSpinnerExtension());
-        //  ias.extension(new IASNoneLeftExtension({text: 'There are no more pages left to load.'}));
     </script>
 {% endblock %}

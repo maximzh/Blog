@@ -25,6 +25,8 @@
 
         {% endblock %}
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        {% block javascripts %}
+            <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
+        {% endblock %}
     </body>
 </html>

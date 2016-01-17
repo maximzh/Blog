@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Model\TagCloud;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends Controller
 {
@@ -15,21 +16,37 @@ class DefaultController extends Controller
      * @Route("/", name="homepage")
      * @Method("GET")
      * @Template()
+     * @param Request $request
+     * @return array|Response
      */
     public function indexAction(Request $request)
     {
-        $limit = 4;
+        $limit = 2;
+        $currentPage = $request->query->getInt('page', 1);
 
-        $em = $this->getDoctrine()->getManager();
-        $posts = $em->getRepository('AppBundle:Post')
-            ->findAllPostsWithDependencies();
-        $paginator = $this->get('knp_paginator');
+        $repository = $this->getDoctrine()
+            ->getRepository('AppBundle:Post');
 
-        $pagination = $paginator->paginate(
-            $posts,
-            $request->query->getInt('page', 1),
-            $limit
-        );
+        $count = $repository->countAllPosts();
+
+        $nextPage = $count > $limit * $currentPage
+            ? $currentPage + 1
+            : false
+        ;
+
+        $posts = $repository->findAllPostsWithDependencies($currentPage, $limit);
+
+        $nextPageUrl = $nextPage
+            ?  $nextPageUrl = $this->generateUrl('homepage', ['page' => $nextPage])
+            : false
+            ;
+        if ($request->isXmlHttpRequest()) {
+            $content = $this->renderView('AppBundle:Default:postsList.html.twig',
+                ['posts' => $posts, 'nextPageUrl' => $nextPageUrl, 'nextPage' => $nextPage]);
+
+            return new Response($content);
+        }
+
 
         $lastComments = $this->getDoctrine()
             ->getRepository('AppBundle:Comment')
@@ -47,11 +64,14 @@ class DefaultController extends Controller
             ->findTopPosts();
 
         return [
-            'posts' => $pagination,
+            'posts' => $posts,
             'last_comments' => $lastComments,
             'tag_cloud' => $tagCloud,
             'tags' => $tags,
-            'top_posts' => $topPosts
+            'top_posts' => $topPosts,
+            'nextPageUrl' => $nextPageUrl,
+            'nextPage' => $nextPage
+
         ];
 
         /*

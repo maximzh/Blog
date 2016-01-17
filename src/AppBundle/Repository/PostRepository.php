@@ -3,6 +3,7 @@
 namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * PostRepository
@@ -13,14 +14,31 @@ use Doctrine\ORM\EntityRepository;
 class PostRepository extends EntityRepository
 {
 
-    public function findAllPostsWithDependencies()
+    /**
+     * @param $currentPage
+     * @param $limit
+     * @return Paginator
+     */
+    public function findAllPostsWithDependencies($currentPage, $limit)
     {
-        return $this->createQueryBuilder('p')
+        $query = $this->createQueryBuilder('p')
             ->select('p, a')
             ->leftJoin('p.author', 'a')
             ->orderBy('p.createdAt', 'DESC')
             ->getQuery()
-            ->getResult();
+            ->setFirstResult($limit * ($currentPage -1))
+            ->setMaxResults($limit);
+
+        return new Paginator($query);
+
+    }
+
+    public function countAllPosts()
+    {
+        return $this->createQueryBuilder('p')
+            ->select('count(p.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 
     public function findPostBySlug($slug)

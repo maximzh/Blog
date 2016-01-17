@@ -1,0 +1,39 @@
+{% for post in posts %}
+
+    <div class="blog-article">
+
+            <a href="{{ path('show_post', {'slug': post.slug}) }}">
+                <h3 class="h3 text-left">{{ post.title }}</h3>
+            </a>
+            <div class="clearfix">
+                <div class="pull-left">
+                    {% if post.webPath is not null %}
+                        <img src="{{ post.webPath | imagine_filter('my_thumb') }}" alt="image">
+                    {% endif %}
+
+                </div>
+                <div class="pull-right post-preview">
+
+                    {{ post.text|length > 600 ? post.text|slice(0, 600) ~ '...' :post.text }}
+                </div>
+            </div>
+            <p>
+                {% if post.author.smallAvatar is not null %}
+                    <img src="{{ post.author.smallAvatar }}">
+                {% endif %}
+
+                Author: {{ post.author.name }}
+            </p>
+
+            <p class="text-right" style="margin-bottom: 30px">
+                Posted at: {{ post.createdAt|date('d M Y') }}
+            </p>
+    </div>
+{% endfor %}
+{% if nextPageUrl %}
+    <div class="pagination" style="display: none">
+        <span class="next-page">
+            <a href="{{ nextPageUrl }}">&gt;</a>
+        </span>
+    </div>
+{% endif %}
