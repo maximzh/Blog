@@ -4,7 +4,7 @@ body {margin: auto;}
 .post-preview {width: 250px; padding: 20px}
 .homepage-body-container {padding-right: 5px; padding-top: 60px}
 .post-preview-container {margin-top: 50px; padding-left: 25px; background-color: #eafffc; margin-left: 20px}
-#header-menu {background-color: #d0f7ff ; height: 60px; position: fixed; width: 100%}
+#header-menu {background-color: lavender ; height: 60px; position: fixed; width: 100%}
 .content-container {width: 1000px; background-color: white}
 
 #single-post-container {width: 1000px; background-color: white; padding: 50px}
