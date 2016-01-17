@@ -53,6 +53,8 @@ app/console doctrine:schema:update --force
 
 8) echo "running gulp"
 npm run gulp
+npm run gulp less
+npm run gulp lib-js
 ;;
 
 0)

@@ -1,19 +1,19 @@
-<div>
+<div class="bg-info img-rounded border-left" id="top-posts">
     {% if top_posts %}
         <h4>Top 5 posts:</h4>
         {% for post in top_posts %}
-            <p>
-                <a href="{{ path('show_post', {'slug': post.0.slug}) }}">
-                    {{ post.0.title }} (rating: {{ post.rating|number_format(2, '.', ',') }})
-                </a>
-            </p>
+                <h5>
+                    <a href="{{ path('show_post', {'slug': post.0.slug}) }}">
+                        {{ post.0.title }}
+                    </a>
+                </h5>
         {% endfor %}
     {% endif %}
     <br>
 </div>
 
 {% if last_comments is not empty %}
-    <div id="last-comments-container">
+    <div id="last-comments" class="bg-info img-rounded">
         <h4>Last comments:</h4>
         {% for comment in last_comments %}
             <h6>
@@ -27,7 +27,7 @@
     </div>
     <br>
 {% endif %}
-<div id="tag-cloud" class="bg-info">
+<div id="tag-cloud" class="bg-info img-rounded">
 
     {% for key,tag in tag_cloud %}
         <a href="{{ path('show_tag', {'slug': tag.slug}) }}">

@@ -8,42 +8,7 @@
 
             </div>
             <div id="homepage-sidebar" class="pull-left img-rounded">
-
-                {% if last_comments is not empty %}
-                    <div id="last-comments-container">
-                        <h3>Last comments:</h3>
-                        {% for comment in last_comments %}
-                            <h5>
-                                {{ comment.commentAuthor }} ({{ comment.createdAt|date('d-m-Y') }})
-                            </h5>
-                            <a href="{{ path('show_post', {'slug': comment.post.slug}) }}">
-                                {{ comment.text|length > 80 ? comment.text|slice(0, 80) ~ '...' :comment.text }}
-                            </a>
-
-                        {% endfor %}
-                    </div>
-                {% endif %}
-                <div id="tag-cloud" class="bg-info">
-
-                    {% for key,tag in tag_cloud %}
-                        <a href="{{ path('show_tag', {'slug': tag.slug}) }}">
-                            <span style="font-size: {{ tag.font }}px">{{ key }}</span>
-                        </a>
-
-                    {% endfor %}
-                </div>
-                <div>
-                    {% if top_posts %}
-                        <h3>Top 5 posts:</h3>
-                        {% for post in top_posts %}
-                            <p>
-                                <a href="{{ path('show_post', {'slug': post.0.slug}) }}">
-                                    {{ post.0.title }} (rating: {{ post.rating|number_format(2, '.', ',') }})
-                                </a>
-                            </p>
-                        {% endfor %}
-                    {% endif %}
-                </div>
+                {% include 'AppBundle:Default:sidebar.html.twig' %}
             </div>
         </div>
     </div>
