@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class PostRepository extends EntityRepository
 {
+
     public function findAllPostsWithDependencies()
     {
         return $this->createQueryBuilder('p')

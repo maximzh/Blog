@@ -3,6 +3,7 @@
     <div class="content-container center-block">
         <div class="clearfix">
             <div class="pull-left center-block homepage-body-container img-rounded">
+
                 {% for post in posts %}
                     <div class="post-preview-container center-block">
                         <a href="{{ path('show_post', {'slug': post.slug}) }}">
@@ -34,6 +35,8 @@
                     </div>
 
                 {% endfor %}
+                {{ knp_pagination_render(posts) }}
+
             </div>
             <div id="homepage-sidebar" class="pull-left img-rounded">
 
@@ -68,16 +71,26 @@
                                 <a href="{{ path('show_post', {'slug': post.0.slug}) }}">
                                     {{ post.0.title }} (rating: {{ post.rating|number_format(2, '.', ',') }})
                                 </a>
-
                             </p>
                         {% endfor %}
                     {% endif %}
                 </div>
-
             </div>
         </div>
     </div>
 
+{% endblock %}
 
-
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        var ias = $.ias({
+            container: ".post-container",
+            item: ".blog-post",
+            pagination: ".pagination",
+            next: ".next a"
+        });
+        ias.extension(new IASSpinnerExtension());
+        //  ias.extension(new IASNoneLeftExtension({text: 'There are no more pages left to load.'}));
+    </script>
 {% endblock %}
