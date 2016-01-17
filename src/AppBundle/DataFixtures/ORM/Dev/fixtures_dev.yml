@@ -17,8 +17,8 @@ AppBundle\Entity\Post:
         text: <paragraphs(20, true)>
         createdAt: <dateTimeBetween('-2 years', 'now')>
         author: @author*
-        mainPicture: "/uploads/images/sampler.jpg"
-        mainPicturePreview: <preview()>
+        path: "sampler.jpg"
+
         tags: 2x @tag*
 
 

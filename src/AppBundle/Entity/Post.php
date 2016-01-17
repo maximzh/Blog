@@ -451,9 +451,9 @@ class Post
     {
         $this->file = $file;
         // check if we have an old image path
-        if (isset($this->path)) {
+        if (is_file($this->getAbsolutePath())) {
             // store the old name to delete after the update
-            $this->temp = $this->path;
+            $this->temp = $this->getAbsolutePath();
             $this->path = null;
         } else {
             $this->path = 'initial';
@@ -477,8 +477,8 @@ class Post
     public function preUpload()
     {
         if (null !== $this->getFile()) {
-            //$filename = sha1(uniqid(mt_rand(), true));
-            $this->path = $this->getImageName() . '.' . $this->getFile()->guessExtension();
+            $filename = sha1(uniqid(mt_rand(), true));
+            $this->path = $filename . '.' . $this->getFile()->guessExtension();
         }
     }
 
@@ -506,8 +506,8 @@ class Post
         // so that the entity is not persisted to the database
         // which the UploadedFile move() method does
         $this->getFile()->move(
-            $this->getUploadRootDir().'/'.$this->id,
-            $this->getImageName().'.'.$this->getFile()->guessExtension()
+            $this->getUploadRootDir(),
+            $this->path
         );
 
         $this->setFile(null);
@@ -540,7 +540,7 @@ class Post
     {
         return null === $this->path
             ? null
-            : $this->getUploadRootDir().'/'.$this->id.$this->path;
+            : $this->getUploadRootDir().$this->path;
     }
 
 
@@ -550,34 +550,21 @@ class Post
         return __DIR__.'/../../../web/'.$this->getUploadDir();
     }
 
-    public function getImageUrl()
+    public function getWebPath()
     {
         return null === $this->path
             ? null
-            : '/uploads/images'.'/'.$this->id.'/' . $this->path;
+            : $this->getUploadDir() .'/'. $this->path;
     }
 
 
 
     protected function getUploadDir()
     {
-        return 'uploads/images';
+        return '/uploads/images';
     }
 
 
-    /**
-     * Set path
-     *
-     * @param string $path
-     *
-     * @return Post
-     */
-    public function setPath($path)
-    {
-        $this->path = $path;
-
-        return $this;
-    }
 
     /**
      * Get path
@@ -587,11 +574,6 @@ class Post
     public function getPath()
     {
         return $this->path;
-    }
-
-    private function getImageName()
-    {
-        return 'image';
     }
 
     public function getRating()

@@ -10,7 +10,10 @@
                         </a>
                         <div class="clearfix">
                             <div class="pull-left">
-                                <img src="{{ post.mainPicturePreview }}">
+                                {% if post.webPath is not null %}
+                                    <img src="{{ post.webPath | imagine_filter('my_thumb') }}" alt="image">
+                                {% endif %}
+
                             </div>
                             <div class="pull-right post-preview">
 

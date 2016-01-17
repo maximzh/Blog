@@ -75,3 +75,15 @@ stof_doctrine_extensions:
             timestampable: true
             uploadable: true
             softdeleteable: true
+
+liip_imagine:
+    resolvers:
+       default:
+          web_path: ~
+
+    filter_sets:
+        cache: ~
+        my_thumb:
+            quality: 75
+            filters:
+                thumbnail: { size: [400, 300], mode: outbound }
