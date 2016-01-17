@@ -1,10 +1,10 @@
 body {margin: auto;}
 .blog-post-body-container {width: 800px}
-#homepage-sidebar {width: 260px; padding-left: 35px}
+#homepage-sidebar {width: 260px; padding-left: 35px; padding-top: 60px}
 .post-preview {width: 250px; padding: 20px}
-.homepage-body-container {padding-right: 5px}
+.homepage-body-container {padding-right: 5px; padding-top: 60px}
 .post-preview-container {margin-top: 50px; padding-left: 25px; background-color: #eafffc; margin-left: 20px}
-#header-menu {background-color: #d0f7ff ; height: 60px;}
+#header-menu {background-color: #d0f7ff ; height: 60px; position: fixed; width: 100%}
 .content-container {width: 1000px; background-color: white}
 #last-comments-container {padding: 20px}
 #single-post-container {width: 1000px; background-color: white; padding: 50px}
