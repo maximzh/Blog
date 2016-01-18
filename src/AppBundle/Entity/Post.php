@@ -572,16 +572,21 @@ class Post
     {
         $comments = $this->getComments();
         $rating = 0;
+        $countCommentsWithRating = 0;
 
         if (count($comments) !== 0) {
 
             foreach ($comments as $comment) {
                 if (null !== $comment->getRating()) {
+                    $countCommentsWithRating++;
                     $rating = $rating + $comment->getRating();
                 }
             }
 
-            $rating = $rating / count($comments);
+            if ( $countCommentsWithRating !== 0) {
+                $rating = $rating / $countCommentsWithRating;
+            }
+
         }
 
 

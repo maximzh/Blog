@@ -33,6 +33,7 @@ class CommentType extends AbstractType
                     '5' => 5
                 ),
                 'choices_as_values' => true,
+                'required' => false,
                 'placeholder' => 'How do you rate this post?'
             ))
         ;

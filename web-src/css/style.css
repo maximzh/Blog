@@ -5,6 +5,8 @@ body {margin: auto;}
 .homepage-body-container {padding-right: 5px; padding-top: 60px; margin-bottom: 120px;}
 .post-preview-container {margin-top: 50px; padding-left: 25px; background-color: #eafffc; margin-left: 20px}
 #header-menu {background-color: #131313; height: 60px; position: fixed; width: 100%}
+#header-menu ul li a {color: whitesmoke}
+#header-menu ul li a:hover {color:#131313 }
 .content-container {width: 1000px; background-color: white}
 
 #single-post-container {width: 1000px; background-color: white; padding: 50px}

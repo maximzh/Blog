@@ -7,6 +7,10 @@
             <br>
             <span class="text-info">Search results:</span>
         </h1>
+        {% if posts is empty %}
+            <h2>Nothing found...</h2>
+        {% endif %}
+
         {% if posts is not empty %}
 
             {% for post in posts %}
