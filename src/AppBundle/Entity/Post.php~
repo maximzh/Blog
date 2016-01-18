@@ -8,14 +8,11 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Entity\Author;
-use AppBundle\Entity\Comment;
-use AppBundle\Entity\Tag;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
@@ -75,22 +72,9 @@ class Post
      */
     private $path;
 
-    /**
-     * @var string
-     * @ORM\Column(name="main_picture", type="string", length=150, nullable=true)
-     * @Assert\Length(max="150")
-     */
-    private $mainPicture;
 
     /**
-     * @var string
-     * @ORM\Column(name="main_picture_preview", type="string",length=160, nullable=true)
-     * @Assert\Length(max="160")
-     */
-    private $mainPicturePreview;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Comment", mappedBy="post")
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="post", cascade={"remove"})
      */
     private $comments;
 
@@ -315,53 +299,7 @@ class Post
         return $this->author;
     }
 
-    /**
-     * Set mainPicture
-     *
-     * @param string $mainPicture
-     *
-     * @return Post
-     */
-    public function setMainPicture($mainPicture)
-    {
-        $this->mainPicture = $mainPicture;
 
-        return $this;
-    }
-
-    /**
-     * Get mainPicture
-     *
-     * @return string
-     */
-    public function getMainPicture()
-    {
-        return $this->mainPicture;
-    }
-
-    /**
-     * Set mainPicturePreview
-     *
-     * @param string $mainPicturePreview
-     *
-     * @return Post
-     */
-    public function setMainPicturePreview($mainPicturePreview)
-    {
-        $this->mainPicturePreview = $mainPicturePreview;
-
-        return $this;
-    }
-
-    /**
-     * Get mainPicturePreview
-     *
-     * @return string
-     */
-    public function getMainPicturePreview()
-    {
-        return $this->mainPicturePreview;
-    }
     /**
      * Constructor
      */
@@ -420,7 +358,6 @@ class Post
     }
 
 
-
     /**
      * Remove tag
      *
@@ -442,7 +379,6 @@ class Post
     }
 
 
-
     /**
      * @param UploadedFile|null $file
      * @return $this
@@ -451,9 +387,9 @@ class Post
     {
         $this->file = $file;
         // check if we have an old image path
-        if (isset($this->path)) {
+        if (is_file($this->getAbsolutePath())) {
             // store the old name to delete after the update
-            $this->temp = $this->path;
+            $this->temp = $this->getAbsolutePath();
             $this->path = null;
         } else {
             $this->path = 'initial';
@@ -477,11 +413,10 @@ class Post
     public function preUpload()
     {
         if (null !== $this->getFile()) {
-            //$filename = sha1(uniqid(mt_rand(), true));
-            $this->path = $this->getImageName() . $this->id .'.' . $this->getFile()->guessExtension();
+            $filename = sha1(uniqid(mt_rand(), true));
+            $this->path = $filename.'.'.$this->getFile()->guessExtension();
         }
     }
-
 
 
     /**
@@ -507,7 +442,7 @@ class Post
         // which the UploadedFile move() method does
         $this->getFile()->move(
             $this->getUploadRootDir(),
-            $this->getImageName().$this->id.'.'.$this->getFile()->guessExtension()
+            $this->path
         );
 
         $this->setFile(null);
@@ -525,22 +460,23 @@ class Post
     /**
      * @ORM\PostRemove()
      */
-    public function removeUpload()
+
+    /*public function removeUpload()
     {
         $file = $this->getAbsolutePath();
+        $file = $this->getImageUrl();
         if ($file) {
             unlink($file);
         }
-    }
+    }*/
 
 
     public function getAbsolutePath()
     {
         return null === $this->path
             ? null
-            : $this->getUploadRootDir().'/'.$this->id.'.'.$this->path;
+            : $this->getUploadRootDir().$this->path;
     }
-
 
 
     protected function getUploadRootDir()
@@ -548,27 +484,19 @@ class Post
         return __DIR__.'/../../../web/'.$this->getUploadDir();
     }
 
+    public function getWebPath()
+    {
+        return null === $this->path
+            ? null
+            : $this->getUploadDir().'/'.$this->path;
+    }
 
 
     protected function getUploadDir()
     {
-        return 'uploads/images';
+        return '/uploads/images';
     }
 
-
-    /**
-     * Set path
-     *
-     * @param string $path
-     *
-     * @return Post
-     */
-    public function setPath($path)
-    {
-        $this->path = $path;
-
-        return $this;
-    }
 
     /**
      * Get path
@@ -580,8 +508,28 @@ class Post
         return $this->path;
     }
 
-    private function getImageName()
+    public function getRating()
     {
-        return 'image';
+        $comments = $this->getComments();
+        $rating = 0;
+        $countCommentsWithRating = 0;
+
+        if (count($comments) !== 0) {
+
+            foreach ($comments as $comment) {
+                if (null !== $comment->getRating()) {
+                    $countCommentsWithRating++;
+                    $rating = $rating + $comment->getRating();
+                }
+            }
+
+            if ($countCommentsWithRating !== 0) {
+                $rating = $rating / $countCommentsWithRating;
+            }
+
+        }
+
+
+        return $rating;
     }
 }

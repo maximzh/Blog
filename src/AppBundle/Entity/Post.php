@@ -72,19 +72,6 @@ class Post
      */
     private $path;
 
-    /**
-     * @var string
-     * @ORM\Column(name="main_picture", type="string", length=150, nullable=true)
-     * @Assert\Length(max="150")
-     */
-    private $mainPicture;
-
-    /**
-     * @var string
-     * @ORM\Column(name="main_picture_preview", type="string",length=160, nullable=true)
-     * @Assert\Length(max="160")
-     */
-    private $mainPicturePreview;
 
     /**
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="post", cascade={"remove"})
@@ -312,53 +299,6 @@ class Post
         return $this->author;
     }
 
-    /**
-     * Set mainPicture
-     *
-     * @param string $mainPicture
-     *
-     * @return Post
-     */
-    public function setMainPicture($mainPicture)
-    {
-        $this->mainPicture = $mainPicture;
-
-        return $this;
-    }
-
-    /**
-     * Get mainPicture
-     *
-     * @return string
-     */
-    public function getMainPicture()
-    {
-        return $this->mainPicture;
-    }
-
-    /**
-     * Set mainPicturePreview
-     *
-     * @param string $mainPicturePreview
-     *
-     * @return Post
-     */
-    public function setMainPicturePreview($mainPicturePreview)
-    {
-        $this->mainPicturePreview = $mainPicturePreview;
-
-        return $this;
-    }
-
-    /**
-     * Get mainPicturePreview
-     *
-     * @return string
-     */
-    public function getMainPicturePreview()
-    {
-        return $this->mainPicturePreview;
-    }
 
     /**
      * Constructor
@@ -583,7 +523,7 @@ class Post
                 }
             }
 
-            if ( $countCommentsWithRating !== 0) {
+            if ($countCommentsWithRating !== 0) {
                 $rating = $rating / $countCommentsWithRating;
             }
 
@@ -591,5 +531,19 @@ class Post
 
 
         return $rating;
+    }
+
+    /**
+     * Set path
+     *
+     * @param string $path
+     *
+     * @return Post
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+
+        return $this;
     }
 }

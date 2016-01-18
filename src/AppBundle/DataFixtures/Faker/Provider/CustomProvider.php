@@ -19,15 +19,17 @@ class CustomProvider
         return strtolower($slug);
     }
 
-    public static function preview()
+    public static function image()
     {
-        $previews = [
-            '/images/akai_preview.jpg',
-            '/images/korg_electribe_preview.jpg',
-            '/images/korg_preview.png',
-            '/images/padkontrol_preview.jpg',
+        $images = [
+            'Cat.jpg',
+            'abstraction.jpg',
+            'waterfall.jpg',
+            'sampler.jpg',
+            'Ferrari.jpg',
+            'cosmocat.jpg'
         ];
 
-        return $previews[array_rand($previews)];
+        return $images[array_rand($images)];
     }
 }
