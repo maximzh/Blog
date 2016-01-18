@@ -17,7 +17,8 @@
                         <img src="{{ post.webPath | imagine_filter('my_thumb') }}" alt="image">
                     {% endif %}
                     <br>
-                    {{ post.text|length > 600 ? post.text|slice(0, 600) ~ '...' :post.text }}
+                    {{ post.text|length > 600 ? post.text|slice(0, 600) ~ '...' :post.text }}<br>
+                    <a href="{{ path('show_post', {'slug': post.slug}) }}"><span class="text-primary">Read more...</span></a>
                 </div>
             {% endfor %}
 

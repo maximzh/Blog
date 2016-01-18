@@ -61,7 +61,6 @@ class PostController extends Controller
      */
     public function searchAction(Request $request)
     {
-        //$text = $request->get('q');
         $text = strip_tags(trim($request->get('search_text')));
 
         if ($text == null or $text == '') {

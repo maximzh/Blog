@@ -1,11 +1,9 @@
-{% extends '::base.html.twig' %}
+{% extends '::admin_base.html.twig' %}
 
 {% block body %}
 {{ parent() }}
 
-    <p>
-        <a href="{{ path('new_post') }}">Create post</a>
-    </p>
+
     <table class="table table-striped table-hover">
         <tr>
             <th>Post</th>

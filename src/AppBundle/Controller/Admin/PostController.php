@@ -25,7 +25,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PostController extends Controller
 {
     /**
-     * @Route("/manage", name="manage_posts")
+     * @Route("", name="manage_posts")
      * @Method("GET")
      * @Template()
      */
@@ -34,7 +34,7 @@ class PostController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $posts = $em->getRepository('AppBundle:Post')
-            ->findAllPostsWithDependencies();
+            ->findAll();
 
         return [
             'posts' => $posts,

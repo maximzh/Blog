@@ -5,7 +5,8 @@
             <a href="{{ path('show_post', {'slug': post.slug}) }}" style="color: ghostwhite">
                 <h3 class="h3 text-left img-rounded" style="background-color: #131313; padding: 5px">{{ post.title }}</h3>
             </a>
-            <div class="clearfix img-rounded" style="background-color: aliceblue; padding: 15px">
+            Posted at: {{ post.createdAt|date('d M Y') }}
+            <div class="clearfix img-rounded" style="padding: 15px">
                 <div class="pull-left">
                     {% if post.webPath is not null %}
                         <img src="{{ post.webPath | imagine_filter('my_thumb') }}" alt="image">
@@ -14,10 +15,11 @@
                 </div>
                 <div class="pull-right post-preview">
 
-                    {{ post.text|length > 600 ? post.text|slice(0, 600) ~ '...' :post.text }}
+                    {{ post.text|length > 600 ? post.text|slice(0, 600) ~ '...' :post.text }}<br>
+                    <a href="{{ path('show_post', {'slug': post.slug}) }}"><span class="text-primary">Read more...</span></a>
                 </div>
             </div>
-            <p class="text-info">
+            <p class="text-info" style="background-color: #d9edf7">
                 {% if post.author.smallAvatar is not null %}
                     <img src="{{ post.author.smallAvatar }}">
                 {% endif %}
@@ -25,9 +27,6 @@
                 Author: {{ post.author.name }}
             </p>
 
-            <p class="text-right text-primary" style="margin-bottom: 30px">
-                Posted at: {{ post.createdAt|date('d M Y') }}
-            </p>
     </div>
 {% endfor %}
 {% if nextPageUrl %}
