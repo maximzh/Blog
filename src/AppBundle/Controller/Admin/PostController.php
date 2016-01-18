@@ -14,6 +14,7 @@ use AppBundle\Form\PostType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -43,18 +44,28 @@ class PostController extends Controller
 
         $nextPage = $count > $limit * $currentPage
             ? $currentPage + 1
-            : false
-        ;
+            : false;
 
+        $deleteForms = [];
         $posts = $repository->findAllPostsWithDependencies($currentPage, $limit);
 
+        foreach ($posts as $post) {
+            $deleteForms[$post->getId()] = $this->createDeleteForm($post)->createView();
+        }
+
         $nextPageUrl = $nextPage
-            ?  $nextPageUrl = $this->generateUrl('manage_posts', ['page' => $nextPage])
-            : false
-        ;
+            ? $nextPageUrl = $this->generateUrl('manage_posts', ['page' => $nextPage])
+            : false;
         if ($request->isXmlHttpRequest()) {
-            $content = $this->renderView('AppBundle:Admin/Post:postsList.html.twig',
-                ['posts' => $posts, 'nextPageUrl' => $nextPageUrl, 'nextPage' => $nextPage]);
+            $content = $this->renderView(
+                'AppBundle:Admin/Post:postsList.html.twig',
+                [
+                    'posts' => $posts,
+                    'nextPageUrl' => $nextPageUrl,
+                    'nextPage' => $nextPage,
+                    'deleteForms' => $deleteForms,
+                ]
+            );
 
             return new Response($content);
         }
@@ -63,7 +74,8 @@ class PostController extends Controller
         return [
             'posts' => $posts,
             'nextPageUrl' => $nextPageUrl,
-            'nextPage' => $nextPage
+            'nextPage' => $nextPage,
+            'deleteForms' => $deleteForms,
 
         ];
     }
@@ -146,30 +158,31 @@ class PostController extends Controller
     }
 
     /**
-     * @param $slug
      * @param Request $request
-     * @Route("/remove/{slug}", name="remove_post")
+     * @Route("/remove/{id}", name="remove_post")
      * @Template()
+     * @Method("DELETE")
      * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function removeAction($slug, Request $request)
+    public function removeAction(Request $request, Post $post)
     {
         $em = $this->getDoctrine()->getManager();
+        $form = $this->createDeleteForm($post);
 
-        $post = $em->getRepository('AppBundle:Post')
-            ->findPostBySlug($slug);
-
+        /*
         $form = $this->createForm(
             PostType::class,
             $post,
             [
                 'em' => $em,
                 'action' => $this->generateUrl('remove_post', ['slug' => $slug]),
-                'method' => Request::METHOD_POST,
+                'method' => Request::METHOD_DELETE,
             ]
         );
+        */
 
-        if ($request->getMethod() == 'POST') {
+
+        if ($request->getMethod() == 'DELETE') {
 
             $form->handleRequest($request);
 
@@ -177,10 +190,29 @@ class PostController extends Controller
                 $em->remove($post);
                 $em->flush();
 
-                return $this->redirectToRoute('manage_posts');
+
             }
         }
 
-        return ['form' => $form->createView()];
+        return $this->redirectToRoute('manage_posts');
+
+        //return ['form' => $form->createView()];
+    }
+
+    /**
+     * @param Post $post
+     * @return \Symfony\Component\Form\Form
+     */
+    private function createDeleteForm(Post $post)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('remove_post', array('id' => $post->getId())))
+            ->setMethod('DELETE')
+            ->add(
+                'submit',
+                SubmitType::class,
+                ['label' => ' ', 'attr' => ['class' => 'glyphicon glyphicon-trash btn-link']]
+            )
+            ->getForm();
     }
 }

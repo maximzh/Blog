@@ -7,7 +7,11 @@
             <span class="text-primary">created: {{ post.createdAt|date('d M Y') }}</span>
         </td>
         <td><a href="{{ path('edit_post', {'slug': post.slug}) }}">Edit</a> </td>
-        <td><a href="{{ path('remove_post', {'slug': post.slug}) }}">Remove</a> </td>
+        <td>
+            {{ form_start(deleteForms[post.id], {attr : {onsubmit: 'return confirm("Do you really want to delete?");' }}) }}
+            {{ form_widget(deleteForms[post.id].submit) }}
+            {{ form_end(deleteForms[post.id]) }}
+        </td>
     </tr>
 {% endfor %}
 

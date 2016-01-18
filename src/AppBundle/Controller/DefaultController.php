@@ -2,11 +2,11 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Model\TagCloud;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use AppBundle\Model\TagCloud;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -31,18 +31,18 @@ class DefaultController extends Controller
 
         $nextPage = $count > $limit * $currentPage
             ? $currentPage + 1
-            : false
-        ;
+            : false;
 
         $posts = $repository->findAllPostsWithDependencies($currentPage, $limit);
 
         $nextPageUrl = $nextPage
-            ?  $nextPageUrl = $this->generateUrl('homepage', ['page' => $nextPage])
-            : false
-            ;
+            ? $nextPageUrl = $this->generateUrl('homepage', ['page' => $nextPage])
+            : false;
         if ($request->isXmlHttpRequest()) {
-            $content = $this->renderView('AppBundle:Default:postsList.html.twig',
-                ['posts' => $posts, 'nextPageUrl' => $nextPageUrl, 'nextPage' => $nextPage]);
+            $content = $this->renderView(
+                'AppBundle:Default:postsList.html.twig',
+                ['posts' => $posts, 'nextPageUrl' => $nextPageUrl, 'nextPage' => $nextPage]
+            );
 
             return new Response($content);
         }
@@ -70,43 +70,9 @@ class DefaultController extends Controller
             'tags' => $tags,
             'top_posts' => $topPosts,
             'nextPageUrl' => $nextPageUrl,
-            'nextPage' => $nextPage
+            'nextPage' => $nextPage,
 
         ];
 
-        /*
-        $posts = $this->getDoctrine()
-            ->getRepository('AppBundle:Post')
-            ->findAllPostsWithDependencies();
-
-        if (!$posts) {
-
-            throw $this->createNotFoundException('No posts found');
-        }
-
-        $lastComments = $this->getDoctrine()
-            ->getRepository('AppBundle:Comment')
-            ->findLastComments();
-
-        $tags = $this->getDoctrine()
-            ->getRepository('AppBundle:Tag')
-            ->findAllTagsWithDependencies();
-
-        $cloud = new TagCloud();
-        $tagCloud = $cloud->getCloud($tags);
-
-        $topPosts = $this->getDoctrine()
-            ->getRepository('AppBundle:Post')
-            ->findTopPosts();
-
-
-        return [
-            'posts' => $posts,
-            'last_comments' => $lastComments,
-            'tag_cloud' => $tagCloud,
-            'tags' => $tags,
-            'top_posts' => $topPosts
-        ];
-        */
     }
 }
