@@ -1,18 +1,27 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    <div class="center-block" style="width: 800px">
-        <h2 style="padding-top: 60px; margin-top: 0px">Posts with tag {{ tag.name }}</h2>
+    <div class="center-block" style="width: 800px;border: 1px solid lavender;padding: 20px; margin-bottom: 100px">
+        <h2 style="padding-top: 60px; margin-top: 0px" class="text-danger">Posts with tag '{{ tag.name }}'</h2>
         {% if tag.posts is empty %}
             <h2>
-                Sorry, there are no posts associated with tag <span class="text-danger">{{ tag.name }}</span>
+                Sorry, there are no posts associated with tag <span class="text-danger">'{{ tag.name }}'</span>
             </h2>
         {% endif %}
         {% for post in tag.posts %}
+            <h3>
+                <a href="{{ path('show_post', {'slug': post.slug}) }}">{{ post.title }}</a>
+            </h3>
             <p>
-                <a href="{{ path('show_post', {'slug': post.slug}) }}">
-                    {{ post.title }}
-                </a>
+                <span class="text-primary">Author: {{ post.author.name }} </span>
+                (<span class="text-danger">Posted: {{ post.createdAt|date('d M Y') }}</span>)
             </p>
+            <p>
+                {{ post.text|length > 600 ? post.text|slice(0, 600) ~ '...' :post.text }}
+            </p>
+
+            <a href="{{ path('show_post', {'slug': post.slug}) }}"><span class="text-primary">Read more...</span></a>
+
+
         {% endfor %}
     </div>
 

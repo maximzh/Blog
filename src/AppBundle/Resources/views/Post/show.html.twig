@@ -5,13 +5,14 @@
     <img src="{{ post.webPath | imagine_filter('default_thumb') }}" alt="image" class="center-block">
 
 
-    <div style="padding: 10px;">
+    <div style="padding: 10px; width: 800px" class="center-block">
         <div>
             {{ post.text }}
             {% if post.tags is not empty %}
                 <p class="text-success">Tags:
                     {% for tag in post.tags %}
-                        {{ tag.name }}
+                        <a href="{{ path('show_tag', {'slug': tag.slug}) }}">{{ tag.name }}</a>
+
                     {% endfor %}
                 </p>
 
@@ -27,7 +28,7 @@
 
         </div>
         <div class="comments-container">
-            <h2 class="bg-info">
+            <h2 style="background-color: ghostwhite" class="text-center">
                 Leave your comment:
             </h2>
             <div class="comment-form">{{ render(controller('AppBundle:Comment:new', {'slug': post.slug})) }}
