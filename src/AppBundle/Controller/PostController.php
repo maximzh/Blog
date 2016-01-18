@@ -12,6 +12,7 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -50,6 +51,29 @@ class PostController extends Controller
         return [
             'post' => $post,
             'comments' => $comments
+        ];
+    }
+
+    /**
+     * @Route("/search", name="search")
+     * @Method("POST")
+     * @Template()
+     */
+    public function searchAction(Request $request)
+    {
+        //$text = $request->get('q');
+        $text = strip_tags(trim($request->get('search_text')));
+
+        if ($text == null or $text == '') {
+            return $this->redirectToRoute('homepage');
+        }
+
+        $posts = $this->getDoctrine()->getRepository('AppBundle:Post')
+            ->searchPosts($text);
+
+        return [
+            'posts' => $posts,
+            'search_text' => $text
         ];
     }
 }

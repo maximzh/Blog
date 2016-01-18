@@ -2,9 +2,9 @@ body {margin: auto;}
 .blog-post-body-container {width: 800px}
 #homepage-sidebar {width: 260px; padding: 20px; padding-top: 75px;}
 .post-preview {width: 250px; padding: 20px}
-.homepage-body-container {padding-right: 5px; padding-top: 60px}
+.homepage-body-container {padding-right: 5px; padding-top: 60px; margin-bottom: 120px;}
 .post-preview-container {margin-top: 50px; padding-left: 25px; background-color: #eafffc; margin-left: 20px}
-#header-menu {background-color: lavender ; height: 60px; position: fixed; width: 100%}
+#header-menu {background-color: #131313; height: 60px; position: fixed; width: 100%}
 .content-container {width: 1000px; background-color: white}
 
 #single-post-container {width: 1000px; background-color: white; padding: 50px}
@@ -12,3 +12,4 @@ body {margin: auto;}
 #tag-cloud {padding: 10px}
 #last-comments {padding: 10px; margin-top: 10px}
 #top-posts {padding: 10px}
+

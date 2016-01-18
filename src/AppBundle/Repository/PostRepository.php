@@ -65,4 +65,18 @@ class PostRepository extends EntityRepository
             ->setMaxResults($number)
             ->getResult();
     }
+
+    public function searchPosts($text)
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p, t')
+            ->leftJoin('p.tags', 't')
+            ->where('p.title LIKE :text' )
+            ->orWhere('t.name = :name')
+            ->setParameter('text', '%'.$text.'%')
+            ->setParameter('name', $text)
+            ->getQuery()
+            ->getResult();
+
+    }
 }

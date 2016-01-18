@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div style="width: 800px; margin: auto; border: 1px solid lavender; padding: 20px; padding-top: 60px; margin-bottom: 100px;" >
+        <h1 class="text-success bg-info">
+            You were searching for '<span class="text-primary">{{ search_text }}</span>'
+            <br>
+            <span class="text-info">Search results:</span>
+        </h1>
+        {% if posts is not empty %}
+
+            {% for post in posts %}
+
+                <h3>{{ post.title }}</h3>
+                <div>
+                    {% if post.webPath is not null %}
+                        <img src="{{ post.webPath | imagine_filter('my_thumb') }}" alt="image">
+                    {% endif %}
+                    <br>
+                    {{ post.text|length > 600 ? post.text|slice(0, 600) ~ '...' :post.text }}
+                </div>
+            {% endfor %}
+
+        {% endif %}
+    </div>
+
+
+
+{% endblock %}
+
