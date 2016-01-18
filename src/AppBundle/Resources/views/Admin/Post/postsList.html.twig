@@ -1,0 +1,20 @@
+
+{% for post in posts %}
+    <tr class="posts">
+        <td>
+            {{ post.title }}
+            <span class="text-danger">(Author: {{ post.author.name }})</span>
+            <span class="text-primary">created: {{ post.createdAt|date('d M Y') }}</span>
+        </td>
+        <td><a href="{{ path('edit_post', {'slug': post.slug}) }}">Edit</a> </td>
+        <td><a href="{{ path('remove_post', {'slug': post.slug}) }}">Remove</a> </td>
+    </tr>
+{% endfor %}
+
+{% if nextPageUrl %}
+    <div class="pagination" style="display: none">
+        <span class="next-page">
+            <a href="{{ nextPageUrl }}">&gt;</a>
+        </span>
+    </div>
+{% endif %}

@@ -10,7 +10,7 @@
 </head>
 <body>
 {% block header %}
-    <div id="admin-header-menu" style="height: 50px; background-color: lavender">
+    <div id="admin-header-menu" style="height: 50px; background-color: lavender; position: fixed; top: 0px; width: 100%">
         <nav class="header-menu">
 
             <ul class="nav navbar-nav">
@@ -29,6 +29,7 @@
             </ul>
         </nav>
     </div>
+    <div style="margin-top: 50px"></div>
 
 {% endblock %}
 {% block body %}{% endblock %}

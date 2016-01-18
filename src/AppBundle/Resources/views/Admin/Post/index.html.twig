@@ -4,25 +4,39 @@
 {{ parent() }}
 
 
-    <table class="table table-striped table-hover">
-        <tr>
-            <th>Post</th>
-            <th>Edit</th>
-            <th>Remove</th>
-        </tr>
+    <table class="table table-striped table-hover ">
 
-        {% for post in posts %}
-            <tr>
-                <td>
-                    {{ post.title }}
-                    <span class="text-danger">(Author: {{ post.author.name }})</span>
-                    <span class="text-primary">created: {{ post.createdAt|date('d M Y') }}</span>
-                </td>
-                <td><a href="{{ path('edit_post', {'slug': post.slug}) }}">Edit</a> </td>
-                <td><a href="{{ path('remove_post', {'slug': post.slug}) }}">Remove</a> </td>
-            </tr>
-        {% endfor %}
+        <tbody class="posts-container">
+        {% include 'AppBundle:Admin/Post:postsList.html.twig' %}
+        </tbody>
+
+
     </table>
 
-{% endblock %}
 
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        function loadRows() {
+            var url = $('.pagination span a').attr('href');
+            $.get(url, function (data) {
+                var content = $(data),
+                        articlesList = content.closest('.posts'),
+                        nextLink = content.find('.next-page');
+                $('.posts-container').append(articlesList);
+                if (nextLink.length) {
+                    $('.pagination').html(nextLink);
+                } else {
+                    $('.pagination').remove();
+                }
+            });
+        }
+        $(window).scroll(function () {
+            if ($(window).scrollTop() == $(document).height() - $(window).height() && $('.pagination span a').length) {
+                loadRows();
+            }
+        });
+    </script>
+{% endblock %}

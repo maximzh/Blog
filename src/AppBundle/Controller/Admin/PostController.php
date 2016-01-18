@@ -15,6 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -29,15 +30,41 @@ class PostController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
 
-        $posts = $em->getRepository('AppBundle:Post')
-            ->findAll();
+        $limit = 25;
+        $currentPage = $request->query->getInt('page', 1);
+
+        $repository = $this->getDoctrine()
+            ->getRepository('AppBundle:Post');
+
+        $count = $repository->countAllPosts();
+
+        $nextPage = $count > $limit * $currentPage
+            ? $currentPage + 1
+            : false
+        ;
+
+        $posts = $repository->findAllPostsWithDependencies($currentPage, $limit);
+
+        $nextPageUrl = $nextPage
+            ?  $nextPageUrl = $this->generateUrl('manage_posts', ['page' => $nextPage])
+            : false
+        ;
+        if ($request->isXmlHttpRequest()) {
+            $content = $this->renderView('AppBundle:Admin/Post:postsList.html.twig',
+                ['posts' => $posts, 'nextPageUrl' => $nextPageUrl, 'nextPage' => $nextPage]);
+
+            return new Response($content);
+        }
+
 
         return [
             'posts' => $posts,
+            'nextPageUrl' => $nextPageUrl,
+            'nextPage' => $nextPage
+
         ];
     }
 
