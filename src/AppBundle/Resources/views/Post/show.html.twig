@@ -38,7 +38,7 @@
                 {% for comment in comments %}
                     <h4 class="bg-warning">{{ comment.commentAuthor }}:</h4>
                     <p>({{ comment.createdAt|date('d M Y') }} at {{ comment.createdAt|date('H:m:s') }})</p>
-                    <p>
+                    <p class="comment">
                         {{ comment.text }}
                     </p>
                 {% endfor %}

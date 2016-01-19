@@ -19,10 +19,11 @@ class PostControllerTest extends AbstractController
     public function testShow($expectedStatusCode, $path)
     {
         $client = static::createClient();
-        $crawler = $client->request('GET', '/');
+        $crawler = $client->request('GET', '/post/post-one');
 
         $this->requestTest($expectedStatusCode, $path, 'GET');
         $this->assertEquals(1, $crawler->filter('h1')->count());
+        $this->assertEquals(3, $crawler->filter('.comment')->count());
     }
 
     public function testSearch()
