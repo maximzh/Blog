@@ -1,0 +1,33 @@
+AppBundle\Entity\Author:
+    author1:
+        name: "John Doe"
+        email: "john_doe@domain.com"
+        smallAvatar: "/uploads/images/small_avatar.png"
+        createdAt: <dateTimeBetween('-2 years', 'now')>
+
+AppBundle\Entity\Tag:
+    tag1:
+        name: "tagone"
+        slug: "tagone"
+    tag2:
+            name: "tagtwo"
+            slug: "tagtwo"
+
+AppBundle\Entity\Post:
+    post1:
+        title: "Post one"
+        slug: <createSlug($title)>
+        text: <paragraphs(20, true)>
+        createdAt: <dateTimeBetween('-2 years', 'now')>
+        author: @author1
+        path: <image()>
+        tags: 2x @tag*
+
+
+AppBundle\Entity\Comment:
+    comment{1..3}:
+        commentAuthor: <name()>
+        text: <text(700)>
+        rating: <randomElement([0, 1, 2, 3, 4, 5])>
+        post: '@post1'
+        createdAt: <dateTimeBetween('-2 years', 'now')>
