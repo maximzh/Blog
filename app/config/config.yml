@@ -35,6 +35,7 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    form_themes: ['bootstrap_3_layout.html.twig']
 
 # Doctrine Configuration
 doctrine:
@@ -65,3 +66,28 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+stof_doctrine_extensions:
+    default_locale: en_US
+    orm:
+        default:
+            sluggable: true
+            timestampable: true
+            uploadable: true
+            softdeleteable: true
+
+liip_imagine:
+    resolvers:
+       default:
+          web_path: ~
+
+    filter_sets:
+        cache: ~
+        my_thumb:
+            quality: 100
+            filters:
+                thumbnail: { size: [400, 300], mode: outbound }
+        default_thumb:
+                    quality: 100
+                    filters:
+                        thumbnail: { size: [760, 570], mode: outbound }

@@ -13,10 +13,10 @@ gulp.task('images', function () {
     return gulp.src([
             'web-src/images/*'
         ])
-        .pipe(gulp.dest('web/images/'))
+        .pipe(gulp.dest('web/uploads/images/'))
 });
 gulp.task('fonts', function () {
-    return gulp.src(['bower_components/bootstrap/fonts/*'])
+    return gulp.src(['bower_components/bootstrap/fonts/*', 'web-src/fonts/*'])
         .pipe(gulp.dest('web/fonts/'))
 });
 gulp.task('lib-js', function() {

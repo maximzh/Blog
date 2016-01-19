@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="content-container center-block">
+        <div class="clearfix">
+            <div class="pull-left center-block homepage-body-container img-rounded" style="border: 1px solid lavender; margin-top: 75px; padding: 15px">
+
+                {% include 'AppBundle:Default:postsList.html.twig' %}
+
+            </div>
+            <div id="homepage-sidebar" class="pull-left img-rounded">
+                {% include 'AppBundle:Default:sidebar.html.twig' %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        function loadRows() {
+            var url = $('.pagination span a').attr('href');
+            $.get(url, function (data) {
+                var content = $(data),
+                        articlesList = content.closest('.blog-article'),
+                        nextLink = content.find('.next-page');
+                $('.homepage-body-container').append(articlesList);
+                if (nextLink.length) {
+                    $('.pagination').html(nextLink);
+                } else {
+                    $('.pagination').remove();
+                }
+            });
+        }
+        $(window).scroll(function () {
+            if ($(window).scrollTop() == $(document).height() - $(window).height() && $('.pagination span a').length) {
+                loadRows();
+            }
+        });
+    </script>
+{% endblock %}
