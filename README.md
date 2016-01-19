@@ -1,4 +1,6 @@
-blog
+[![Build Status](https://travis-ci.org/maximzh/Blog.svg?branch=master)](https://travis-ci.org/maximzh/Blog)
 ====
+Blog - GeekHub Symfony Homework
 
-A Symfony project created on January 6, 2016, 10:32 am.
+
+
