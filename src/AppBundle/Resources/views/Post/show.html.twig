@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 {% block body %}
 <div class="blog-post-body-container center-block" id="single-post-container" style="border: 1px solid lavender; padding-top: 50px;">
-    <h1 class="text-center" style="background-color: ivory">{{ post.title }} <span class="text-info">(rating: {{ post.rating|number_format(2, '.', ',') }})</span></h1>
+    <h1 class="text-center img-rounded" style="background-color: lavender; padding: 10px;">{{ post.title }} <span class="text-info">(rating: {{ post.rating|number_format(2, '.', ',') }})</span></h1>
     <img src="{{ post.webPath | imagine_filter('default_thumb') }}" alt="image" class="center-block">
 
 
     <div style="padding: 10px; width: 800px" class="center-block">
-        <div>
+        <div style="padding: 20px">
             {{ post.text }}
             {% if post.tags is not empty %}
                 <p class="text-success">Tags:
@@ -27,23 +27,23 @@
             Author: {{ post.author.name }} <p class="text-right text-success">Posted at: {{ post.createdAt|date('d M Y') }}</p>
 
         </div>
-        <div class="comments-container">
-            <h2 style="background-color: ghostwhite" class="text-center">
-                Leave your comment:
+        <div class="comment-form">
+            <h2>
+                Add comment:
             </h2>
             <div class="comment-form">{{ render(controller('AppBundle:Comment:new', {'slug': post.slug})) }}
             </div>
-
+        </div>
             {% if comments is not empty %}
                 {% for comment in comments %}
-                    <h4 class="bg-warning">{{ comment.commentAuthor }}:</h4>
+                    <h4 class="text-primary">{{ comment.commentAuthor }}:</h4>
                     <p>({{ comment.createdAt|date('d M Y') }} at {{ comment.createdAt|date('H:m:s') }})</p>
-                    <p class="comment">
+                    <p>
                         {{ comment.text }}
                     </p>
                 {% endfor %}
             {% endif %}
-        </div>
+
     </div>
 
 

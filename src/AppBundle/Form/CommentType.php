@@ -32,9 +32,14 @@ class CommentType extends AbstractType
                     '4' => 4,
                     '5' => 5
                 ),
+                'data' => 5,
                 'choices_as_values' => true,
-                'required' => false,
-                'placeholder' => 'How do you rate this post?'
+                'expanded' => true,
+                'multiple' => false,
+                //'required' => false,
+                'label_attr' => [
+                    'class' => 'radio-inline'
+                    ]
             ))
         ;
 

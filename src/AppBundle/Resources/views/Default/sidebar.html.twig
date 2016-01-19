@@ -1,19 +1,25 @@
-<div class="img-rounded border-left" id="top-posts" style="background-color: ghostwhite">
+<div class="img-rounded border-left" id="top-posts">
     {% if top_posts %}
         <h4>Top 5 posts:</h4>
         {% for post in top_posts %}
-                <h5>
-                    <a href="{{ path('show_post', {'slug': post.0.slug}) }}">
-                        {{ post.0.title }}
-                    </a>
-                </h5>
+               <div class="sidebar-top-post-container">
+                   <div>
+                       <a href="{{ path('show_post', {'slug': post.0.slug}) }}">
+                           {{ post.0.title }}
+                       </a>
+                   </div>
+
+                   {% if post.0.webPath is not null %}
+                       <img src="{{ post.0.webPath | imagine_filter('small_thumb') }}" alt="image" class="img-rounded">
+                   {% endif %}
+               </div>
         {% endfor %}
     {% endif %}
     <br>
 </div>
 
 {% if last_comments is not empty %}
-    <div id="last-comments" class="img-rounded" style="background-color: ghostwhite">
+    <div id="last-comments" class="img-rounded">
         <h4>Last comments:</h4>
         {% for comment in last_comments %}
             <h6>
@@ -27,7 +33,7 @@
     </div>
     <br>
 {% endif %}
-<div id="tag-cloud" class="img-rounded" style="background-color: ghostwhite">
+<div id="tag-cloud">
 
     {% for key,tag in tag_cloud %}
         <a href="{{ path('show_tag', {'slug': tag.slug}) }}">

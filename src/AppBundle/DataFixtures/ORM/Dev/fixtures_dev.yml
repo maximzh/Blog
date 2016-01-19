@@ -6,20 +6,20 @@ AppBundle\Entity\Author:
         createdAt: <dateTimeBetween('-2 years', 'now')>
 
 AppBundle\Entity\Tag:
-    tag{1..10}:
+    tag{1..30}:
         name (unique): <word()>
         slug: <($name)>
 
 AppBundle\Entity\Post:
     post{1..30}:
-        title: <text(30)>
+        title: <text(50)>
         slug: <createSlug($title)>
         text: <paragraphs(20, true)>
         createdAt: <dateTimeBetween('-2 years', 'now')>
         author: @author*
         path: <image()>
 
-        tags: 2x @tag*
+        tags: 10x @tag*
 
 
 AppBundle\Entity\Comment:

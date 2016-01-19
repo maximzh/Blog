@@ -11,7 +11,79 @@ body {margin: auto;}
 
 #single-post-container {width: 900px; background-color: white; padding: 50px}
 .comment-form {width: 500px}
-#tag-cloud {padding: 10px}
-#last-comments {padding: 10px; margin-top: 10px}
-#top-posts {padding: 10px}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    letter-spacing: -0.04em;
+    font-weight: 700;
+    font-style: normal;
+    color: #4A4A4A;
+}
+
+.read-more a {
+    display: inline-block;
+    padding: 5px 20px;
+    margin-top: 30px;
+    border: 1px solid;
+    border-radius: 15px;
+    border-color: whitesmoke;
+    background-color: lavender;
+    text-transform: uppercase;
+    font-weight: 400;
+    font-size: 14px;
+    letter-spacing: 1.7px;
+    -webkit-transition: all 0.2s ease-out;
+    -moz-transition: all 0.2s ease-out;
+    -o-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
+}
+
+.read-more a:hover {
+    background-color: #7a43b6;
+    color: whitesmoke;
+    text-decoration: none;
+}
+
+.post-title {
+    background-color: #131313;
+    padding: 5px;
+}
+
+.post-title a {
+    display: inline-block;
+    color: whitesmoke;
+}
+
+.post-title a:hover {
+    text-decoration: none;
+    color: lavender;
+}
+
+.sidebar-top-post-container {
+    background-color: whitesmoke;
+    margin: 5px;
+    padding: 10px;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+}
+
+#last-comments, #tag-cloud {
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    background-color: whitesmoke;
+}
+
+#tag-cloud a, .sidebar-top-post-container a {
+    color: #131313;
+}
+
+#tag-cloud a:hover {
+    text-decoration: none;
+}
 
