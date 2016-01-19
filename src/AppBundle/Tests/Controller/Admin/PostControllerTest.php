@@ -21,9 +21,17 @@ class PostControllerTest extends AbstractController
      */
     public function testIndex($expectedStatusCode, $path)
     {
-        //$client = static::createClient();
-        //$crawler = $client->request('GET', '/admin/post');
         $this->requestTest($expectedStatusCode, $path, 'GET');
+    }
+
+    public function testNew()
+    {
+        $this->requestTest(200, "/admin/post/new", 'GET');
+    }
+
+    public function testEdit()
+    {
+        $this->requestTest(200, "/admin/post/edit/post-one", 'GET');
     }
 
     public function indexProvider()
