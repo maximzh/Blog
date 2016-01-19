@@ -3,13 +3,13 @@
  * Created by PhpStorm.
  * User: fumus
  * Date: 19.01.16
- * Time: 11:21
+ * Time: 12:20
  */
 
 namespace AppBundle\Tests\Controller;
 
 
-class PostControllerTest extends AbstractController
+class TagControllerTest extends AbstractController
 {
     /**
      * @dataProvider showProvider
@@ -25,21 +25,13 @@ class PostControllerTest extends AbstractController
         $this->assertEquals(1, $crawler->filter('h1')->count());
     }
 
-    public function testSearch()
-    {
-        $client = static::createClient();
-        $crawler = $client->request('POST', "search text");
-        $this->assertEquals(1, $crawler->filter('h1')->count());
-
-    }
-
     public function showProvider()
     {
         return
             [
-                [200, "/post/post-one"],
-                [404, "/post/2"]
+                [200, "/tag/tagone"],
+                [200, "/tag/tagtwo"],
+                [404, "/tag/2"]
             ];
     }
-
 }

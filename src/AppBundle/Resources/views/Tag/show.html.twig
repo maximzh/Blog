@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block body %}
     <div class="center-block" style="width: 800px;border: 1px solid lavender;padding: 20px; margin-bottom: 100px">
-        <h2 style="padding-top: 60px; margin-top: 0px" class="text-danger">Posts with tag '{{ tag.name }}'</h2>
+        <h1 style="padding-top: 60px; margin-top: 0px" class="text-danger">Posts with tag '{{ tag.name }}'</h1>
         {% if tag.posts is empty %}
             <h2>
                 Sorry, there are no posts associated with tag <span class="text-danger">'{{ tag.name }}'</span>
