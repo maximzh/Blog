@@ -9,18 +9,16 @@
 namespace AppBundle\Model;
 
 
-use Doctrine\Common\Collections\ArrayCollection;
-
 class TagCloud
 {
     public function getCloud($tags)
     {
         $cloud = [];
         $weights = [];
-        $maxFont = 30;
+        $maxFont = 25;
 
-        foreach ( $tags as $tag) {
-            //$weight = count($tag->getPosts);
+        foreach ($tags as $tag) {
+
             $weights[] = $tag->countPosts();
         }
         sort($weights);
@@ -29,10 +27,7 @@ class TagCloud
 
         foreach ($tags as $tag) {
 
-            $font = $maxFont*($tag->countPosts()-$minWeight)/($maxWeight - $minWeight);
-            if ($font < 12) {
-                $font = 12;
-            }
+            $font = ($maxFont * ($tag->countPosts() - $minWeight) / ($maxWeight - $minWeight)) + 10;
             $cloud[$tag->getName()]['font'] = ceil($font);
             $cloud[$tag->getName()]['slug'] = $tag->getSlug();
         }

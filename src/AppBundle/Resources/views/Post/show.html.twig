@@ -29,7 +29,7 @@
                 {% if post.author.smallAvatar is not null %}
                     <img src="{{ post.author.smallAvatar }}">
                 {% endif %}
-                Author: {{ post.author.name }}
+                Author: <a href="{{ path('show_author_posts', {'slug': post.author.slug}) }}">{{ post.author.name }}</a>
 
             </div>
             <div class="comment-form">
