@@ -1,16 +1,58 @@
-body {margin: auto;}
-.blog-post-body-container {width: 800px}
-#homepage-sidebar {width: 260px; padding: 20px; padding-top: 75px;}
-.post-preview {width: 250px; padding: 20px}
-.homepage-body-container {padding-right: 5px; padding-top: 60px; margin-bottom: 120px;}
-.post-preview-container {margin-top: 50px; padding-left: 25px; background-color: #eafffc; margin-left: 20px}
-#header-menu {background-color: #131313; height: 60px; position: fixed; width: 100%}
-#header-menu ul li a {color: whitesmoke}
-#header-menu ul li a:hover {color:#131313 }
-.content-container {width: 1000px; background-color: white}
+body {
+    margin: auto;
+}
 
-#single-post-container {width: 900px; background-color: white; padding: 50px}
-.comment-form {width: 500px}
+.blog-post-body-container {
+    width: 800px
+}
+
+#homepage-sidebar {
+    width: 260px;
+    padding: 20px;
+    padding-top: 75px;
+}
+
+.post-preview {
+    width: 250px;
+    padding: 20px
+}
+
+.homepage-body-container {
+    padding-right: 5px;
+    padding-top: 60px;
+    margin-bottom: 120px;
+}
+
+.post-preview-container {
+    margin-top: 50px;
+    padding-left: 25px;
+    background-color: #eafffc;
+    margin-left: 20px
+}
+
+#header-menu
+{background-color: #131313;
+    height: 60px;
+    position: fixed;
+    width: 100%}
+
+#header-menu ul li a {
+    color: whitesmoke
+}
+
+#header-menu ul li a:hover {
+    color:#131313
+}
+
+.content-container {
+    width: 1000px; background-color: white
+}
+
+#single-post-container {
+    width: 900px;
+    background-color: white;
+    padding: 50px}
+
 
 h1,
 h2,
@@ -79,11 +121,67 @@ h6 {
     background-color: whitesmoke;
 }
 
+#last-comments a:hover {
+    color: #7a43b6;
+}
+
 #tag-cloud a, .sidebar-top-post-container a {
     color: #131313;
 }
 
-#tag-cloud a:hover {
-    text-decoration: none;
+.sidebar-top-post-container a:hover {
+    color: #7a43b6;
 }
 
+#tag-cloud a:hover {
+    text-decoration: none;
+    color: #7a43b6;
+}
+
+.show-post-container {
+    padding: 30px;
+    width: 800px
+}
+
+.post-tags {
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+}
+
+.post-tags a {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 5px;
+    border: 1px solid;
+    border-color: lavender;
+    border-radius: 15px;
+    text-decoration: none;
+    background-color: lavender;
+
+}
+
+.post-tags a:hover {
+    background-color: #7a43b6;
+    color: whitesmoke
+}
+
+.show-post-author-container {
+    border: 1px solid lavender;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.comment-form {
+    padding: 20px;
+    border: 1px solid;
+    border-color: lavender;
+    border-radius: 15px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: whitesmoke;
+}
+
+.show-post-posted-at {
+    padding: 20px;
+}
