@@ -1,33 +1,33 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div style="width: 800px; margin: auto; border: 1px solid lavender; padding: 20px; padding-top: 60px; margin-bottom: 100px;" >
-        <h1 class="text-success bg-info">
-            <span class="text-info">Search results for '<span class="text-primary">{{ search_text }}</span>' :</span>
+    <div class="search-results-container">
+        <h1>
+            <span>Search results for '<span class="text-primary">{{ search_text }}</span>' :</span>
         </h1>
         {% if posts is empty %}
             <h2>Nothing found...</h2>
         {% endif %}
-
         {% if posts is not empty %}
-
             {% for post in posts %}
-
-                <h3>{{ post.title }}</h3>
-                <div>
-                    {% if post.webPath is not null %}
-                        <img src="{{ post.webPath | imagine_filter('my_thumb') }}" alt="image">
-                    {% endif %}
-                    <br>
-                    {{ post.text|length > 600 ? post.text|slice(0, 600) ~ '...' :post.text }}<br>
-                    <a href="{{ path('show_post', {'slug': post.slug}) }}"><span class="text-primary">Read more...</span></a>
+                <div class="clearfix search-result">
+                    <div class="pull-left" style="width: 200px; padding-top: 30px;">
+                        {% if post.webPath is not null %}
+                            <img src="{{ post.webPath | imagine_filter('small_thumb') }}" alt="image">
+                        {% endif %}
+                    </div>
+                    <div class="pull-right" style="width: 500px">
+                        <h3>{{ post.title }}</h3>
+                        {{ post.text|length > 600 ? post.text|slice(0, 600) ~ '...' :post.text }}<br>
+                        <a href="{{ path('show_post', {'slug': post.slug}) }}">
+                            <span class="text-primary">
+                                Read more...
+                            </span>
+                        </a>
+                    </div>
                 </div>
             {% endfor %}
-
         {% endif %}
     </div>
-
-
-
 {% endblock %}
 
