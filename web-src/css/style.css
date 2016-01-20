@@ -34,7 +34,9 @@ body {
 {background-color: #131313;
     height: 60px;
     position: fixed;
-    width: 100%}
+    width: 100%;
+    z-index: 10000;
+}
 
 #header-menu ul li a {
     color: whitesmoke

@@ -2,17 +2,20 @@
     {% if top_posts %}
         <h4>Top 5 posts:</h4>
         {% for post in top_posts %}
-               <div class="sidebar-top-post-container">
-                   <div>
-                       <a href="{{ path('show_post', {'slug': post.0.slug}) }}">
-                           {{ post.0.title }}
-                       </a>
-                   </div>
+            <div class="sidebar-top-post-container">
+                <div class="rating text-danger">
+                    <i class="glyphicon glyphicon-star"></i> {{ post.0.rating|number_format(2, '.', ',') }}
+                </div>
+                <div>
+                    <a href="{{ path('show_post', {'slug': post.0.slug}) }}">
+                        {{ post.0.title }}
+                    </a>
+                </div>
 
-                   {% if post.0.webPath is not null %}
-                       <img src="{{ post.0.webPath | imagine_filter('small_thumb') }}" alt="image" class="img-rounded">
-                   {% endif %}
-               </div>
+                {% if post.0.webPath is not null %}
+                    <img src="{{ post.0.webPath | imagine_filter('small_thumb') }}" alt="image" class="img-rounded">
+                {% endif %}
+            </div>
         {% endfor %}
     {% endif %}
     <br>

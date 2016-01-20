@@ -2,10 +2,10 @@
 {% block body %}
     <div class="blog-post-body-container center-block" id="single-post-container"
          style="border: 1px solid lavender; padding-top: 50px;">
-        <h1 class="text-center">{{ post.title }}<br> <span
-                    class="text-info">(rating: {{ post.rating|number_format(2, '.', ',') }})</span></h1>
-        <div class="show-post-posted-at">Posted
-                    at: {{ post.createdAt|date('d M Y') }}
+        <h1 class="text-center">{{ post.title }}<br>
+            <span class="text-info"><i class="glyphicon glyphicon-star"></i> {{ post.rating|number_format(2, '.', ',') }}</span></h1>
+        <div class="show-post-posted-at text-primary">
+            <i class="glyphicon glyphicon-time"></i> {{ post.createdAt|date('d M Y') }}
         </div>
         <img src="{{ post.webPath | imagine_filter('default_thumb') }}" alt="image" class="center-block">
 
@@ -43,8 +43,8 @@
             </div>
             {% if comments is not empty %}
                 {% for comment in comments %}
-                    <h4 class="text-primary">{{ comment.commentAuthor }}:</h4>
-                    <p>({{ comment.createdAt|date('d M Y') }} at {{ comment.createdAt|date('H:m:s') }})</p>
+                    <h4 class="text-primary"><i class="glyphicon glyphicon-comment"></i> {{ comment.commentAuthor }}:</h4><i class="glyphicon glyphicon-star"></i>{{ comment.rating }}
+                    <p><i class="glyphicon glyphicon-time"></i> {{ comment.createdAt|date('d M Y') }} at {{ comment.createdAt|date('H:m:s') }}</p>
                     <p>
                         {{ comment.text }}
                     </p>
