@@ -13,13 +13,10 @@
             <img src="{{ post.author.smallAvatar }}" class="img-circle">
         {% endif %}
 
-        Author: {{ post.author.name }}
+        Author: <a href="{{ path('show_author_posts', {'slug': post.author.slug}) }}">{{ post.author.name }}</a>
         <span class="pull-right">
             Posted at: {{ post.createdAt|date('d M Y') }}
         </span>
-
-
-
             <div class="clearfix img-rounded" style="padding: 15px">
                 <div class="pull-left" style="padding-top: 25px">
                     {% if post.webPath is not null %}
@@ -28,9 +25,9 @@
                 </div>
                 <div class="pull-right post-preview">
 
-                    {{ post.text|length > 600 ? post.text|slice(0, 600) ~ '...' :post.text }}<br>
+                    {{ post.text|length > 360 ? post.text|slice(0, 360) ~ '...' :post.text }}<br>
 
-                    <div class="read-more"><a href="{{ path('show_post', { 'slug': post.slug }) }}">Read more...</a></div>
+                    <div class="read-more pull-right"><a href="{{ path('show_post', { 'slug': post.slug }) }}">Read more...</a></div>
                 </div>
             </div>
 

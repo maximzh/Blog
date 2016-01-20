@@ -21,7 +21,7 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $limit = 2;
+        $limit = 4;
         $currentPage = $request->query->getInt('page', 1);
 
         $repository = $this->getDoctrine()
