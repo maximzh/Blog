@@ -16,7 +16,7 @@
                 {% if post.tags is not empty %}
                     <div class="post-tags">
                         {% for tag in post.tags %}
-                            <a href="{{ path('show_tag', {'slug': tag.slug}) }}">{{ tag.name }}</a>
+                            <a href="{{ path('show_tag', {'slug': tag.slug}) }}">#{{ tag.name }}</a>
 
                         {% endfor %}
                     </div>
@@ -29,7 +29,7 @@
                 {% if post.author.smallAvatar is not null %}
                     <img src="{{ post.author.smallAvatar }}">
                 {% endif %}
-                Author: <a href="{{ path('show_author_posts', {'slug': post.author.slug}) }}">{{ post.author.name }}</a>
+                Author: <a href="{{ path('show_author_posts', {'slug': post.author.slug}) }}"><span class="author-name">{{ post.author.name }}</span></a>
 
             </div>
             <div class="comment-form">

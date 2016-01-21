@@ -14,7 +14,10 @@
         {% if post.author.smallAvatar is not null %}
             <img src="{{ post.author.smallAvatar }}" class="img-circle">
         {% endif %}
-        Author: <a href="{{ path('show_author_posts', {'slug': post.author.slug}) }}">{{ post.author.name }}</a>
+        Author:
+        <a href="{{ path('show_author_posts', {'slug': post.author.slug}) }}">
+            <span class="author-name">{{ post.author.name }}</span>
+        </a>
         <span class="pull-right">
             <i class="glyphicon glyphicon-time"></i> {{ post.createdAt|date('d M Y') }}
         </span>

@@ -14,7 +14,7 @@ AppBundle\Entity\Post:
     post{1..30}:
         title: <text(50)>
         slug: <createSlug($title)>
-        text: <paragraphs(20, true)>
+        text: <paragraphs(10, true)>
         createdAt: <dateTimeBetween('-2 years', 'now')>
         author: @author*
         path: <image()>
