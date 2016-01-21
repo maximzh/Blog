@@ -9,6 +9,7 @@
 namespace AppBundle\Controller;
 
 
+use AppBundle\Entity\Post;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -46,11 +47,14 @@ class PostController extends Controller
             ->getRepository('AppBundle:Comment')
             ->findCommentsByPost($slug);
 
+        $rating = $this->getPostRating($post);
+
 
 
         return [
             'post' => $post,
-            'comments' => $comments
+            'comments' => $comments,
+            'rating' => $rating
         ];
     }
 
@@ -74,5 +78,30 @@ class PostController extends Controller
             'posts' => $posts,
             'search_text' => $text
         ];
+    }
+
+    public function getPostRating(Post $post)
+    {
+        $comments = $post->getComments();
+        $rating = 0;
+        $countCommentsWithRating = 0;
+
+        if (count($comments) !== 0) {
+
+            foreach ($comments as $comment) {
+                if (null !== $comment->getRating()) {
+                    $countCommentsWithRating++;
+                    $rating = $rating + $comment->getRating();
+                }
+            }
+
+            if ($countCommentsWithRating !== 0) {
+                $rating = $rating / $countCommentsWithRating;
+            }
+
+        }
+
+
+        return $rating;
     }
 }

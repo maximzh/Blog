@@ -5,9 +5,12 @@
             <a href="{{ path('show_post', {'slug': post.slug}) }}">
                 {{ post.title }}
             </a>
+            {#
             <span class="pull-right" style="color: whitesmoke">
                 <i class="glyphicon glyphicon-star"></i> {{ post.rating|number_format(2, '.', ',') }}
             </span>
+            #}
+
 
         </h3>
 

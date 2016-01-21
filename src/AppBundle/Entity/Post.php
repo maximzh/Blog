@@ -507,7 +507,7 @@ class Post
     {
         return $this->path;
     }
-
+/*
     public function getRating()
     {
         $comments = $this->getComments();
@@ -532,18 +532,5 @@ class Post
 
         return $rating;
     }
-
-    /**
-     * Set path
-     *
-     * @param string $path
-     *
-     * @return Post
-     */
-    public function setPath($path)
-    {
-        $this->path = $path;
-
-        return $this;
-    }
+*/
 }
