@@ -1,31 +1,48 @@
 {% for post in posts %}
 
     <div class="blog-article">
-
-            <a href="{{ path('show_post', {'slug': post.slug}) }}" style="color: ghostwhite">
-                <h3 class="h3 text-left img-rounded" style="background-color: #131313; padding: 5px">{{ post.title }}</h3>
+        <h3 class="h3 text-left img-rounded post-title">
+            <a href="{{ path('show_post', {'slug': post.slug}) }}">
+                {{ post.title }}
             </a>
-            Posted at: {{ post.createdAt|date('d M Y') }}
-            <div class="clearfix img-rounded" style="padding: 15px">
-                <div class="pull-left">
-                    {% if post.webPath is not null %}
-                        <img src="{{ post.webPath | imagine_filter('my_thumb') }}" alt="image" class="img-rounded">
-                    {% endif %}
+            {#
+            <span class="pull-right" style="color: whitesmoke">
+                <i class="glyphicon glyphicon-star"></i> {{ post.rating|number_format(2, '.', ',') }}
+            </span>
+            #}
 
-                </div>
-                <div class="pull-right post-preview">
 
-                    {{ post.text|length > 600 ? post.text|slice(0, 600) ~ '...' :post.text }}<br>
-                    <a href="{{ path('show_post', {'slug': post.slug}) }}"><span class="text-primary">Read more...</span></a>
+        </h3>
+
+        {% if post.author.smallAvatar is not null %}
+            <img src="{{ post.author.smallAvatar }}" class="img-circle">
+        {% endif %}
+        Author:
+        <a href="{{ path('show_author_posts', {'slug': post.author.slug}) }}">
+            <span class="author-name">{{ post.author.name }}</span>
+        </a>
+        <span class="pull-right">
+            <i class="glyphicon glyphicon-time"></i> {{ post.createdAt|date('d M Y') }}
+        </span>
+
+        <div class="clearfix img-rounded" style="padding: 15px">
+            <div class="pull-left" style="padding-top: 25px">
+                {% if post.webPath is not null %}
+                    <img src="{{ post.webPath | imagine_filter('my_thumb') }}" alt="image" class="img-rounded">
+                {% endif %}
+            </div>
+            <div class="pull-right post-preview">
+
+                {{ post.text|nl2br |length > 360 ? post.text|slice(0, 360) ~ '...' :post.text }}<br>
+
+                <div class="read-more pull-right">
+                    <a href="{{ path('show_post', { 'slug': post.slug }) }}">
+                        Read more <i class="glyphicon glyphicon-arrow-right"></i>
+                    </a>
                 </div>
             </div>
-            <p class="text-info" style="background-color: ghostwhite">
-                {% if post.author.smallAvatar is not null %}
-                    <img src="{{ post.author.smallAvatar }}" class="img-circle">
-                {% endif %}
+        </div>
 
-                Author: {{ post.author.name }}
-            </p>
 
     </div>
 {% endfor %}

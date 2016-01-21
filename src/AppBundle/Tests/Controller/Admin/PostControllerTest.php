@@ -31,7 +31,7 @@ class PostControllerTest extends AbstractController
 
     public function testEdit()
     {
-        $this->requestTest(200, "/admin/post/edit/post-one", 'GET');
+        $this->requestTest(200, "/admin/post/edit/1", 'GET');
     }
 
     public function indexProvider()

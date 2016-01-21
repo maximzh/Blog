@@ -1,51 +1,57 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-<div class="blog-post-body-container center-block" id="single-post-container" style="border: 1px solid lavender; padding-top: 50px;">
-    <h1 class="text-center" style="background-color: ivory">{{ post.title }} <span class="text-info">(rating: {{ post.rating|number_format(2, '.', ',') }})</span></h1>
-    <img src="{{ post.webPath | imagine_filter('default_thumb') }}" alt="image" class="center-block">
-
-
-    <div style="padding: 10px; width: 800px" class="center-block">
-        <div>
-            {{ post.text }}
-            {% if post.tags is not empty %}
-                <p class="text-success">Tags:
-                    {% for tag in post.tags %}
-                        <a href="{{ path('show_tag', {'slug': tag.slug}) }}">{{ tag.name }}</a>
-
-                    {% endfor %}
-                </p>
-
-            {% endif %}
+    <div class="blog-post-body-container center-block" id="single-post-container"
+         style="border: 1px solid lavender; padding-top: 50px;">
+        <h1 class="text-center">{{ post.title }}<br>
+            <span style="color: #7a43b6"><i class="glyphicon glyphicon-star"></i> {{ rating|number_format(2, '.', ',') }}</span></h1>
+        <div class="show-post-posted-at text-primary">
+            <i class="glyphicon glyphicon-time"></i> {{ post.createdAt|date('d M Y') }}
         </div>
+        <img src="{{ post.webPath | imagine_filter('default_thumb') }}" alt="image" class="center-block img-rounded">
 
-        <div>
 
-            {% if post.author.smallAvatar is not null %}
-                <img src="{{ post.author.smallAvatar }}">
-            {% endif %}
-            Author: {{ post.author.name }} <p class="text-right text-success">Posted at: {{ post.createdAt|date('d M Y') }}</p>
+        <div class="center-block show-post-container">
+            <div>
+                {{ post.text|nl2br }}
+                {% if post.tags is not empty %}
+                    <div class="post-tags">
+                        {% for tag in post.tags %}
+                            <a href="{{ path('show_tag', {'slug': tag.slug}) }}">#{{ tag.name }}</a>
 
-        </div>
-        <div class="comments-container">
-            <h2 style="background-color: ghostwhite" class="text-center">
-                Leave your comment:
-            </h2>
-            <div class="comment-form">{{ render(controller('AppBundle:Comment:new', {'slug': post.slug})) }}
+                        {% endfor %}
+                    </div>
+
+                {% endif %}
             </div>
 
+            <div class="show-post-author-container">
+
+                {% if post.author.smallAvatar is not null %}
+                    <img src="{{ post.author.smallAvatar }}">
+                {% endif %}
+                Author:
+                <a href="{{ path('show_author_posts', {'slug': post.author.slug}) }}">
+                    <span class="author-name">{{ post.author.name }}
+                    </span>
+                </a>
+            </div>
+            <div class="comment-form">
+                <h2>
+                    Add comment:
+                </h2>
+                <div>
+                    {{ render(controller('AppBundle:Comment:new', {'slug': post.slug})) }}
+                </div>
+            </div>
             {% if comments is not empty %}
                 {% for comment in comments %}
-                    <h4 class="bg-warning">{{ comment.commentAuthor }}:</h4>
-                    <p>({{ comment.createdAt|date('d M Y') }} at {{ comment.createdAt|date('H:m:s') }})</p>
-                    <p class="comment">
-                        {{ comment.text }}
+                    <h4 class="text-primary"><i class="glyphicon glyphicon-comment"></i> {{ comment.commentAuthor }}:</h4><i class="glyphicon glyphicon-star"></i>{{ comment.rating }}
+                    <p><i class="glyphicon glyphicon-time"></i> {{ comment.createdAt|date('d M Y') }} at {{ comment.createdAt|date('H:m:s') }}</p>
+                    <p>
+                        {{ comment.text|nl2br  }}
                     </p>
                 {% endfor %}
             {% endif %}
         </div>
     </div>
-
-
-</div>
 {% endblock %}

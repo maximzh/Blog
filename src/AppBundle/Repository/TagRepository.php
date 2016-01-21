@@ -32,4 +32,13 @@ class TagRepository extends EntityRepository
             ->getOneOrNullResult();
 
     }
+
+    public function findAllSorted()
+    {
+        return $this->createQueryBuilder('t')
+            ->select('t')
+            ->orderBy('t.name')
+            ->getQuery()
+            ->getResult();
+    }
 }

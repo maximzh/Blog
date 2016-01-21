@@ -22,8 +22,10 @@ class PostRepository extends EntityRepository
     public function findAllPostsWithDependencies($currentPage, $limit)
     {
         $query = $this->createQueryBuilder('p')
-            ->select('p, a')
+            ->select('p, a, c, t')
             ->leftJoin('p.author', 'a')
+            ->leftJoin('p.comments', 'c')
+            ->leftJoin('p.tags', 't')
             ->orderBy('p.createdAt', 'DESC')
             ->getQuery()
             ->setFirstResult($limit * ($currentPage -1))
@@ -56,13 +58,14 @@ class PostRepository extends EntityRepository
     public function findTopPosts($number = 5)
     {
         return $this->createQueryBuilder('p')
-            ->select('p, c, a, avg(c.rating) as rating')
-            ->leftJoin('p.comments', 'c')
+            ->select('p, a, t, avg(c.rating) as rating')
+            ->join('p.comments', 'c')
             ->join('p.author', 'a')
-            ->groupBy('p, a')
+            ->join('p.tags', 't')
+            ->groupBy('p')
             ->orderBy('rating', 'DESC')
-            ->getQuery()
             ->setMaxResults($number)
+            ->getQuery()
             ->getResult();
     }
 

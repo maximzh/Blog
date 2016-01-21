@@ -10,21 +10,21 @@
 </head>
 <body>
 {% block header %}
-    <div id="admin-header-menu" style="height: 50px; background-color: lavender; position: fixed; top: 0px; width: 100%">
+    <div id="admin-header-menu" style="height: 50px; background-color: lightgrey; z-index: 10000; position: fixed; top: 0px; width: 100%">
         <nav class="header-menu">
 
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="{{ path('manage_posts') }}">Manage posts</a>
+                    <a href="{{ path('manage_posts') }}">Posts</a>
                 </li>
                 <li>
-                    <a href="{{ path('new_post') }}">Create new post</a>
+                    <a href="{{ path('manage_tags') }}">Tags</a>
                 </li>
                 <li>
-                    <a href="{{ path('new_tag') }}">Create new tag</a>
+                    <a href="{{ path('manage_comments') }}">Comments</a>
                 </li>
-                <li>
-                    <a href="{{ path('homepage') }}">Blog homepage</a>
+                <li class="pull-right">
+                    <a href="{{ path('homepage') }}">To blog</a>
                 </li>
             </ul>
         </nav>

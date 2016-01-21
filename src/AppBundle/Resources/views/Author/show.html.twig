@@ -1,14 +1,17 @@
 {% extends '::base.html.twig' %}
+
 {% block body %}
     <div class="search-results-container">
-        <h1>Posts with tag '{{ tag.name }}'</h1>
-        {% if tag.posts is empty %}
+        <h1>Posts by: <span class="text-primary">{{ author.name }}</span></h1>
+        {% if author.posts is empty %}
             <h2>
-                Sorry, there are no posts associated with tag <span class="text-danger">'{{ tag.name }}'</span>
+                Sorry, there are no posts written by <span class="text-primary">'{{ author.name }}'</span>
             </h2>
         {% endif %}
-        {% if tag.posts is not empty %}
-            {% for post in tag.posts %}
+
+        {% if author.posts is not empty %}
+
+            {% for post in author.posts %}
                 <div class="clearfix search-result">
                     <div class="pull-left" style="width: 200px; padding-top: 30px;">
                         {% if post.webPath is not null %}
@@ -18,7 +21,6 @@
                     <div class="pull-right" style="width: 500px">
                         <h3>{{ post.title }}</h3>
                         {{ post.text|length > 200 ? post.text|slice(0, 200) ~ '...' :post.text }}<br>
-
                         <div class="read-more pull-right">
                             <a href="{{ path('show_post', { 'slug': post.slug }) }}">
                                 Read more <i class="glyphicon glyphicon-arrow-right"></i>
@@ -27,9 +29,8 @@
                     </div>
                 </div>
             {% endfor %}
+
         {% endif %}
-
     </div>
-
 
 {% endblock %}
