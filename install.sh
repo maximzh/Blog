@@ -3,7 +3,7 @@ clear
 echo "Choose your action:"
 
 echo "1) install project"
-echo "2) drop and recreate database"
+echo "2) create database"
 echo "3) load fixtures"
 echo "4) run tests"
 echo "5) clear cache"
@@ -26,6 +26,7 @@ npm install
 app/console doctrine:database:drop --force
 app/console doctrine:database:create
 app/console doctrine:schema:update --force
+app/console hautelook_alice:doctrine:fixtures:load -n
 ;;
 
 3) echo "loading fixtures..."
