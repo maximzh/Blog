@@ -34,4 +34,15 @@ class CommentRepository extends EntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findAllSorted()
+    {
+        return $this->createQueryBuilder('c')
+            ->select('c, p')
+            ->join('c.post', 'p')
+            ->orderBy('c.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+
+    }
 }

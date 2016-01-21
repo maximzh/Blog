@@ -1,0 +1,15 @@
+{% extends '::admin_base.html.twig' %}
+
+{% block body %}
+    {{ parent() }}
+    <div class="center-block admin-form-container">
+        <h1>Edit comment</h1>
+        {{ form_start(edit_form) }}
+        {{ form_widget(edit_form) }}
+
+        <input type="submit" value="Update"
+               class="btn btn-default pull-left" />
+        {{ form_end(edit_form) }}
+    </div>
+
+{% endblock %}
