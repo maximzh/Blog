@@ -204,3 +204,13 @@ h6 {
     border-radius: 15px;
     background-color: whitesmoke
 }
+
+.admin-form-container {
+    width: 800px;
+    background-color: whitesmoke;
+    padding: 20px;
+    border: 2px solid lightgray;
+    border-radius: 10px;
+    margin-top: 80px;
+    margin-bottom: 80px;
+}

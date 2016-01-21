@@ -94,10 +94,7 @@ class PostController extends Controller
         $form = $this->createForm(
             PostType::class,
             $post,
-            array(
-                //'action' => $this->generateUrl('create_post'),
-                'method' => 'POST',
-            )
+            array('method' => 'POST',)
         );
 
         if ($request->getMethod() == 'POST') {
@@ -120,47 +117,30 @@ class PostController extends Controller
     }
 
     /**
-     * @param $slug
-     * @param Request $request
-     * @Route("/edit/{slug}", name="edit_post")
+     * @Route("/edit/{id}", name="edit_post")
+     * @Method({"GET", "POST"})
      * @Template()
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function editAction($slug, Request $request)
+    public function editAction(Post $post, Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
 
-        $post = $em->getRepository('AppBundle:Post')
-            ->findOneBy(['slug' => $slug]);
-
-        $form = $this->createForm(
-            PostType::class,
-            $post,
-            [
-                'em' => $em,
-                'action' => $this->generateUrl('edit_post', ['slug' => $slug]),
-                'method' => Request::METHOD_POST,
-            ]
-        );
-
-        if ($request->getMethod() == 'POST') {
-
-            $form->handleRequest($request);
-            if ($form->isValid()) {
-                $em->persist($post);
-                $em->flush();
-
-                return $this->redirectToRoute('manage_posts');
-            }
+        $editForm = $this->createForm(PostType::class, $post);
+        $editForm->handleRequest($request);
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($post);
+            $em->flush();
+            return $this->redirectToRoute('manage_posts');
         }
-
-        return ['form' => $form->createView()];
+        return [
+            'post' => $post,
+            'form' => $editForm->createView(),
+        ];
     }
 
     /**
      * @param Request $request
      * @Route("/remove/{id}", name="remove_post")
-     * @Template()
      * @Method("DELETE")
      * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      */
@@ -168,19 +148,6 @@ class PostController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $form = $this->createDeleteForm($post);
-
-        /*
-        $form = $this->createForm(
-            PostType::class,
-            $post,
-            [
-                'em' => $em,
-                'action' => $this->generateUrl('remove_post', ['slug' => $slug]),
-                'method' => Request::METHOD_DELETE,
-            ]
-        );
-        */
-
 
         if ($request->getMethod() == 'DELETE') {
 

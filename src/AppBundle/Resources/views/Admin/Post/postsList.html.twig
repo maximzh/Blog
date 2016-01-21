@@ -1,12 +1,25 @@
 
 {% for post in posts %}
     <tr class="posts">
+        <td class="bg-info">
+            {{ post.id }}
+        </td>
         <td>
             {{ post.title }}
-            <span class="text-danger">(Author: {{ post.author.name }})</span>
-            <span class="text-primary">created: {{ post.createdAt|date('d M Y') }}</span>
+
         </td>
-        <td><a href="{{ path('edit_post', {'slug': post.slug}) }}">Edit</a> </td>
+        <td>
+            <span class="text-danger">{{ post.author.name }}</span>
+        </td>
+        <td>
+            <span class="text-primary">{{ post.createdAt|date('d M Y') }}</span>
+        </td>
+        <td>
+            {% if post.updatedAt is not null %}
+                <span class="text-primary">{{ post.updatedAt|date('d M Y') }}</span>
+            {% endif %}
+        </td>
+        <td><a href="{{ path('edit_post', {'id': post.id}) }}"><i class="glyphicon glyphicon-pencil"></i></a> </td>
         <td>
             {{ form_start(deleteForms[post.id], {attr : {onsubmit: 'return confirm("Do you really want to delete?");' }}) }}
             {{ form_widget(deleteForms[post.id].submit) }}
