@@ -80,10 +80,10 @@ h6 {
     font-weight: 400;
     font-size: 14px;
     letter-spacing: 1.7px;
-    -webkit-transition: all 0.2s ease-out;
-    -moz-transition: all 0.2s ease-out;
-    -o-transition: all 0.2s ease-out;
-    transition: all 0.2s ease-out;
+    -webkit-transition: all 0.4s ease-out;
+    -moz-transition: all 0.4s ease-out;
+    -o-transition: all 0.4s ease-out;
+    transition: all 0.4s ease-out;
 }
 
 .read-more a:hover {
@@ -123,12 +123,20 @@ h6 {
     background-color: whitesmoke;
 }
 
-#last-comments a:hover {
-    color: #7a43b6;
-}
-
 #tag-cloud a, .sidebar-top-post-container a {
     color: #131313;
+}
+
+a {
+    -webkit-transition: all 0.4s ease-out;
+    -moz-transition: all 0.4s ease-out;
+    -o-transition: all 0.4s ease-out;
+    transition: all 0.4s ease-out;
+}
+
+a:hover {
+    color: #7a43b6;
+    text-decoration: none;
 }
 
 .sidebar-top-post-container a:hover {
@@ -153,13 +161,18 @@ h6 {
 
 .post-tags a {
     display: inline-block;
-    padding: 5px 10px;
+    padding: 2px 10px;
     margin: 5px;
     border: 1px solid;
     border-color: lavender;
     border-radius: 15px;
     text-decoration: none;
     background-color: lavender;
+    letter-spacing: 1.5px;
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
 
 }
 

@@ -18,11 +18,12 @@
                     <div class="pull-right" style="width: 500px">
                         <h3>{{ post.title }}</h3>
                         {{ post.text|length > 200 ? post.text|slice(0, 200) ~ '...' :post.text }}<br>
-                        <a href="{{ path('show_post', {'slug': post.slug}) }}">
-                            <span class="text-primary">
-                                Read more...
-                            </span>
-                        </a>
+
+                        <div class="read-more pull-right">
+                            <a href="{{ path('show_post', { 'slug': post.slug }) }}">
+                                Read more <i class="glyphicon glyphicon-arrow-right"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
             {% endfor %}

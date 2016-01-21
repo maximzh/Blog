@@ -8,13 +8,14 @@
                 </div>
                 <div>
                     <a href="{{ path('show_post', {'slug': post.0.slug}) }}">
-                        {{ post.0.title }}
+                        {{ post.0.title }}<br>
+                        {% if post.0.webPath is not null %}
+                            <img src="{{ post.0.webPath | imagine_filter('small_thumb') }}" alt="image" class="img-rounded">
+                        {% endif %}
                     </a>
                 </div>
 
-                {% if post.0.webPath is not null %}
-                    <img src="{{ post.0.webPath | imagine_filter('small_thumb') }}" alt="image" class="img-rounded">
-                {% endif %}
+
             </div>
         {% endfor %}
     {% endif %}
