@@ -5,14 +5,20 @@
             {{ post.id }}
         </td>
         <td>
+            {% if post.webPath is not null %}
+                <img src="{{ post.webPath | imagine_filter('small_thumb') }}" alt="image">
+            {% endif %}
+
+        </td>
+        <td>
             {{ post.title }}
 
         </td>
         <td>
-            <span class="text-danger">{{ post.author.name }}</span>
+            <span class="text-primary">{{ post.author.name }}</span>
         </td>
         <td>
-            <span class="text-primary">{{ post.createdAt|date('d M Y') }}</span>
+            <span class="text-primary">{{ post.createdAt|date('d M Y') }} at {{ post.createdAt|date('H:m') }}</span>
         </td>
         <td>
             {% if post.updatedAt is not null %}

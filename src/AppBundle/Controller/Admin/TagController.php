@@ -36,7 +36,7 @@ class TagController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $tags = $em->getRepository('AppBundle:Tag')
-            ->findAll();
+            ->findAllSorted();
 
         $pager = $this->get('knp_paginator');
         $pagination = $pager->paginate($tags, $request->query->getInt('page', 1), 30);

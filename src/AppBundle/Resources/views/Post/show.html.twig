@@ -7,7 +7,7 @@
         <div class="show-post-posted-at text-primary">
             <i class="glyphicon glyphicon-time"></i> {{ post.createdAt|date('d M Y') }}
         </div>
-        <img src="{{ post.webPath | imagine_filter('default_thumb') }}" alt="image" class="center-block">
+        <img src="{{ post.webPath | imagine_filter('default_thumb') }}" alt="image" class="center-block img-rounded">
 
 
         <div class="center-block show-post-container">
