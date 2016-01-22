@@ -11,6 +11,7 @@ namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -24,7 +25,18 @@ class CommentType extends AbstractType
         $builder
             ->add('commentAuthor', TextType::class, array('label' => 'Name'))
             ->add('text', TextAreatype::class, array('label' => 'Comment'))
-            ->add('rating', ChoiceType::class, array(
+            ->add('rating', NumberType::class, [
+                'attr' => [
+                    'class' => 'rating',
+                    'data-min' => 0,
+                    'data-max' => 5,
+                    'data-step' => 1,
+                    'data-show-clear' => 'false',
+                    'data-size' => 'xs',
+                    //'data-glyphicon' => false,
+                ]
+            ])
+            /*->add('rating', ChoiceType::class, array(
                 'choices' => array(
                     '1' => 1,
                     '2' => 2,
@@ -40,7 +52,7 @@ class CommentType extends AbstractType
                 'label_attr' => [
                     'class' => 'radio-inline'
                     ]
-            ))
+            ))*/
         ;
 
     }
