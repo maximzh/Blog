@@ -8,6 +8,7 @@
 
 namespace AppBundle\Form;
 
+
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -30,7 +31,10 @@ class PostType extends AbstractType
         $builder
             ->add('title', TextType::class)
             ->add('text', TextareaType::class, array(
-                'attr' => array('rows' => 20),
+                'attr' => array(
+                    'rows' => 20,
+                    'class' => 'tinymce'
+                ),
                 'label' => 'Content',
             ))
             ->add('file', FileType::class,[

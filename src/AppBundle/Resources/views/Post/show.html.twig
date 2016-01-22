@@ -17,7 +17,7 @@
 
         <div class="center-block show-post-container">
             <div>
-                {{ post.text|nl2br }}
+                {{ post.text|raw|nl2br }}
                 {% if post.tags is not empty %}
                     <div class="post-tags">
                         {% for tag in post.tags %}
