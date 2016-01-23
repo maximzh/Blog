@@ -1,8 +1,12 @@
 {% extends '::admin_base.html.twig' %}
 
 {% block body %}
-<div class="admin-form-container center-block">
+<div class="admin-form-container center-block"}>
     <h1>Create a new post</h1>
+        {{ tinymce_init({
+                theme: {'simple':{'height': 500, plugins: ['link code'],}},
+                toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent"})
+        }}
     {{ form_start(form) }}
     {{ form_widget(form) }}
 
@@ -11,4 +15,7 @@
     {{ form_end(form) }}
 </div>
 
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
 {% endblock %}

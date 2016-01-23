@@ -31,10 +31,12 @@
                     <img src="{{ post.webPath | imagine_filter('my_thumb') }}" alt="image" class="img-rounded">
                 {% endif %}
             </div>
-            <div class="pull-right post-preview">
+            <div class="pull-left post-preview">
 
-                {{ post.text|nl2br |length > 360 ? post.text|slice(0, 360) ~ '...' :post.text }}<br>
-
+                <div style="height: 244px; overflow: hidden">
+                    {{ post.text|raw|nl2br }}
+                </div>
+                <span>...</span>
                 <div class="read-more pull-right">
                     <a href="{{ path('show_post', { 'slug': post.slug }) }}">
                         Read more <i class="glyphicon glyphicon-arrow-right"></i>

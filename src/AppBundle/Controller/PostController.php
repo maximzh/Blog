@@ -89,7 +89,7 @@ class PostController extends Controller
         if (count($comments) !== 0) {
 
             foreach ($comments as $comment) {
-                if (null !== $comment->getRating()) {
+                if (0 !== $comment->getRating()) {
                     $countCommentsWithRating++;
                     $rating = $rating + $comment->getRating();
                 }
