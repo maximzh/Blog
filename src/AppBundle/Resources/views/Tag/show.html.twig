@@ -16,7 +16,12 @@
                         {% endif %}
                     </div>
                     <div class="pull-right" style="width: 500px">
-                        <h3>{{ post.title }}</h3>
+                        <h3>
+                            {{ post.title }}
+                            <div class="rating-container rating-gly-star" data-content="">
+                                <div class="rating-stars" style="width: {{ postRating(post) * 20 }}%" data-content=""></div>
+                            </div>
+                        </h3>
                         {{ post.text|length > 200 ? post.text|slice(0, 200) ~ '...' :post.text }}<br>
 
                         <div class="read-more pull-right">

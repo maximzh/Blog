@@ -11,7 +11,11 @@
 
                 <div>
                     <a href="{{ path('show_post', {'slug': post.0.slug}) }}">
-                        <span style="font-weight: bold">{{ post.0.title }}</span><br>
+                        <span style="font-weight: bold">{{ post.0.title }}</span>
+                        <div class="rating-container rating-gly-star" data-content="">
+                            <div class="rating-stars" style="width: {{ postRating(post.0) * 20 }}%" data-content=""></div>
+                        </div>
+                        <br>
                         {% if post.0.webPath is not null %}
                             <img src="{{ post.0.webPath | imagine_filter('small_thumb') }}" alt="image" class="img-rounded">
                         {% endif %}

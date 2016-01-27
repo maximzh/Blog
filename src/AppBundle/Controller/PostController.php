@@ -25,7 +25,6 @@ class PostController extends Controller
 {
 
 
-
     /**
      * @param $slug
      * @return array
@@ -47,14 +46,10 @@ class PostController extends Controller
             ->getRepository('AppBundle:Comment')
             ->findCommentsByPost($slug);
 
-        $rating = $this->getPostRating($post);
-
-
 
         return [
             'post' => $post,
             'comments' => $comments,
-            'rating' => $rating
         ];
     }
 
@@ -76,32 +71,8 @@ class PostController extends Controller
 
         return [
             'posts' => $posts,
-            'search_text' => $text
+            'search_text' => $text,
         ];
     }
 
-    public function getPostRating(Post $post)
-    {
-        $comments = $post->getComments();
-        $rating = 0;
-        $countCommentsWithRating = 0;
-
-        if (count($comments) !== 0) {
-
-            foreach ($comments as $comment) {
-                if (0 !== $comment->getRating()) {
-                    $countCommentsWithRating++;
-                    $rating = $rating + $comment->getRating();
-                }
-            }
-
-            if ($countCommentsWithRating !== 0) {
-                $rating = $rating / $countCommentsWithRating;
-            }
-
-        }
-
-
-        return $rating;
-    }
 }
