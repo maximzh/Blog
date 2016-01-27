@@ -55,9 +55,6 @@ class DefaultController extends Controller
             ->getRepository('AppBundle:Tag')
             ->findAllTagsWithDependencies();
 
-        //$cloud = new TagCloud();
-        $tagCloud = $this->getTagCloud($tags);
-
         $topPosts = $this->getDoctrine()
             ->getRepository('AppBundle:Post')
             ->findTopPosts();
@@ -65,7 +62,6 @@ class DefaultController extends Controller
         return [
             'posts' => $posts,
             'last_comments' => $lastComments,
-            'tag_cloud' => $tagCloud,
             'tags' => $tags,
             'top_posts' => $topPosts,
             'nextPageUrl' => $nextPageUrl,
@@ -75,28 +71,5 @@ class DefaultController extends Controller
 
     }
 
-    public function getTagCloud($tags)
-    {
-        $cloud = [];
-        $weights = [];
-        $maxFont = 25;
 
-        foreach ($tags as $tag) {
-
-            $weights[] = $tag->countPosts();
-        }
-        sort($weights);
-        $minWeight = $weights[0];
-        $maxWeight = end($weights);
-
-        foreach ($tags as $tag) {
-
-            $font = ($maxFont * ($tag->countPosts() - $minWeight) / ($maxWeight - $minWeight)) + 10;
-            $cloud[$tag->getName()]['font'] = ceil($font);
-            $cloud[$tag->getName()]['slug'] = $tag->getSlug();
-        }
-
-        return $cloud;
-
-    }
 }

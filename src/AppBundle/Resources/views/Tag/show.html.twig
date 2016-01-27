@@ -22,7 +22,7 @@
                                 <div class="rating-stars" style="width: {{ postRating(post) * 20 }}%" data-content=""></div>
                             </div>
                         </h3>
-                        {{ post.text|length > 200 ? post.text|slice(0, 200) ~ '...' :post.text }}<br>
+                        {{ post.text|slice(0, 200)|raw }}...<br>
 
                         <div class="read-more pull-right">
                             <a href="{{ path('show_post', { 'slug': post.slug }) }}">

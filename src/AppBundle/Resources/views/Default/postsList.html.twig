@@ -5,6 +5,7 @@
             <a href="{{ path('show_post', {'slug': post.slug}) }}">
                 {{ post.title }}
             </a>
+
             <div class="rating-container rating-gly-star" data-content="">
                 <div class="rating-stars" style="width: {{ postRating(post) * 20 }}%" data-content=""></div>
             </div>

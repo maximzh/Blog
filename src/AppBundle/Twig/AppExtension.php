@@ -10,6 +10,7 @@ namespace AppBundle\Twig;
 
 
 use AppBundle\Entity\Post;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class AppExtension extends \Twig_Extension
 {
@@ -23,6 +24,13 @@ class AppExtension extends \Twig_Extension
                 array(
                     'needs_environment' => true,
                     'is_safe' => array('html'))
+            ),
+            new \Twig_SimpleFunction('tagCloud',
+                array($this, 'getTagCloud'),
+                array(
+                    'needs_environment' => true,
+                    'is_safe' => array('html')
+                    )
             )
         );
     }
@@ -50,6 +58,46 @@ class AppExtension extends \Twig_Extension
 
 
         return $rating;
+    }
+
+    public function getTagCloud(\Twig_Environment $twig, $tags)
+    {
+
+        $cloud = [];
+        $weights = [];
+        $maxFont = 25;
+
+        foreach ($tags as $tag) {
+
+            $weights[] = $tag->countPosts();
+        }
+        sort($weights);
+        $minWeight = $weights[0];
+        $maxWeight = end($weights);
+
+        foreach ($tags as $tag) {
+
+            $color = '#131313';
+            $font = ($maxFont * ($tag->countPosts() - $minWeight) / ($maxWeight - $minWeight)) + 10;
+            $cloud[$tag->getName()]['font'] = ceil($font);
+            $cloud[$tag->getName()]['slug'] = $tag->getSlug();
+
+            if ($cloud[$tag->getName()]['font'] > 15 && $cloud[$tag->getName()]['font'] <= 20) {
+                $color = '#0639A4';
+            }
+
+            if ($cloud[$tag->getName()]['font'] > 20 && $cloud[$tag->getName()]['font'] <= 30) {
+                $color = '#79B694';
+            }
+
+            if ($cloud[$tag->getName()]['font'] > 30) {
+                $color = '#D02629';
+            }
+            $cloud[$tag->getName()]['color'] = $color;
+
+        }
+
+        return $cloud;
     }
 
     public function getName()
