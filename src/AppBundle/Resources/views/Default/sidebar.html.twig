@@ -44,7 +44,7 @@
 <div id="tag-cloud">
 
     {% for key,tag in tagCloud(allTags()) %}
-        <a href="{{ path('show_tag', {'slug': tag.slug}) }}">
+        <a class="tagcloud-a" href="{{ path('show_tag', {'slug': tag.slug}) }}">
             <span style="font-size: {{ tag.font }}px; color: {{ tag.color }}">  {{ key }}</span>
         </a>
 

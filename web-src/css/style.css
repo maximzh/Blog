@@ -134,6 +134,10 @@ a:hover {
     text-decoration: none;
 }
 
+.tagcloud-a :hover {
+    color: #7a43b6 !important;
+}
+
 .sidebar-top-post-container a:hover {
     color: #7a43b6;
 }
