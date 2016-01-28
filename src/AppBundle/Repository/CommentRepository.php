@@ -17,6 +17,8 @@ class CommentRepository extends EntityRepository
         return $this->createQueryBuilder('c')
             ->select('c, p')
             ->join('c.post', 'p')
+            //->join('p.author', 'a')
+            //->leftJoin('p.tags', 't')
             ->orderBy('c.createdAt', 'DESC')
             ->getQuery()
             ->setMaxResults($number)

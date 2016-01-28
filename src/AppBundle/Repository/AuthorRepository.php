@@ -15,9 +15,10 @@ class AuthorRepository extends EntityRepository
     public function findAuthorWithDependencies($slug)
     {
         return $this->createQueryBuilder('a')
-            ->select('a, p, t')
+            ->select('a, p, t, c')
             ->join('a.posts', 'p')
             ->join('p.tags', 't')
+            ->leftJoin('p.comments', 'c')
             ->where('a.slug = :slug')
             ->setParameter('slug', $slug)
             ->orderBy('p.createdAt', 'DESC')

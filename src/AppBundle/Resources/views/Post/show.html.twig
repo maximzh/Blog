@@ -6,7 +6,7 @@
 
             <div class="rating-container rating-gly-star" data-content="">
                 <div class="rating-stars" style="width: {{ postRating(post) * 20 }}%" data-content=""></div>
-            </div>
+            </div>({{ postRating(post)|number_format(2) }})
 
         </h1>
         <div class="show-post-posted-at text-primary">

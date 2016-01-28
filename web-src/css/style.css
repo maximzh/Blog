@@ -7,7 +7,7 @@ body {
 }
 
 #homepage-sidebar {
-    width: 260px;
+    width: 360px;
     padding: 20px;
     padding-top: 75px;
 }
@@ -47,7 +47,7 @@ body {
 }
 
 .content-container {
-    width: 1000px; background-color: white
+    width: 1100px; background-color: white
 }
 
 #single-post-container {

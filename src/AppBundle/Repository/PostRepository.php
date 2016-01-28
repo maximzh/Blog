@@ -46,9 +46,10 @@ class PostRepository extends EntityRepository
     public function findPostBySlug($slug)
     {
         return $this->createQueryBuilder('p')
-            ->select('p, a, c')
+            ->select('p, a, c, t')
             ->leftJoin('p.comments', 'c')
             ->leftJoin('p.author', 'a')
+            ->leftJoin('p.tags', 't')
             ->where('p.slug = :slug')
             ->setParameter('slug', $slug)
             ->getQuery()
@@ -72,8 +73,9 @@ class PostRepository extends EntityRepository
     public function searchPosts($text)
     {
         return $this->createQueryBuilder('p')
-            ->select('p, t')
+            ->select('p, t, c')
             ->leftJoin('p.tags', 't')
+            ->leftJoin('p.comments', 'c')
             ->where('p.title LIKE :text' )
             ->orWhere('t.name = :name')
             ->setParameter('text', '%'.$text.'%')
