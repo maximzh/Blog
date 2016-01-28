@@ -46,24 +46,8 @@ class DefaultController extends Controller
             return new Response($content);
         }
 
-
-        $lastComments = $this->getDoctrine()
-            ->getRepository('AppBundle:Comment')
-            ->findLastComments();
-
-        $tags = $this->getDoctrine()
-            ->getRepository('AppBundle:Tag')
-            ->findAllTagsWithDependencies();
-
-        $topPosts = $this->getDoctrine()
-            ->getRepository('AppBundle:Post')
-            ->findTopPosts();
-
         return [
             'posts' => $posts,
-            'last_comments' => $lastComments,
-            'tags' => $tags,
-            'top_posts' => $topPosts,
             'nextPageUrl' => $nextPageUrl,
             'nextPage' => $nextPage,
 

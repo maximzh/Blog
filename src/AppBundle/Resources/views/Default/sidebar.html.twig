@@ -1,7 +1,7 @@
 <div class="img-rounded border-left" id="top-posts">
-    {% if top_posts %}
+    {% if topPosts() %}
         <h4>Top 5 posts:</h4>
-        {% for post in top_posts %}
+        {% for post in topPosts() %}
             <div class="sidebar-top-post-container">
                 <div>
                     <a href="{{ path('show_post', {'slug': post.0.slug}) }}">
@@ -26,10 +26,10 @@
     <br>
 </div>
 
-{% if last_comments is not empty %}
+{% if lastComments() is not empty %}
     <div id="last-comments" class="img-rounded">
         <h4>Last comments:</h4>
-        {% for comment in last_comments %}
+        {% for comment in lastComments() %}
             <h6>
                 {{ comment.commentAuthor }} ({{ comment.createdAt|date('d-m-Y') }})
             </h6>
@@ -43,9 +43,9 @@
 {% endif %}
 <div id="tag-cloud">
 
-    {% for key,tag in tagCloud(tags) %}
+    {% for key,tag in tagCloud(allTags()) %}
         <a href="{{ path('show_tag', {'slug': tag.slug}) }}">
-            <span style="font-size: {{ tag.font }}px; color: {{ tag.color }}">{{ key }}</span>
+            <span style="font-size: {{ tag.font }}px; color: {{ tag.color }}">  {{ key }}</span>
         </a>
 
     {% endfor %}
