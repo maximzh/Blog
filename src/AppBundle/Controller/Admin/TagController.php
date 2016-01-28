@@ -78,7 +78,7 @@ class TagController extends Controller
                 $em->persist($tag);
                 $em->flush();
 
-                return $this->redirectToRoute('admin_default');
+                return $this->redirectToRoute('manage_tags');
             }
         }
 
