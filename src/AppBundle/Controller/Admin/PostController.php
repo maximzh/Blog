@@ -34,7 +34,10 @@ class PostController extends Controller
     public function indexAction(Request $request)
     {
 
-        $limit = 25;
+        $paginationManager = $this->container->get('app.pagination_manager');
+        $pagination = $paginationManager->setLimit(10)->getPostsWithDeleteForms($request);
+/*
+        $limit = 15;
         $currentPage = $request->query->getInt('page', 1);
 
         $repository = $this->getDoctrine()
@@ -56,14 +59,19 @@ class PostController extends Controller
         $nextPageUrl = $nextPage
             ? $nextPageUrl = $this->generateUrl('manage_posts', ['page' => $nextPage])
             : false;
+*/
         if ($request->isXmlHttpRequest()) {
             $content = $this->renderView(
                 'AppBundle:Admin/Post:postsList.html.twig',
                 [
-                    'posts' => $posts,
-                    'nextPageUrl' => $nextPageUrl,
-                    'nextPage' => $nextPage,
-                    'deleteForms' => $deleteForms,
+                    'posts' => $pagination['posts'],
+                    'nextPageUrl' => $pagination['nextPageUrl'],
+                    'nextPage' => $pagination['nextPage'],
+                    'deleteForms' => $pagination['deleteForms'],
+                    //'posts' => $posts,
+                    //'nextPage' =>$nextPage,
+                    //'nextPageUrl' => $nextPageUrl,
+                    //'deleteForms' => $deleteForms,
                 ]
             );
 
@@ -72,10 +80,14 @@ class PostController extends Controller
 
 
         return [
-            'posts' => $posts,
-            'nextPageUrl' => $nextPageUrl,
-            'nextPage' => $nextPage,
-            'deleteForms' => $deleteForms,
+            'posts' => $pagination['posts'],
+            'nextPageUrl' => $pagination['nextPageUrl'],
+            'nextPage' => $pagination['nextPage'],
+            'deleteForms' => $pagination['deleteForms'],
+            //'posts' => $posts,
+            //'nextPage' =>$nextPage,
+            //'nextPageUrl' => $nextPageUrl,
+            //'deleteForms' => $deleteForms,
 
         ];
     }
@@ -147,7 +159,7 @@ class PostController extends Controller
     public function removeAction(Request $request, Post $post)
     {
         $em = $this->getDoctrine()->getManager();
-        $form = $this->createDeleteForm($post);
+        $form = $this->get('app.pagination_manager')->createDeleteForm($post);
 
         if ($request->getMethod() == 'DELETE') {
 
@@ -170,6 +182,7 @@ class PostController extends Controller
      * @param Post $post
      * @return \Symfony\Component\Form\Form
      */
+
     private function createDeleteForm(Post $post)
     {
         return $this->createFormBuilder()
@@ -182,4 +195,5 @@ class PostController extends Controller
             )
             ->getForm();
     }
+
 }

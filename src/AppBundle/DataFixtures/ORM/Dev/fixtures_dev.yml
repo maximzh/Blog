@@ -11,7 +11,7 @@ AppBundle\Entity\Tag:
         slug: <($name)>
 
 AppBundle\Entity\Post:
-    post{1..30}:
+    post{1..60}:
         title: <text(30)>
         slug: <createSlug($title)>
         text: <paragraphs(10, true)>

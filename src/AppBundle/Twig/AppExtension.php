@@ -109,7 +109,7 @@ class AppExtension extends \Twig_Extension
 
         foreach ($tags as $tag) {
 
-            $color = '#0088CC';
+            $color = '#FF6600';
             $font = ($maxFont * ($tag->countPosts() - $minWeight) / ($maxWeight - $minWeight)) + 14;
             $cloud[$tag->getName()]['font'] = ceil($font);
             $cloud[$tag->getName()]['slug'] = $tag->getSlug();
@@ -118,11 +118,11 @@ class AppExtension extends \Twig_Extension
                 $color = '#0639A4';
             }
 
-            if ($cloud[$tag->getName()]['font'] > 20 && $cloud[$tag->getName()]['font'] <= 30) {
+            if ($cloud[$tag->getName()]['font'] > 20 && $cloud[$tag->getName()]['font'] <= 33) {
                 $color = '#53ACED';
             }
 
-            if ($cloud[$tag->getName()]['font'] > 30) {
+            if ($cloud[$tag->getName()]['font'] > 33) {
                 $color = '#7ABA20';
             }
             $cloud[$tag->getName()]['color'] = $color;

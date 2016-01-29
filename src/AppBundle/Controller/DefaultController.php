@@ -20,36 +20,22 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $limit = 4;
-        $currentPage = $request->query->getInt('page', 1);
+        $paginationManager = $this->container->get('app.pagination_manager');
+        $pagination = $paginationManager->setLimit(5)->getPosts($request);
 
-        $repository = $this->getDoctrine()
-            ->getRepository('AppBundle:Post');
-
-        $count = $repository->countAllPosts();
-
-        $nextPage = $count > $limit * $currentPage
-            ? $currentPage + 1
-            : false;
-
-        $posts = $repository->findAllPostsWithDependencies($currentPage, $limit);
-
-        $nextPageUrl = $nextPage
-            ? $nextPageUrl = $this->generateUrl('homepage', ['page' => $nextPage])
-            : false;
         if ($request->isXmlHttpRequest()) {
             $content = $this->renderView(
                 'AppBundle:Default:postsList.html.twig',
-                ['posts' => $posts, 'nextPageUrl' => $nextPageUrl, 'nextPage' => $nextPage]
+                ['posts' => $pagination['posts'], 'nextPageUrl' => $pagination['nextPageUrl'], 'nextPage' => $pagination['nextPage']]
             );
 
             return new Response($content);
         }
 
         return [
-            'posts' => $posts,
-            'nextPageUrl' => $nextPageUrl,
-            'nextPage' => $nextPage,
+            'posts' => $pagination['posts'],
+            'nextPageUrl' => $pagination['nextPageUrl'],
+            'nextPage' => $pagination['nextPage'],
 
         ];
 

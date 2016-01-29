@@ -142,7 +142,7 @@ a:hover {
 
 .sidebar-block-header {
     padding: 15px;
-    background-color:#7a43b6 ;
+    background-color:#FF6600 ;
     color: whitesmoke;
     font-size: 26px;
     border-radius: 10px;
@@ -263,4 +263,8 @@ a.back-to-top {
 }
 a:hover.back-to-top {
     background-color: #7a43b6;
+}
+
+.admin-base-body {
+    width: 80%;
 }
