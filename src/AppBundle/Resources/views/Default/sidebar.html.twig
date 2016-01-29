@@ -1,6 +1,6 @@
 <div class="img-rounded border-left" id="top-posts">
     {% if topPosts() %}
-        <h4>Top 5 posts:</h4>
+        <h4 class="sidebar-block-header text-center"><i class="glyphicon glyphicon-thumbs-up"></i> Top 5 </h4>
         {% for post in topPosts() %}
             <div class="sidebar-top-post-container">
                 <div>
@@ -19,6 +19,7 @@
                                  class="img-rounded">
                         {% endif %}
                     </a>
+                    <div class="pull-right" style="width: 150px; padding: 5px; background-color: white">{{ post.0.text|slice(0, 70)|raw }}...</div>
                 </div>
             </div>
         {% endfor %}
@@ -27,8 +28,8 @@
 </div>
 
 {% if lastComments() is not empty %}
+    <h4 class="sidebar-block-header text-center"><i class="glyphicon glyphicon-comment"></i> Last comments</h4>
     <div id="last-comments" class="img-rounded">
-        <h4>Last comments:</h4>
         {% for comment in lastComments() %}
             <h6>
                 {{ comment.commentAuthor }} ({{ comment.createdAt|date('d-m-Y') }})

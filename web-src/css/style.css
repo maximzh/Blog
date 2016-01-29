@@ -106,14 +106,12 @@ h6 {
     background-color: whitesmoke;
     margin: 5px;
     padding: 10px;
-    border: 1px solid lightgray;
     border-radius: 10px;
 }
 
 #last-comments, #tag-cloud {
     padding: 10px;
     margin-top: 10px;
-    border: 1px solid lightgray;
     border-radius: 10px;
     background-color: whitesmoke;
 }
@@ -140,6 +138,15 @@ a:hover {
 
 .sidebar-top-post-container a:hover {
     color: #7a43b6;
+}
+
+.sidebar-block-header {
+    padding: 15px;
+    background-color:#7a43b6 ;
+    color: whitesmoke;
+    font-size: 26px;
+    border-radius: 10px;
+    height: 60px;
 }
 
 #tag-cloud a:hover {
