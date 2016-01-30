@@ -1,0 +1,28 @@
+{% extends '::base.html.twig' %}
+{% block body %}
+{{ parent() }}
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+    <script type="text/javascript">
+        function loadRows() {
+            var url = $('.pagination span a').attr('href');
+            $.get(url, function (data) {
+                var content = $(data),
+                        articlesList = content.closest('.blog-article'),
+                        nextLink = content.find('.next-page');
+                $('.body-container').append(articlesList);
+                if (nextLink.length) {
+                    $('.pagination').html(nextLink);
+                } else {
+                    $('.pagination').remove();
+                }
+            });
+        }
+        $(window).scroll(function () {
+            if ($(window).scrollTop() == $(document).height() - $(window).height() && $('.pagination span a').length) {
+                loadRows();
+            }
+        });
+    </script>
+{% endblock %}

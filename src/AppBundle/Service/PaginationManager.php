@@ -113,6 +113,54 @@ class PaginationManager
         return $authorWithPosts;
     }
 
+    public function getPostsByAuthor(Request $request, $slug)
+    {
+        $currentPage = $request->query->getInt('page', 1);
+        $repository = $this->doctrine->getManager()->getRepository('AppBundle:Post');
+        $count = $repository->countAllAuthorPosts($slug);
+
+        $nextPage = $count > $this->limit * $currentPage
+            ? $currentPage + 1
+            : false;
+
+        $posts = $repository->findAllPostsWithDependencies($currentPage, $this->limit);
+
+        $nextPageUrl = $nextPage
+            ? $nextPageUrl = $this->router->generate('show_author_posts', ['slug' => $slug, 'page' => $nextPage])
+            : false;
+
+        $pagination['posts'] = $posts;
+        $pagination['nextPageUrl'] = $nextPageUrl;
+        $pagination['nextPage'] = $nextPage;
+
+        return $pagination;
+    }
+
+    public function getPostsByTag(Request $request, $slug)
+    {
+        $currentPage = $request->query->getInt('page', 1);
+        $repository = $this->doctrine->getManager()->getRepository('AppBundle:Post');
+        $tag = $this->doctrine->getManager()->getRepository('AppBundle:Tag')->findTagWithPosts($slug);
+        $count = count($tag->getPosts());
+
+        $nextPage = $count > $this->limit * $currentPage
+            ? $currentPage + 1
+            : false;
+
+        $posts = $repository->findPostsByTag($slug, $currentPage, $this->limit);
+
+        $nextPageUrl = $nextPage
+            ? $nextPageUrl = $this->router->generate('show_tag', ['slug' => $slug, 'page' => $nextPage])
+            : false;
+
+        $pagination['posts'] = $posts;
+        $pagination['nextPageUrl'] = $nextPageUrl;
+        $pagination['nextPage'] = $nextPage;
+        $pagination['count'] = $count;
+
+        return $pagination;
+    }
+
     public function setLimit($limit)
     {
         $this->limit = $limit;

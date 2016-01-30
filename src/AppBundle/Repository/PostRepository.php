@@ -84,4 +84,57 @@ class PostRepository extends EntityRepository
             ->getResult();
 
     }
+
+    /**
+     * @param $slug
+     * @param $currentPage
+     * @param $limit
+     * @return Paginator
+     */
+    public function findPostsByAuthor($slug, $currentPage, $limit)
+    {
+        $query = $this->createQueryBuilder('p')
+            ->select('p, c, a, t')
+            ->join('p.author', 'a')
+            ->leftJoin('p.comments', 'c')
+            ->leftJoin('p.tags', 't')
+            ->where('a.slug = :slug')
+            ->setParameter('slug', $slug)
+            ->orderBy('p.createdAt', 'DESC')
+            ->getQuery()
+            ->setFirstResult($limit * ($currentPage -1))
+            ->setMaxResults($limit);
+
+        return new Paginator($query);
+
+    }
+
+    public function findPostsByTag($slug, $currentPage, $limit)
+    {
+        $query = $this->createQueryBuilder('p')
+            ->select('p, c, a, t')
+            ->join('p.author', 'a')
+            ->leftJoin('p.comments', 'c')
+            ->leftJoin('p.tags', 't')
+            ->where('t.slug = :slug')
+            ->setParameter('slug', $slug)
+            ->orderBy('p.createdAt', 'DESC')
+            ->getQuery()
+            ->setFirstResult($limit * ($currentPage -1))
+            ->setMaxResults($limit);
+
+        return new Paginator($query);
+
+    }
+
+    public function countAllAuthorPosts($slug)
+    {
+        return $this->createQueryBuilder('p')
+            ->select('count(p.id)')
+            ->join('p.author', 'a')
+            ->where('a.slug = :slug')
+            ->setParameter('slug', $slug)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }
