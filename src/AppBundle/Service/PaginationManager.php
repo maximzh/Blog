@@ -87,6 +87,32 @@ class PaginationManager
         return $pagination;
     }
 
+    public function getSinglePostWithComments($slug)
+    {
+        $post = $this->doctrine
+            ->getRepository('AppBundle:Post')
+            ->findPostBySlug($slug);
+
+        $comments = $this->doctrine
+            ->getRepository('AppBundle:Comment')
+            ->findCommentsByPost($slug);
+
+
+        return [
+            'post' => $post,
+            'comments' => $comments,
+        ];
+    }
+
+    public function getAuthorWithPosts($slug)
+    {
+        $authorWithPosts = $this->doctrine
+            ->getRepository('AppBundle:Author')
+            ->findAuthorWithDependencies($slug);
+
+        return $authorWithPosts;
+    }
+
     public function setLimit($limit)
     {
         $this->limit = $limit;

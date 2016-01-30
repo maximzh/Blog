@@ -34,23 +34,13 @@ class PostController extends Controller
      */
     public function showAction($slug)
     {
-        $post = $this->getDoctrine()
-            ->getRepository('AppBundle:Post')
-            ->findPostBySlug($slug);
+        $data = $this->get('app.pagination_manager')->getSinglePostWithComments($slug);
 
-        if (!$post) {
-            throw $this->createNotFoundException('Post not found: '.$slug);
+        if (null == $data['post']) {
+            throw $this->createNotFoundException('Post not found :'.$slug);
         }
 
-        $comments = $this->getDoctrine()
-            ->getRepository('AppBundle:Comment')
-            ->findCommentsByPost($slug);
-
-
-        return [
-            'post' => $post,
-            'comments' => $comments,
-        ];
+        return $data;
     }
 
     /**

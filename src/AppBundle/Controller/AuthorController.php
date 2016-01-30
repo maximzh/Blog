@@ -27,15 +27,13 @@ class AuthorController extends Controller
      */
     public function showAction($slug)
     {
-        $author = $this->getDoctrine()
-            ->getRepository('AppBundle:Author')
-            ->findAuthorWithDependencies($slug);
+        $authorWithPosts = $this->get('app.pagination_manager')->getAuthorWithPosts($slug);
 
-        if (!$author) {
+        if (!$authorWithPosts) {
 
             throw $this->createNotFoundException('Author not found: '.$slug);
         }
 
-        return ['author' => $author];
+        return ['author' => $authorWithPosts];
     }
 }
