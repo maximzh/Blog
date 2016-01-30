@@ -3,6 +3,7 @@
 {% block body %}
 {{ parent() }}
     <h1>
+        <a href="{{ path('new_post') }}" style="position: fixed; left: 5%; top: 15%"><i class="glyphicon glyphicon-plus-sign"></i></a>
         <a href="{{ path('new_post') }}">Create new post</a>
     </h1>
 

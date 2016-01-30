@@ -2,6 +2,7 @@
 
 {% block body %}
 {{ parent() }}
+    {#
     <h1>
         <a href="{{ path('new_tag') }}">Create new tag</a>
     </h1>
@@ -30,6 +31,41 @@
         {% endfor %}
     </table>
     {{ knp_pagination_render(tags) }}
+    #}
+    <h1>
+        <a href="{{ path('new_tag') }}" style="position: fixed; left: 5%; top: 15%"><i class="glyphicon glyphicon-plus-sign"></i></a>
+        <a href="{{ path('new_tag') }}">Create new tag</a>
+    </h1>
+    <div class="admin-tags">
+        {% include 'AppBundle:Admin/Tag:tagList.html.twig' %}
+    </div>
+
+{% endblock body %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        function loadRows() {
+            var url = $('.pagination span a').attr('href');
+            $.get(url, function (data) {
+                var content = $(data),
+                        articlesList = content.closest('.blog-article'),
+                        nextLink = content.find('.next-page');
+                $('.admin-tags').append(articlesList);
+                if (nextLink.length) {
+                    $('.pagination').html(nextLink);
+                } else {
+                    $('.pagination').remove();
+                }
+            });
+        }
+        $(window).scroll(function () {
+            if ($(window).scrollTop() == $(document).height() - $(window).height() && $('.pagination span a').length) {
+                loadRows();
+            }
+        });
+    </script>
 
 {% endblock %}
 

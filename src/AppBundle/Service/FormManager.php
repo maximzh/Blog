@@ -10,8 +10,10 @@ namespace AppBundle\Service;
 
 use AppBundle\Entity\Comment;
 use AppBundle\Entity\Post;
+use AppBundle\Entity\Tag;
 use AppBundle\Form\CommentType;
 use AppBundle\Form\PostType;
+use AppBundle\Form\TagType;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Form;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -32,31 +34,6 @@ class FormManager
         $this->router = $router;
         $this->builder = $this->formFactory->createBuilder();
         $this->doctrine = $doctrine;
-    }
-
-    public function createPostDeleteForm(Post $post)
-    {
-        //$builder = $this->formFactory->createBuilder();
-        $form = $this->builder->setAction($this->router->generate('remove_post', array('id' => $post->getId())))
-            ->setMethod('DELETE')
-            ->add(
-                'submit',
-                SubmitType::class,
-                ['label' => ' ', 'attr' => ['class' => 'glyphicon glyphicon-trash btn-link']]
-            )
-            ->getForm();
-
-        return $form;
-
-    }
-
-    public function createNewPostForm(Post $post)
-    {
-        return $this->formFactory->create(
-            PostType::class,
-            $post,
-            array('method' => 'POST',)
-        );
     }
 
     public function createNewCommentForm($slug, Comment $comment)
@@ -90,5 +67,71 @@ class FormManager
             );
 
         return $form;
+    }
+
+    public function createNewPostForm(Post $post)
+    {
+        return $this->formFactory->create(
+            PostType::class,
+            $post,
+            array('method' => 'POST',)
+        );
+    }
+
+    public function createNewTagForm(Tag $tag)
+    {
+        return $this->formFactory->create(
+            TagType::class,
+            $tag,
+            array('method' => 'POST',)
+        );
+    }
+
+    public function createPostDeleteForm(Post $post)
+    {
+        //$builder = $this->formFactory->createBuilder();
+        $form = $this->builder->setAction($this->router->generate('remove_post', array('id' => $post->getId())))
+            ->setMethod('DELETE')
+            ->add(
+                'submit',
+                SubmitType::class,
+                ['label' => ' ', 'attr' => ['class' => 'glyphicon glyphicon-trash btn-link']]
+            )
+            ->getForm();
+
+        return $form;
+
+    }
+
+    public function createCommentDeleteForm(Comment $comment)
+    {
+        //$builder = $this->formFactory->createBuilder();
+        $form = $this->builder->setAction($this->router->generate('remove_comment', array('id' => $comment->getId())))
+            ->setMethod('DELETE')
+            ->add(
+                'submit',
+                SubmitType::class,
+                ['label' => ' ', 'attr' => ['class' => 'glyphicon glyphicon-trash btn-link']]
+            )
+            ->getForm();
+
+        return $form;
+
+    }
+
+    public function createTagDeleteForm(Tag $tag)
+    {
+        //$builder = $this->formFactory->createBuilder();
+        $form = $this->builder->setAction($this->router->generate('remove_tag', array('id' => $tag->getId())))
+            ->setMethod('DELETE')
+            ->add(
+                'submit',
+                SubmitType::class,
+                ['label' => ' ', 'attr' => ['class' => 'glyphicon glyphicon-trash btn-link']]
+            )
+            ->getForm();
+
+        return $form;
+
     }
 }

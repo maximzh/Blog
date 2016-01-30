@@ -36,6 +36,7 @@ class PaginationManager
         $this->router = $router;
     }
 
+
     public function getPosts(Request $request)
     {
         $currentPage = $request->query->getInt('page', 1);
@@ -58,6 +59,7 @@ class PaginationManager
 
         return $pagination;
     }
+
 
     public function getPostsWithDeleteForms(Request $request)
     {
@@ -87,6 +89,7 @@ class PaginationManager
         return $pagination;
     }
 
+
     public function getSinglePostWithComments($slug)
     {
         $post = $this->doctrine
@@ -104,6 +107,7 @@ class PaginationManager
         ];
     }
 
+
     public function getAuthorWithPosts($slug)
     {
         $authorWithPosts = $this->doctrine
@@ -112,6 +116,7 @@ class PaginationManager
 
         return $authorWithPosts;
     }
+
 
     public function getPostsByAuthor(Request $request, $slug)
     {
@@ -136,6 +141,7 @@ class PaginationManager
 
         return $pagination;
     }
+
 
     public function getPostsByTag(Request $request, $slug)
     {
@@ -163,12 +169,70 @@ class PaginationManager
         return $pagination;
     }
 
+    public function getCommentsWithDeleteForms(Request $request)
+    {
+        $currentPage = $request->query->getInt('page', 1);
+        $repository = $this->doctrine->getManager()->getRepository('AppBundle:Comment');
+        $count = $repository->countAllComments();
+
+        $nextPage = $count > $this->limit * $currentPage
+            ? $currentPage + 1
+            : false;
+
+        $comments = $repository->findAllCommentsWithDependencies($currentPage, $this->limit);
+
+        $nextPageUrl = $nextPage
+            ? $nextPageUrl = $this->router->generate('manage_comments', ['page' => $nextPage])
+            : false;
+
+        $deleteForms =[];
+        foreach($comments as $comment) {
+            $deleteForms[$comment->getId()] = $this->formManager->createCommentDeleteForm($comment)->createView();
+        }
+        $pagination['comments'] = $comments;
+        $pagination['nextPageUrl'] = $nextPageUrl;
+        $pagination['nextPage'] = $nextPage;
+        $pagination['deleteForms'] = $deleteForms;
+
+        return $pagination;
+    }
+
+    public function getTagsWithDeleteForms(Request $request)
+    {
+        $currentPage = $request->query->getInt('page', 1);
+        $repository = $this->doctrine->getManager()->getRepository('AppBundle:Tag');
+        $count = $repository->countAllTags();
+
+        $nextPage = $count > $this->limit * $currentPage
+            ? $currentPage + 1
+            : false;
+
+        $tags = $repository->findAllTags($currentPage, $this->limit);
+
+        $nextPageUrl = $nextPage
+            ? $nextPageUrl = $this->router->generate('manage_tags', ['page' => $nextPage])
+            : false;
+
+        $deleteForms =[];
+        foreach($tags as $tag) {
+            $deleteForms[$tag->getId()] = $this->formManager->createTagDeleteForm($tag)->createView();
+        }
+        $pagination['tags'] = $tags;
+        $pagination['nextPageUrl'] = $nextPageUrl;
+        $pagination['nextPage'] = $nextPage;
+        $pagination['deleteForms'] = $deleteForms;
+
+        return $pagination;
+    }
+
+
     public function setLimit($limit)
     {
         $this->limit = $limit;
 
         return $this;
     }
+
 
     public function setFormManager(FormManager $manager)
     {

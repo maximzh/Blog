@@ -3,6 +3,7 @@
 namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * TagRepository
@@ -43,5 +44,25 @@ class TagRepository extends EntityRepository
             ->getResult();
     }
 
+    public function findAllTags($currentPage, $limit)
+    {
+        $query = $this->createQueryBuilder('t')
+            ->select('t')
+            ->orderBy('t.name', 'ASC')
+            ->getQuery()
+            ->setFirstResult($limit * ($currentPage -1))
+            ->setMaxResults($limit);
 
+        return new Paginator($query);
+
+    }
+
+    public function countAllTags()
+    {
+        return $this->createQueryBuilder('t')
+            ->select('count(t.id)')
+
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

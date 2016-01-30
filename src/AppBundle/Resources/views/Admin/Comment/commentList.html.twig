@@ -1,0 +1,49 @@
+{% for comment in comments %}
+
+    <table class="table table-hover blog-article">
+        <tr>
+            <td class="bg-info" style="width: 5%">
+                {{ comment.id }}
+            </td>
+            <td>
+                {% if comment.post.webPath is not null %}
+                    <img src="{{ comment.post.webPath | imagine_filter('small_thumb') }}" alt="image">
+                {% endif %}
+
+            </td>
+            <td style="width: 20%">
+                {{ comment.post.title }}
+
+            </td>
+            <td style="width: 20%">
+                <span class="text-primary">{{ comment.commentAuthor }}<br>{{ comment.text }}</span>
+            </td>
+            <td style="width: 20%">
+                <span class="text-primary">{{ comment.createdAt|date('d M Y') }} at {{ comment.createdAt|date('H:m') }}</span>
+            </td>
+            <td style="width: 20%">
+                {% if comment.updatedAt is not null %}
+                    <span class="text-primary">{{ comment.updatedAt|date('d M Y') }}</span>
+                {% endif %}
+            </td>
+            <td style="width: 5%"><a href="{{ path('edit_comment', {'id': comment.id}) }}"><i class="glyphicon glyphicon-pencil"></i></a> </td>
+            <td style="width: 5%">
+                {{ form_start(deleteForms[comment.id], {attr : {onsubmit: 'return confirm("Are you sure?");' }}) }}
+                {{ form_widget(deleteForms[comment.id].submit) }}
+                {{ form_end(deleteForms[comment.id]) }}
+            </td>
+        </tr>
+
+    </table>
+
+
+
+{% endfor %}
+
+{% if nextPageUrl %}
+    <div class="pagination" style="display: none">
+        <span class="next-page">
+            <a href="{{ nextPageUrl }}">&gt;</a>
+        </span>
+    </div>
+{% endif %}

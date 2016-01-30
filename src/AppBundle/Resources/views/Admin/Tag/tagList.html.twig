@@ -1,0 +1,34 @@
+{% for tag in tags %}
+
+    <table class="table table-hover blog-article">
+        <tr>
+            <td style="width: 5%">
+                {{ tag.id }}
+            </td>
+
+            <td style="width: 20%">
+                {{ tag.name }}
+
+            </td>
+
+            <td style="width: 5%"><a href="{{ path('edit_tag', {'id': tag.id}) }}"><i class="glyphicon glyphicon-pencil"></i></a> </td>
+            <td style="width: 5%">
+                {{ form_start(deleteForms[tag.id], {attr : {onsubmit: 'return confirm("Are you sure?");' }}) }}
+                {{ form_widget(deleteForms[tag.id].submit) }}
+                {{ form_end(deleteForms[tag.id]) }}
+            </td>
+        </tr>
+
+    </table>
+
+
+
+{% endfor %}
+
+{% if nextPageUrl %}
+    <div class="pagination" style="display: none">
+        <span class="next-page">
+            <a href="{{ nextPageUrl }}">&gt;</a>
+        </span>
+    </div>
+{% endif %}

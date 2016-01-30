@@ -16,6 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -33,6 +34,7 @@ class TagController extends Controller
      */
     public function indexAction(Request $request)
     {
+        /*
         $em = $this->getDoctrine()->getManager();
 
         $tags = $em->getRepository('AppBundle:Tag')
@@ -50,6 +52,33 @@ class TagController extends Controller
         return [
             'tags' => $pagination,
             'deleteForms' => $deleteForms
+        ];
+        */
+
+        $paginationManager = $this->get('app.pagination_manager');
+        $formManager = $this->get('app.form_manager');
+        $pagination = $paginationManager->setLimit(30)->setFormManager($formManager)->getTagsWithDeleteForms($request);
+
+        if ($request->isXmlHttpRequest()) {
+            $content = $this->renderView(
+                'AppBundle:Admin/Tag:tagList.html.twig',
+                [
+                    'tags' => $pagination['tags'],
+                    'nextPageUrl' => $pagination['nextPageUrl'],
+                    'nextPage' => $pagination['nextPage'],
+                    'deleteForms' => $pagination['deleteForms'],
+                ]
+            );
+
+            return new Response($content);
+        }
+
+
+        return [
+            'tags' => $pagination['tags'],
+            'nextPageUrl' => $pagination['nextPageUrl'],
+            'nextPage' => $pagination['nextPage'],
+            'deleteForms' => $pagination['deleteForms'],
         ];
     }
 
@@ -119,7 +148,7 @@ class TagController extends Controller
     public function removeAction(Request $request, Tag $tag)
     {
         $em = $this->getDoctrine()->getManager();
-        $form = $this->createDeleteForm($tag);
+        $form = $this->get('app.form_manager')->createTagDeleteForm($tag);
 
         if ($request->getMethod() == 'DELETE') {
 
@@ -139,22 +168,5 @@ class TagController extends Controller
     }
 
 
-
-    /**
-     * @param Tag $tag
-     * @return \Symfony\Component\Form\Form
-     */
-    private function createDeleteForm(Tag $tag)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('remove_tag', array('id' => $tag->getId())))
-            ->setMethod('DELETE')
-            ->add(
-                'submit',
-                SubmitType::class,
-                ['label' => ' ', 'attr' => ['class' => 'glyphicon glyphicon-trash btn-link']]
-            )
-            ->getForm();
-    }
 
 }
