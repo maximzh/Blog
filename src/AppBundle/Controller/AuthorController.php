@@ -49,6 +49,7 @@ class AuthorController extends Controller
             'posts' => $pagination['posts'],
             'nextPageUrl' => $pagination['nextPageUrl'],
             'nextPage' => $pagination['nextPage'],
+            'count' => $pagination['count'],
 
         ];
 

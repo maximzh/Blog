@@ -49,7 +49,8 @@ class TagController extends Controller
             'posts' => $pagination['posts'],
             'nextPageUrl' => $pagination['nextPageUrl'],
             'nextPage' => $pagination['nextPage'],
-            'count' => $pagination['count']
+            'tag' => $pagination['tag'],
+            'count' => $pagination['count'],
 
         ];
 

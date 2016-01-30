@@ -123,7 +123,7 @@ class PaginationManager
             ? $currentPage + 1
             : false;
 
-        $posts = $repository->findAllPostsWithDependencies($currentPage, $this->limit);
+        $posts = $repository->findPostsByAuthor($slug, $currentPage, $this->limit);
 
         $nextPageUrl = $nextPage
             ? $nextPageUrl = $this->router->generate('show_author_posts', ['slug' => $slug, 'page' => $nextPage])
@@ -132,6 +132,7 @@ class PaginationManager
         $pagination['posts'] = $posts;
         $pagination['nextPageUrl'] = $nextPageUrl;
         $pagination['nextPage'] = $nextPage;
+        $pagination['count'] = $count;
 
         return $pagination;
     }
@@ -156,6 +157,7 @@ class PaginationManager
         $pagination['posts'] = $posts;
         $pagination['nextPageUrl'] = $nextPageUrl;
         $pagination['nextPage'] = $nextPage;
+        $pagination['tag'] = $tag->getName();
         $pagination['count'] = $count;
 
         return $pagination;

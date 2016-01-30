@@ -3,13 +3,17 @@
 
     <div class="search-results-container">
 
+        <h1 class="text-center"><span style="color: #7a43b6">{{ count }}</span> posts have tag <span style="color: #7a43b6">#{{ tag }}</span></h1>
         {% if posts is not empty %}
+            <div class="clearfix">
+                <div class="pull-left center-block body-container img-rounded" style=" margin-top: 15px; padding: 15px">
 
-            <div class="pull-left center-block body-container img-rounded" style=" margin-top: 75px; padding: 15px">
+                    {% include 'AppBundle:Default:postsList.html.twig' %}
 
-                {% include 'AppBundle:Default:postsList.html.twig' %}
+                </div>
 
             </div>
+
         {% endif %}
 
     </div>
