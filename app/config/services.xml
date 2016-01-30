@@ -24,6 +24,7 @@
                  class="AppBundle\Service\FormManager">
             <argument key="formFactory" type="service" id="form.factory"/>
             <argument key="router" type="service" id="router"/>
+            <argument key="doctrine" type="service" id="doctrine"/>
         </service>
 
         <service id="app.search_manager"

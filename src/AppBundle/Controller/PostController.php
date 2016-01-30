@@ -39,7 +39,7 @@ class PostController extends Controller
             ->findPostBySlug($slug);
 
         if (!$post) {
-            throw $this->createNotFoundException('No post found'.$slug);
+            throw $this->createNotFoundException('Post not found: '.$slug);
         }
 
         $comments = $this->getDoctrine()

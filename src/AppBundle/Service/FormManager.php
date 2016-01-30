@@ -8,11 +8,15 @@
 
 namespace AppBundle\Service;
 
+use AppBundle\Entity\Comment;
 use AppBundle\Entity\Post;
+use AppBundle\Form\CommentType;
 use AppBundle\Form\PostType;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Form;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
 
 class FormManager
@@ -20,12 +24,14 @@ class FormManager
     protected $router;
     protected $formFactory;
     protected $builder;
+    protected $doctrine;
 
-    public function __construct(FormFactoryInterface $formFactory, RouterInterface $router)
+    public function __construct(FormFactoryInterface $formFactory, RouterInterface $router, RegistryInterface $doctrine)
     {
         $this->formFactory = $formFactory;
         $this->router = $router;
         $this->builder = $this->formFactory->createBuilder();
+        $this->doctrine = $doctrine;
     }
 
     public function createPostDeleteForm(Post $post)
@@ -51,5 +57,38 @@ class FormManager
             $post,
             array('method' => 'POST',)
         );
+    }
+
+    public function createNewCommentForm($slug, Comment $comment)
+    {
+        $em = $this->doctrine->getManager();
+
+        $post = $em->getRepository('AppBundle:Post')
+            ->findOneBy(['slug' => $slug]);
+
+        //$comment = new Comment();
+        $comment->setPost($post);
+
+        $form = $this->formFactory->create(
+            CommentType::class,
+            $comment,
+            [
+                'em' => $em,
+                'method' => Request::METHOD_POST,
+                'action' => $this->router->generate('new_comment', ['slug' => $slug]),
+            ]
+        );
+
+        $form
+            ->add(
+                'save',
+                SubmitType::class,
+                array(
+                    'label' => 'Submit Comment',
+                    'attr' => array('class' => "btn btn-primary"),
+                )
+            );
+
+        return $form;
     }
 }
