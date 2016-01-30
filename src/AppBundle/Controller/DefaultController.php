@@ -20,13 +20,17 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $paginationManager = $this->container->get('app.pagination_manager');
+        $paginationManager = $this->get('app.pagination_manager');
         $pagination = $paginationManager->setLimit(5)->getPosts($request);
 
         if ($request->isXmlHttpRequest()) {
             $content = $this->renderView(
                 'AppBundle:Default:postsList.html.twig',
-                ['posts' => $pagination['posts'], 'nextPageUrl' => $pagination['nextPageUrl'], 'nextPage' => $pagination['nextPage']]
+                [
+                    'posts' => $pagination['posts'],
+                    'nextPageUrl' => $pagination['nextPageUrl'],
+                    'nextPage' => $pagination['nextPage'],
+                ]
             );
 
             return new Response($content);

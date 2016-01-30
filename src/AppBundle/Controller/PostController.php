@@ -60,18 +60,11 @@ class PostController extends Controller
      */
     public function searchAction(Request $request)
     {
-        $text = strip_tags(trim($request->get('search_text')));
-
-        if ($text == null or $text == '') {
-            return $this->redirectToRoute('homepage');
-        }
-
-        $posts = $this->getDoctrine()->getRepository('AppBundle:Post')
-            ->searchPosts($text);
+        $result = $this->get('app.search_manager')->search($request);
 
         return [
-            'posts' => $posts,
-            'search_text' => $text,
+            'posts' => $result['posts'],
+            'search_text' => $result['search_text'],
         ];
     }
 

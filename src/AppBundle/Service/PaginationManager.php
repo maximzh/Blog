@@ -24,18 +24,16 @@ class PaginationManager
     protected $doctrine;
     protected $limit;
     protected $router;
-    protected $formFactory;
+    protected $formManager;
 
     public function __construct(
         RegistryInterface $doctrine,
         $limit,
-        RouterInterface $router,
-        FormFactoryInterface $formFactory
+        RouterInterface $router
     ) {
         $this->doctrine = $doctrine;
         $this->limit = $limit;
         $this->router = $router;
-        $this->formFactory = $formFactory;
     }
 
     public function getPosts(Request $request)
@@ -79,7 +77,7 @@ class PaginationManager
 
         $deleteForms =[];
         foreach($posts as $post) {
-            $deleteForms[$post->getId()] = $this->createDeleteForm($post)->createView();
+            $deleteForms[$post->getId()] = $this->formManager->createPostDeleteForm($post)->createView();
         }
         $pagination['posts'] = $posts;
         $pagination['nextPageUrl'] = $nextPageUrl;
@@ -96,20 +94,11 @@ class PaginationManager
         return $this;
     }
 
-    public function createDeleteForm(Post $post)
+    public function setFormManager(FormManager $manager)
     {
-        $builder = $this->formFactory->createBuilder();
-        $form = $builder->setAction($this->router->generate('remove_post', array('id' => $post->getId())))
-            ->setMethod('DELETE')
-            ->add(
-                'submit',
-                SubmitType::class,
-                ['label' => ' ', 'attr' => ['class' => 'glyphicon glyphicon-trash btn-link']]
-            )
-            ->getForm();
+        $this->formManager = $manager;
 
-        return $form;
-
+        return $this;
     }
 
 }

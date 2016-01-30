@@ -20,12 +20,24 @@
             <tag name="hautelook_alice.faker.provider"/>
         </service>
 
+        <service id="app.form_manager"
+                 class="AppBundle\Service\FormManager">
+            <argument key="formFactory" type="service" id="form.factory"/>
+            <argument key="router" type="service" id="router"/>
+        </service>
+
+        <service id="app.search_manager"
+                 class="AppBundle\Service\SearchManager">
+            <argument key="doctrine" type="service" id="doctrine"/>
+            <argument key="router" type="service" id="router"/>
+        </service>
+
         <service id="app.pagination_manager"
                  class="AppBundle\Service\PaginationManager">
             <argument key="doctrine" type="service" id="doctrine"/>
             <argument key="limit" type="string" >%posts.limit%</argument>
             <argument key="router" type="service" id="router"/>
-            <argument key="formFactory" type="service" id="form.factory"/>
+            <argument key="formManager" type="service" id="app.form_manager"/>
         </service>
 
     </services>

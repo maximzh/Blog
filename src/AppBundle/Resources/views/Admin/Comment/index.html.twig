@@ -1,6 +1,7 @@
 {% extends '::admin_base.html.twig' %}
 {% block body %}
 {{ parent() }}
+    {{ knp_pagination_render(comments) }}
     <table class="table table-striped table-hover">
         <thead class="bg-info">
         <tr>
