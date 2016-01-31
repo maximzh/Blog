@@ -71,7 +71,7 @@ class CommentController extends Controller
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($comment);
+            //$em->persist($comment);
             $em->flush();
             return $this->redirectToRoute('manage_comments');
         }

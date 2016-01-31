@@ -46,7 +46,7 @@ class Post
      * @var string
      *
      * @ORM\Column(name="slug", type="string", length=160)
-     * @Gedmo\Slug(fields={"title"}, updatable=true, separator="-")
+     *
      *
      * @Assert\Length(max="160")
      */
@@ -99,7 +99,7 @@ class Post
      * @var \DateTime
      *
      * @ORM\Column(name="created_at", type="datetime")
-     * @Gedmo\Timestampable(on="create")
+     *
      * @Assert\DateTime()
      */
     private $createdAt;
@@ -108,7 +108,7 @@ class Post
      * @var \DateTime
      *
      * @ORM\Column(name="updated_at", type="datetime", nullable=true)
-     * @Gedmo\Timestampable(on="change", field={"title", "text"})
+     *
      * @Assert\DateTime()
      */
     private $updatedAt;
@@ -406,71 +406,6 @@ class Post
     }
 
 
-    /**
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
-     */
-    public function preUpload()
-    {
-        if (null !== $this->getFile()) {
-            $filename = sha1(uniqid(mt_rand(), true));
-            $this->path = $filename.'.'.$this->getFile()->guessExtension();
-        }
-    }
-
-
-    /**
-     * @ORM\PostPersist()
-     * @ORM\PostUpdate()
-     */
-    public function upload()
-    {
-        if (null === $this->getFile()) {
-            return;
-        }
-
-        // check if we have an old image
-        if (isset($this->temp)) {
-            // delete the old image
-            unlink($this->temp);
-            // clear the temp image path
-            $this->temp = null;
-        }
-
-        // you must throw an exception here if the file cannot be moved
-        // so that the entity is not persisted to the database
-        // which the UploadedFile move() method does
-        $this->getFile()->move(
-            $this->getUploadRootDir(),
-            $this->path
-        );
-
-        $this->setFile(null);
-    }
-
-    /**
-     * @ORM\PreRemove()
-     */
-    public function storeFilenameForRemove()
-    {
-        $this->temp = $this->getAbsolutePath();
-    }
-
-
-    /**
-     * @ORM\PostRemove()
-     */
-
-    /*public function removeUpload()
-    {
-        $file = $this->getAbsolutePath();
-        $file = $this->getImageUrl();
-        if ($file) {
-            unlink($file);
-        }
-    }*/
-
-
     public function getAbsolutePath()
     {
         return null === $this->path
@@ -479,7 +414,7 @@ class Post
     }
 
 
-    protected function getUploadRootDir()
+    public function getUploadRootDir()
     {
         return __DIR__.'/../../../web/'.$this->getUploadDir();
     }
@@ -507,30 +442,24 @@ class Post
     {
         return $this->path;
     }
-/*
-    public function getRating()
-    {
-        $comments = $this->getComments();
-        $rating = 0;
-        $countCommentsWithRating = 0;
 
-        if (count($comments) !== 0) {
+    public function setPath($path)
+   {
+       $this->path = $path;
 
-            foreach ($comments as $comment) {
-                if (null !== $comment->getRating()) {
-                    $countCommentsWithRating++;
-                    $rating = $rating + $comment->getRating();
-                }
-            }
-
-            if ($countCommentsWithRating !== 0) {
-                $rating = $rating / $countCommentsWithRating;
-            }
-
-        }
-
-
-        return $rating;
+       return $this;
     }
-*/
+
+    public function getTemp()
+    {
+        return $this->temp;
+    }
+
+    public function setTemp($temp)
+    {
+        $this->temp = $temp;
+
+        return $this;
+    }
+
 }

@@ -81,7 +81,7 @@ class PostController extends Controller
                 $em->persist($post);
                 $em->flush();
 
-                return $this->redirectToRoute('show_post', ['slug' => $post->getSlug()]);
+                return $this->redirectToRoute('manage_posts');
             }
         }
 
@@ -104,7 +104,7 @@ class PostController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($post);
+            //$em->persist($post);
             $em->flush();
 
             return $this->redirectToRoute('manage_posts');

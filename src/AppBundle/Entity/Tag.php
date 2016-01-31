@@ -44,7 +44,7 @@ class Tag
      *
      * @ORM\Column(name="slug", type="string", length=40)
      * @Assert\Length(max="40")
-     * @Gedmo\Slug(fields={"name"}, updatable=true, separator="-")
+     *
      */
     private $slug;
 

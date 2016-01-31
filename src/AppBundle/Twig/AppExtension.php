@@ -64,6 +64,14 @@ class AppExtension extends \Twig_Extension
                     'is_safe' => array('html'),
                 )
             ),
+            new \Twig_SimpleFunction(
+                'allComments',
+                array($this, 'countAllComments'),
+                array(
+                    'needs_environment' => true,
+                    'is_safe' => array('html'),
+                )
+            ),
         );
     }
 
@@ -153,6 +161,13 @@ class AppExtension extends \Twig_Extension
             ->getRepository('AppBundle:Tag')
             ->findAllTagsWithDependencies();
 
+    }
+
+    public function countAllComments(\Twig_Environment $twig)
+    {
+        return $this->doctrine->getManager()
+            ->getRepository('AppBundle:Comment')
+            ->countAllComments();
     }
 
 

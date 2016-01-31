@@ -26,7 +26,8 @@ class PostRepository extends EntityRepository
             ->leftJoin('p.author', 'a')
             ->leftJoin('p.comments', 'c')
             ->leftJoin('p.tags', 't')
-            ->orderBy('p.createdAt', 'DESC')
+            ->addOrderBy('p.createdAt', 'DESC')
+            ->addOrderBy('p.updatedAt', 'DESC')
             ->getQuery()
             ->setFirstResult($limit * ($currentPage -1))
             ->setMaxResults($limit);

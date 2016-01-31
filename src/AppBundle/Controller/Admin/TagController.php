@@ -129,7 +129,7 @@ class TagController extends Controller
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($tag);
+            //$em->persist($tag);
             $em->flush();
             return $this->redirectToRoute('manage_tags');
         }

@@ -38,7 +38,7 @@ class Author
      * @var string
      *
      * @ORM\Column(name="slug", type="string", length=65, unique=true)
-     * @Gedmo\Slug(fields={"name"}, updatable=true, separator="-")
+     *
      * @Assert\NotBlank()
      * @Assert\Length(max="65")
      */

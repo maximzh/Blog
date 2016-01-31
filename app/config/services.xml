@@ -41,5 +41,9 @@
             <argument key="formManager" type="service" id="app.form_manager"/>
         </service>
 
+        <service id="app.doctrine_subscriber" class="AppBundle\EventListener\DoctrineEventSubscriber">
+            <tag name="doctrine.event_subscriber" connection="default" />
+        </service>
+
     </services>
 </container>

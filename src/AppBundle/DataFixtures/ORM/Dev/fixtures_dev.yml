@@ -4,14 +4,15 @@ AppBundle\Entity\Author:
         email: <email>
         smallAvatar: "/uploads/images/small_avatar.png"
         createdAt: <dateTimeBetween('-2 years', 'now')>
+        slug: <createSlug($name)>
 
 AppBundle\Entity\Tag:
-    tag{1..50}:
+    tag{1..30}:
         name (unique): <word()>
         slug: <($name)>
 
 AppBundle\Entity\Post:
-    post{1..140}:
+    post{1..115}:
         title: <text(30)>
         slug: <createSlug($title)>
         text: <paragraphs(10, true)>
@@ -23,7 +24,7 @@ AppBundle\Entity\Post:
 
 
 AppBundle\Entity\Comment:
-    comment{1..720}:
+    comment{1..110}:
         commentAuthor: <name()>
         text: <text(200)>
         rating: <randomElement([1, 2, 3, 4, 5])>

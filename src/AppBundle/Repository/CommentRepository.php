@@ -62,7 +62,8 @@ class CommentRepository extends EntityRepository
         $query = $this->createQueryBuilder('c')
             ->select('c, p')
             ->leftJoin('c.post', 'p')
-            ->orderBy('c.createdAt', 'DESC')
+            ->addOrderBy('c.createdAt', 'DESC')
+            ->addOrderBy('c.updatedAt', 'DESC')
             ->getQuery()
             ->setFirstResult($limit * ($currentPage -1))
             ->setMaxResults($limit);

@@ -8,6 +8,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\Post;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -64,7 +65,7 @@ class Comment
      * @var \DateTime
      *
      * @ORM\Column(name="created_at", type="datetime")
-     * @Gedmo\Timestampable(on="create")
+     *
      * @Assert\DateTime()
      */
     private $createdAt;
@@ -73,7 +74,7 @@ class Comment
      * @var \DateTime
      *
      * @ORM\Column(name="updated_at", type="datetime", nullable=true)
-     * @Gedmo\Timestampable(on="change", field={"title", "text"})
+     *
      * @Assert\DateTime()
      */
     private $updatedAt;
@@ -171,11 +172,11 @@ class Comment
     /**
      * Set post
      *
-     * @param \AppBundle\Entity\Post $post
+     * @param Post $post
      *
      * @return Comment
      */
-    public function setPost(\AppBundle\Entity\Post $post = null)
+    public function setPost(Post $post = null)
     {
         $this->post = $post;
 
@@ -185,7 +186,7 @@ class Comment
     /**
      * Get post
      *
-     * @return \AppBundle\Entity\Post
+     * @return Post
      */
     public function getPost()
     {
