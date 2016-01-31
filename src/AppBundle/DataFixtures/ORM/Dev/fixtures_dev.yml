@@ -11,7 +11,7 @@ AppBundle\Entity\Tag:
         slug: <($name)>
 
 AppBundle\Entity\Post:
-    post{1..740}:
+    post{1..140}:
         title: <text(30)>
         slug: <createSlug($title)>
         text: <paragraphs(10, true)>
@@ -23,7 +23,7 @@ AppBundle\Entity\Post:
 
 
 AppBundle\Entity\Comment:
-    comment{1..1220}:
+    comment{1..720}:
         commentAuthor: <name()>
         text: <text(200)>
         rating: <randomElement([1, 2, 3, 4, 5])>
