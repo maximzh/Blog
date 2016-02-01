@@ -2,5 +2,5 @@
 ====
 Blog - GeekHub Symfony Homework
 
-
+using DoctrineEventSubscriber instead of StofDoctrineExtensionsBundle
 
