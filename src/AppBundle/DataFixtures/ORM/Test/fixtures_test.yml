@@ -4,6 +4,7 @@ AppBundle\Entity\Author:
         email: "john_doe@domain.com"
         smallAvatar: "/uploads/images/small_avatar.png"
         createdAt: <dateTimeBetween('-2 years', 'now')>
+        slug: <createSlug($name)>
 
 AppBundle\Entity\Tag:
     tag1:

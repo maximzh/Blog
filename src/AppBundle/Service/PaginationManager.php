@@ -15,8 +15,10 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Form;
+use Symfony\Component\HttpKernel\Exception\HttpNotFoundException;
 
 class PaginationManager
 {
@@ -120,6 +122,11 @@ class PaginationManager
 
     public function getPostsByAuthor(Request $request, $slug)
     {
+        $author = $this->doctrine->getRepository('AppBundle:Author')->findAuthorWithDependencies($slug);
+        if (!$author) {
+
+            throw new NotFoundHttpException('author not found: '.$slug);
+        }
         $currentPage = $request->query->getInt('page', 1);
         $repository = $this->doctrine->getManager()->getRepository('AppBundle:Post');
         $count = $repository->countAllAuthorPosts($slug);
@@ -145,9 +152,16 @@ class PaginationManager
 
     public function getPostsByTag(Request $request, $slug)
     {
+        $tag = $this->doctrine->getManager()->getRepository('AppBundle:Tag')->findTagWithPosts($slug);
+
+        if(!$tag) {
+
+            throw new NotFoundHttpException('tag not found: '.$slug);
+        }
+
         $currentPage = $request->query->getInt('page', 1);
         $repository = $this->doctrine->getManager()->getRepository('AppBundle:Post');
-        $tag = $this->doctrine->getManager()->getRepository('AppBundle:Tag')->findTagWithPosts($slug);
+
         $count = count($tag->getPosts());
 
         $nextPage = $count > $this->limit * $currentPage
