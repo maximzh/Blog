@@ -25,7 +25,6 @@ class PostController extends Controller
 {
 
 
-
     /**
      * @param $slug
      * @return array
@@ -35,27 +34,13 @@ class PostController extends Controller
      */
     public function showAction($slug)
     {
-        $post = $this->getDoctrine()
-            ->getRepository('AppBundle:Post')
-            ->findPostBySlug($slug);
+        $data = $this->get('app.pagination_manager')->getSinglePostWithComments($slug);
 
-        if (!$post) {
-            throw $this->createNotFoundException('No post found'.$slug);
+        if (null == $data['post']) {
+            throw $this->createNotFoundException('Post not found :'.$slug);
         }
 
-        $comments = $this->getDoctrine()
-            ->getRepository('AppBundle:Comment')
-            ->findCommentsByPost($slug);
-
-        $rating = $this->getPostRating($post);
-
-
-
-        return [
-            'post' => $post,
-            'comments' => $comments,
-            'rating' => $rating
-        ];
+        return $data;
     }
 
     /**
@@ -65,43 +50,12 @@ class PostController extends Controller
      */
     public function searchAction(Request $request)
     {
-        $text = strip_tags(trim($request->get('search_text')));
-
-        if ($text == null or $text == '') {
-            return $this->redirectToRoute('homepage');
-        }
-
-        $posts = $this->getDoctrine()->getRepository('AppBundle:Post')
-            ->searchPosts($text);
+        $result = $this->get('app.search_manager')->search($request);
 
         return [
-            'posts' => $posts,
-            'search_text' => $text
+            'posts' => $result['posts'],
+            'search_text' => $result['search_text'],
         ];
     }
 
-    public function getPostRating(Post $post)
-    {
-        $comments = $post->getComments();
-        $rating = 0;
-        $countCommentsWithRating = 0;
-
-        if (count($comments) !== 0) {
-
-            foreach ($comments as $comment) {
-                if (0 !== $comment->getRating()) {
-                    $countCommentsWithRating++;
-                    $rating = $rating + $comment->getRating();
-                }
-            }
-
-            if ($countCommentsWithRating !== 0) {
-                $rating = $rating / $countCommentsWithRating;
-            }
-
-        }
-
-
-        return $rating;
-    }
 }

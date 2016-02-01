@@ -6,12 +6,12 @@ AppBundle\Entity\Author:
         createdAt: <dateTimeBetween('-2 years', 'now')>
 
 AppBundle\Entity\Tag:
-    tag{1..30}:
+    tag{1..50}:
         name (unique): <word()>
         slug: <($name)>
 
 AppBundle\Entity\Post:
-    post{1..30}:
+    post{1..40}:
         title: <text(30)>
         slug: <createSlug($title)>
         text: <paragraphs(10, true)>
@@ -23,7 +23,7 @@ AppBundle\Entity\Post:
 
 
 AppBundle\Entity\Comment:
-    comment{1..120}:
+    comment{1..220}:
         commentAuthor: <name()>
         text: <text(200)>
         rating: <randomElement([1, 2, 3, 4, 5])>

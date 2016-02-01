@@ -2,5 +2,5 @@
 ====
 Blog - GeekHub Symfony Homework
 
-
+DoctrineEventSubscriber is in "withoutStofBundle" branch
 

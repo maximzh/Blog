@@ -5,8 +5,8 @@
         <h1 class="text-center">{{ post.title }}<br>
 
             <div class="rating-container rating-gly-star" data-content="">
-                <div class="rating-stars" style="width: {{ rating * 20 }}%" data-content=""></div>
-            </div>
+                <div class="rating-stars" style="width: {{ postRating(post) * 20 }}%" data-content=""></div>
+            </div>({{ postRating(post)|number_format(2) }})
 
         </h1>
         <div class="show-post-posted-at text-primary">

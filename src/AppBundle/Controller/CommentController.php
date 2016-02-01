@@ -30,33 +30,10 @@ class CommentController extends Controller
      */
     public function newAction(Request $request, $slug)
     {
+
         $em = $this->getDoctrine()->getManager();
-
-        $post = $em->getRepository('AppBundle:Post')
-            ->findOneBy(['slug' => $slug]);
-
         $comment = new Comment();
-        $comment->setPost($post);
-
-        $form = $this->createForm(
-            CommentType::class,
-            $comment,
-            [
-                'em' => $em,
-                'method' => Request::METHOD_POST,
-                'action' => $this->generateUrl('new_comment', ['slug' => $slug]),
-            ]
-        );
-
-        $form
-            ->add(
-                'save',
-                SubmitType::class,
-                array(
-                    'label' => 'Submit Comment',
-                    'attr' => array('class' => "btn btn-primary"),
-                )
-            );
+        $form = $this->get('app.form_manager')->createNewCommentForm($slug, $comment);
 
         if ($request->getMethod() == 'POST') {
 

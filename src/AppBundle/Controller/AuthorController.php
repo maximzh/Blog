@@ -11,6 +11,8 @@ namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -25,17 +27,32 @@ class AuthorController extends Controller
      * @Route("/{slug}", requirements={"slug" = "^[a-zA-z-]+$"},name="show_author_posts")
      * @Template()
      */
-    public function showAction($slug)
+    public function showAction(Request $request, $slug)
     {
-        $author = $this->getDoctrine()
-            ->getRepository('AppBundle:Author')
-            ->findAuthorWithDependencies($slug);
+        $paginationManager = $this->get('app.pagination_manager');
+        $pagination = $paginationManager->setLimit(5)->getPostsByAuthor($request, $slug);
 
-        if (!$author) {
+        if ($request->isXmlHttpRequest()) {
+            $content = $this->renderView(
+                'AppBundle:Default:postsList.html.twig',
+                [
+                    'posts' => $pagination['posts'],
+                    'nextPageUrl' => $pagination['nextPageUrl'],
+                    'nextPage' => $pagination['nextPage'],
+                ]
+            );
 
-            throw $this->createNotFoundException('Author not found: '.$slug);
+            return new Response($content);
         }
 
-        return ['author' => $author];
+        return [
+            'posts' => $pagination['posts'],
+            'nextPageUrl' => $pagination['nextPageUrl'],
+            'nextPage' => $pagination['nextPage'],
+            'count' => $pagination['count'],
+
+        ];
+
     }
+
 }

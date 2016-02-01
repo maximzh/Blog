@@ -16,6 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CommentController extends Controller
@@ -29,25 +30,34 @@ class CommentController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
 
-        $comments = $em->getRepository('AppBundle:Comment')
-            ->findAllSorted();
+        $paginationManager = $this->get('app.pagination_manager');
+        $formManager = $this->get('app.form_manager');
+        $pagination = $paginationManager->setLimit(10)->setFormManager($formManager)->getCommentsWithDeleteForms($request);
 
-        $pager = $this->get('knp_paginator');
-        $pagination = $pager->paginate($comments, $request->query->getInt('page', 1), 30);
+        if ($request->isXmlHttpRequest()) {
+            $content = $this->renderView(
+                'AppBundle:Admin/Comment:commentList.html.twig',
+                [
+                    'comments' => $pagination['comments'],
+                    'nextPageUrl' => $pagination['nextPageUrl'],
+                    'nextPage' => $pagination['nextPage'],
+                    'deleteForms' => $pagination['deleteForms'],
+                ]
+            );
 
-        $deleteForms = array();
-
-        foreach ($comments as $comment) {
-            $deleteForms[$comment->getId()] = $this->createDeleteForm($comment)->createView();
+            return new Response($content);
         }
 
+
         return [
-            'comments' => $pagination,
-            'deleteForms' => $deleteForms
+            'comments' => $pagination['comments'],
+            'nextPageUrl' => $pagination['nextPageUrl'],
+            'nextPage' => $pagination['nextPage'],
+            'deleteForms' => $pagination['deleteForms'],
         ];
     }
+
 
     /**
      *

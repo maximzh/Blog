@@ -11,6 +11,8 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -25,16 +27,32 @@ class TagController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function showAction($slug)
+    public function showAction(Request $request, $slug)
     {
-        $tag = $this->getDoctrine()
-            ->getRepository('AppBundle:Tag')
-            ->findTagWithPosts($slug);
+        $paginationManager = $this->get('app.pagination_manager');
+        $pagination = $paginationManager->setLimit(5)->getPostsByTag($request, $slug);
 
-        if (!$tag) {
-             throw $this->createNotFoundException('No tag found: '.$slug);
-         }
+        if ($request->isXmlHttpRequest()) {
+            $content = $this->renderView(
+                'AppBundle:Default:postsList.html.twig',
+                [
+                    'posts' => $pagination['posts'],
+                    'nextPageUrl' => $pagination['nextPageUrl'],
+                    'nextPage' => $pagination['nextPage'],
+                ]
+            );
 
-        return ['tag' => $tag];
+            return new Response($content);
+        }
+
+        return [
+            'posts' => $pagination['posts'],
+            'nextPageUrl' => $pagination['nextPageUrl'],
+            'nextPage' => $pagination['nextPage'],
+            'tag' => $pagination['tag'],
+            'count' => $pagination['count'],
+
+        ];
+
     }
 }

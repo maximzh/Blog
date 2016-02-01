@@ -3,6 +3,7 @@
 namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * CommentRepository
@@ -17,6 +18,8 @@ class CommentRepository extends EntityRepository
         return $this->createQueryBuilder('c')
             ->select('c, p')
             ->join('c.post', 'p')
+            //->join('p.author', 'a')
+            //->leftJoin('p.tags', 't')
             ->orderBy('c.createdAt', 'DESC')
             ->getQuery()
             ->setMaxResults($number)
@@ -43,6 +46,28 @@ class CommentRepository extends EntityRepository
             ->orderBy('c.createdAt', 'DESC')
             ->getQuery()
             ->getResult();
+
+    }
+
+    public function countAllComments()
+    {
+        return $this->createQueryBuilder('c')
+            ->select('count(c.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function findAllCommentsWithDependencies($currentPage, $limit)
+    {
+        $query = $this->createQueryBuilder('c')
+            ->select('c, p')
+            ->leftJoin('c.post', 'p')
+            ->orderBy('c.createdAt', 'DESC')
+            ->getQuery()
+            ->setFirstResult($limit * ($currentPage -1))
+            ->setMaxResults($limit);
+
+        return new Paginator($query);
 
     }
 }

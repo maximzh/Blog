@@ -20,83 +20,30 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $limit = 4;
-        $currentPage = $request->query->getInt('page', 1);
+        $paginationManager = $this->get('app.pagination_manager');
+        $pagination = $paginationManager->setLimit(5)->getPosts($request);
 
-        $repository = $this->getDoctrine()
-            ->getRepository('AppBundle:Post');
-
-        $count = $repository->countAllPosts();
-
-        $nextPage = $count > $limit * $currentPage
-            ? $currentPage + 1
-            : false;
-
-        $posts = $repository->findAllPostsWithDependencies($currentPage, $limit);
-
-        $nextPageUrl = $nextPage
-            ? $nextPageUrl = $this->generateUrl('homepage', ['page' => $nextPage])
-            : false;
         if ($request->isXmlHttpRequest()) {
             $content = $this->renderView(
                 'AppBundle:Default:postsList.html.twig',
-                ['posts' => $posts, 'nextPageUrl' => $nextPageUrl, 'nextPage' => $nextPage]
+                [
+                    'posts' => $pagination['posts'],
+                    'nextPageUrl' => $pagination['nextPageUrl'],
+                    'nextPage' => $pagination['nextPage'],
+                ]
             );
 
             return new Response($content);
         }
 
-
-        $lastComments = $this->getDoctrine()
-            ->getRepository('AppBundle:Comment')
-            ->findLastComments();
-
-        $tags = $this->getDoctrine()
-            ->getRepository('AppBundle:Tag')
-            ->findAllTagsWithDependencies();
-
-        //$cloud = new TagCloud();
-        $tagCloud = $this->getTagCloud($tags);
-
-        $topPosts = $this->getDoctrine()
-            ->getRepository('AppBundle:Post')
-            ->findTopPosts();
-
         return [
-            'posts' => $posts,
-            'last_comments' => $lastComments,
-            'tag_cloud' => $tagCloud,
-            'tags' => $tags,
-            'top_posts' => $topPosts,
-            'nextPageUrl' => $nextPageUrl,
-            'nextPage' => $nextPage,
+            'posts' => $pagination['posts'],
+            'nextPageUrl' => $pagination['nextPageUrl'],
+            'nextPage' => $pagination['nextPage'],
 
         ];
 
     }
 
-    public function getTagCloud($tags)
-    {
-        $cloud = [];
-        $weights = [];
-        $maxFont = 25;
 
-        foreach ($tags as $tag) {
-
-            $weights[] = $tag->countPosts();
-        }
-        sort($weights);
-        $minWeight = $weights[0];
-        $maxWeight = end($weights);
-
-        foreach ($tags as $tag) {
-
-            $font = ($maxFont * ($tag->countPosts() - $minWeight) / ($maxWeight - $minWeight)) + 10;
-            $cloud[$tag->getName()]['font'] = ceil($font);
-            $cloud[$tag->getName()]['slug'] = $tag->getSlug();
-        }
-
-        return $cloud;
-
-    }
 }

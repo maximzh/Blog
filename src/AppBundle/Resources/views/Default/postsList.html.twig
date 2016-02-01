@@ -5,12 +5,10 @@
             <a href="{{ path('show_post', {'slug': post.slug}) }}">
                 {{ post.title }}
             </a>
-            {#
-            <span class="pull-right" style="color: whitesmoke">
-                <i class="glyphicon glyphicon-star"></i> {{ post.rating|number_format(2, '.', ',') }}
-            </span>
-            #}
 
+            <div class="rating-container rating-gly-star" data-content="">
+                <div class="rating-stars" style="width: {{ postRating(post) * 20 }}%" data-content=""></div>
+            </div>
 
         </h3>
 

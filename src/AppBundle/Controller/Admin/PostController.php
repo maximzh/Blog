@@ -14,7 +14,6 @@ use AppBundle\Form\PostType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -34,36 +33,18 @@ class PostController extends Controller
     public function indexAction(Request $request)
     {
 
-        $limit = 25;
-        $currentPage = $request->query->getInt('page', 1);
+        $paginationManager = $this->get('app.pagination_manager');
+        $formManager = $this->get('app.form_manager');
+        $pagination = $paginationManager->setLimit(10)->setFormManager($formManager)->getPostsWithDeleteForms($request);
 
-        $repository = $this->getDoctrine()
-            ->getRepository('AppBundle:Post');
-
-        $count = $repository->countAllPosts();
-
-        $nextPage = $count > $limit * $currentPage
-            ? $currentPage + 1
-            : false;
-
-        $deleteForms = [];
-        $posts = $repository->findAllPostsWithDependencies($currentPage, $limit);
-
-        foreach ($posts as $post) {
-            $deleteForms[$post->getId()] = $this->createDeleteForm($post)->createView();
-        }
-
-        $nextPageUrl = $nextPage
-            ? $nextPageUrl = $this->generateUrl('manage_posts', ['page' => $nextPage])
-            : false;
         if ($request->isXmlHttpRequest()) {
             $content = $this->renderView(
                 'AppBundle:Admin/Post:postsList.html.twig',
                 [
-                    'posts' => $posts,
-                    'nextPageUrl' => $nextPageUrl,
-                    'nextPage' => $nextPage,
-                    'deleteForms' => $deleteForms,
+                    'posts' => $pagination['posts'],
+                    'nextPageUrl' => $pagination['nextPageUrl'],
+                    'nextPage' => $pagination['nextPage'],
+                    'deleteForms' => $pagination['deleteForms'],
                 ]
             );
 
@@ -72,11 +53,10 @@ class PostController extends Controller
 
 
         return [
-            'posts' => $posts,
-            'nextPageUrl' => $nextPageUrl,
-            'nextPage' => $nextPage,
-            'deleteForms' => $deleteForms,
-
+            'posts' => $pagination['posts'],
+            'nextPageUrl' => $pagination['nextPageUrl'],
+            'nextPage' => $pagination['nextPage'],
+            'deleteForms' => $pagination['deleteForms'],
         ];
     }
 
@@ -90,12 +70,7 @@ class PostController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $post = new Post();
-
-        $form = $this->createForm(
-            PostType::class,
-            $post,
-            array('method' => 'POST',)
-        );
+        $form = $this->get('app.form_manager')->createNewPostForm($post);
 
         if ($request->getMethod() == 'POST') {
 
@@ -126,12 +101,15 @@ class PostController extends Controller
 
         $editForm = $this->createForm(PostType::class, $post);
         $editForm->handleRequest($request);
+
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($post);
             $em->flush();
+
             return $this->redirectToRoute('manage_posts');
         }
+
         return [
             'post' => $post,
             'form' => $editForm->createView(),
@@ -147,7 +125,7 @@ class PostController extends Controller
     public function removeAction(Request $request, Post $post)
     {
         $em = $this->getDoctrine()->getManager();
-        $form = $this->createDeleteForm($post);
+        $form = $this->get('app.form_manager')->createPostDeleteForm($post);
 
         if ($request->getMethod() == 'DELETE') {
 
@@ -163,23 +141,6 @@ class PostController extends Controller
 
         return $this->redirectToRoute('manage_posts');
 
-        //return ['form' => $form->createView()];
     }
 
-    /**
-     * @param Post $post
-     * @return \Symfony\Component\Form\Form
-     */
-    private function createDeleteForm(Post $post)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('remove_post', array('id' => $post->getId())))
-            ->setMethod('DELETE')
-            ->add(
-                'submit',
-                SubmitType::class,
-                ['label' => ' ', 'attr' => ['class' => 'glyphicon glyphicon-trash btn-link']]
-            )
-            ->getForm();
-    }
 }

@@ -7,7 +7,7 @@ body {
 }
 
 #homepage-sidebar {
-    width: 260px;
+    width: 360px;
     padding: 20px;
     padding-top: 75px;
 }
@@ -17,7 +17,7 @@ body {
     padding: 20px
 }
 
-.homepage-body-container {
+.body-container {
     padding-right: 5px;
     padding-top: 60px;
     margin-bottom: 120px;
@@ -47,7 +47,7 @@ body {
 }
 
 .content-container {
-    width: 1000px; background-color: white
+    width: 1100px; background-color: white
 }
 
 #single-post-container {
@@ -106,14 +106,12 @@ h6 {
     background-color: whitesmoke;
     margin: 5px;
     padding: 10px;
-    border: 1px solid lightgray;
     border-radius: 10px;
 }
 
 #last-comments, #tag-cloud {
     padding: 10px;
     margin-top: 10px;
-    border: 1px solid lightgray;
     border-radius: 10px;
     background-color: whitesmoke;
 }
@@ -134,8 +132,21 @@ a:hover {
     text-decoration: none;
 }
 
+.tagcloud-a :hover {
+    color: #7a43b6 !important;
+}
+
 .sidebar-top-post-container a:hover {
     color: #7a43b6;
+}
+
+.sidebar-block-header {
+    padding: 15px;
+    background-color:#FF6600 ;
+    color: whitesmoke;
+    font-size: 26px;
+    border-radius: 10px;
+    height: 60px;
 }
 
 #tag-cloud a:hover {
@@ -199,7 +210,6 @@ a:hover {
 .search-results-container {
     width: 800px;
     margin: auto;
-    border: 1px solid lavender;
     padding: 20px;
     padding-top: 60px;
     margin-bottom: 100px;
@@ -252,4 +262,8 @@ a.back-to-top {
 }
 a:hover.back-to-top {
     background-color: #7a43b6;
+}
+
+.admin-base-body {
+    width: 80%;
 }

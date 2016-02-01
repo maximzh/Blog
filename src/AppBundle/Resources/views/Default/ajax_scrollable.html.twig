@@ -1,23 +1,8 @@
-{% extends '::admin_base.html.twig' %}
-
+{% extends '::base.html.twig' %}
 {% block body %}
-{{ parent() }}
-    <h1>
-        <a href="{{ path('new_post') }}" style="position: fixed; left: 5%; top: 15%"><i class="glyphicon glyphicon-plus-sign"></i></a>
-        <a href="{{ path('new_post') }}">Create new post</a>
-    </h1>
-    <h2>
-        Total posts: <span class="text-danger">{{ countAllPosts() }}</span>
-    </h2>
-
-<div class="admin-posts">
-    {% include 'AppBundle:Admin/Post:postsList.html.twig' %}
-</div>
-
 {% endblock %}
 {% block javascripts %}
-    {{ parent() }}
-
+{{ parent() }}
     <script type="text/javascript">
         function loadRows() {
             var url = $('.pagination span a').attr('href');
@@ -25,7 +10,7 @@
                 var content = $(data),
                         articlesList = content.closest('.blog-article'),
                         nextLink = content.find('.next-page');
-                $('.admin-posts').append(articlesList);
+                $('.body-container').append(articlesList);
                 if (nextLink.length) {
                     $('.pagination').html(nextLink);
                 } else {
@@ -39,5 +24,4 @@
             }
         });
     </script>
-
 {% endblock %}

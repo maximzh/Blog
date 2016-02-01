@@ -1,34 +1,36 @@
 <div class="img-rounded border-left" id="top-posts">
-    {% if top_posts %}
-        <h4>Top 5 posts:</h4>
-        {% for post in top_posts %}
+    {% if topPosts() %}
+        <h4 class="sidebar-block-header text-center"><i class="glyphicon glyphicon-thumbs-up"></i> Top 5 </h4>
+        {% for post in topPosts() %}
             <div class="sidebar-top-post-container">
-                {#
-                <div class="rating text-danger">
-                    <i class="glyphicon glyphicon-star"></i> {{ post.0.rating|number_format(2, '.', ',') }}
-                </div>
-                #}
-
                 <div>
                     <a href="{{ path('show_post', {'slug': post.0.slug}) }}">
+                        <div class="rating-container rating-gly-star" data-content="">
+                            <div class="rating-stars" style="width: {{ postRating(post.0) * 20 }}%"
+                                 data-content="">
+                            </div>
+                        </div>({{ postRating(post.0)|number_format(2) }})
+                        <br>
                         <span style="font-weight: bold">{{ post.0.title }}</span><br>
+
+
                         {% if post.0.webPath is not null %}
-                            <img src="{{ post.0.webPath | imagine_filter('small_thumb') }}" alt="image" class="img-rounded">
+                            <img src="{{ post.0.webPath | imagine_filter('small_thumb') }}" alt="image"
+                                 class="img-rounded">
                         {% endif %}
                     </a>
+                    <div class="pull-right" style="width: 150px; padding: 5px; background-color: white">{{ post.0.text|slice(0, 70)|raw }}...</div>
                 </div>
-
-
             </div>
         {% endfor %}
     {% endif %}
     <br>
 </div>
 
-{% if last_comments is not empty %}
+{% if lastComments() is not empty %}
+    <h4 class="sidebar-block-header text-center"><i class="glyphicon glyphicon-comment"></i> Last comments</h4>
     <div id="last-comments" class="img-rounded">
-        <h4>Last comments:</h4>
-        {% for comment in last_comments %}
+        {% for comment in lastComments() %}
             <h6>
                 {{ comment.commentAuthor }} ({{ comment.createdAt|date('d-m-Y') }})
             </h6>
@@ -42,9 +44,9 @@
 {% endif %}
 <div id="tag-cloud">
 
-    {% for key,tag in tag_cloud %}
-        <a href="{{ path('show_tag', {'slug': tag.slug}) }}">
-            <span style="font-size: {{ tag.font }}px">{{ key }}</span>
+    {% for key,tag in tagCloud(allTags()) %}
+        <a class="tagcloud-a" href="{{ path('show_tag', {'slug': tag.slug}) }}">
+            <span style="font-size: {{ tag.font }}px; color: {{ tag.color }}">  {{ key }}</span>
         </a>
 
     {% endfor %}

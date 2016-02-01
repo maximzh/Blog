@@ -1,35 +1,21 @@
-{% extends '::base.html.twig' %}
+{% extends 'AppBundle:Default:ajax_scrollable.html.twig' %}
 {% block body %}
-    <div class="search-results-container">
-        <h1>Posts with tag '{{ tag.name }}'</h1>
-        {% if tag.posts is empty %}
-            <h2>
-                Sorry, there are no posts associated with tag <span class="text-danger">'{{ tag.name }}'</span>
-            </h2>
-        {% endif %}
-        {% if tag.posts is not empty %}
-            {% for post in tag.posts %}
-                <div class="clearfix search-result">
-                    <div class="pull-left" style="width: 200px; padding-top: 30px;">
-                        {% if post.webPath is not null %}
-                            <img src="{{ post.webPath | imagine_filter('small_thumb') }}" alt="image">
-                        {% endif %}
-                    </div>
-                    <div class="pull-right" style="width: 500px">
-                        <h3>{{ post.title }}</h3>
-                        {{ post.text|length > 200 ? post.text|slice(0, 200) ~ '...' :post.text }}<br>
 
-                        <div class="read-more pull-right">
-                            <a href="{{ path('show_post', { 'slug': post.slug }) }}">
-                                Read more <i class="glyphicon glyphicon-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
+    <div class="search-results-container">
+
+        <h1 class="text-center"><span style="color: #7a43b6">{{ count }}</span> posts have tag <span style="color: #7a43b6">#{{ tag }}</span></h1>
+        {% if posts is not empty %}
+            <div class="clearfix">
+                <div class="pull-left center-block body-container img-rounded" style=" margin-top: 15px; padding: 15px">
+
+                    {% include 'AppBundle:Default:postsList.html.twig' %}
+
                 </div>
-            {% endfor %}
+
+            </div>
+
         {% endif %}
 
     </div>
-
 
 {% endblock %}
