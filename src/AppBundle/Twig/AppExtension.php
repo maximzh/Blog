@@ -64,6 +64,30 @@ class AppExtension extends \Twig_Extension
                     'is_safe' => array('html'),
                 )
             ),
+            new \Twig_SimpleFunction(
+                'countAllComments',
+                array($this, 'countAllComments'),
+                array(
+                    'needs_environment' => true,
+                    'is_safe' => array('html'),
+                )
+            ),
+            new \Twig_SimpleFunction(
+                'countAllTags',
+                array($this, 'countAllTags'),
+                array(
+                    'needs_environment' => true,
+                    'is_safe' => array('html'),
+                )
+            ),
+            new \Twig_SimpleFunction(
+                'countAllPosts',
+                array($this, 'countAllPosts'),
+                array(
+                    'needs_environment' => true,
+                    'is_safe' => array('html'),
+                )
+            ),
         );
     }
 
@@ -155,6 +179,26 @@ class AppExtension extends \Twig_Extension
 
     }
 
+    public function countAllComments()
+    {
+        return $this->doctrine->getManager()
+            ->getRepository('AppBundle:Comment')
+            ->countAllComments();
+    }
+
+    public function countAllTags()
+    {
+        return $this->doctrine->getManager()
+            ->getRepository('AppBundle:Tag')
+            ->countAllTags();
+    }
+
+    public function countAllPosts()
+    {
+        return $this->doctrine->getManager()
+            ->getRepository('AppBundle:Post')
+            ->countAllPosts();
+    }
 
 
 

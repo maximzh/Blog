@@ -1,7 +1,9 @@
 {% extends '::admin_base.html.twig' %}
 {% block body %}
 {{ parent() }}
-
+    <h2>
+        Total comments: <span class="text-danger">{{ countAllComments() }}</span>
+    </h2>
     <div class="admin-posts">
         {% include 'AppBundle:Admin/Comment:commentList.html.twig' %}
     </div>

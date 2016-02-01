@@ -6,6 +6,9 @@
         <a href="{{ path('new_post') }}" style="position: fixed; left: 5%; top: 15%"><i class="glyphicon glyphicon-plus-sign"></i></a>
         <a href="{{ path('new_post') }}">Create new post</a>
     </h1>
+    <h2>
+        Total posts: <span class="text-danger">{{ countAllPosts() }}</span>
+    </h2>
 
 <div class="admin-posts">
     {% include 'AppBundle:Admin/Post:postsList.html.twig' %}
