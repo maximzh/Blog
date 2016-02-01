@@ -88,6 +88,14 @@ class AppExtension extends \Twig_Extension
                     'is_safe' => array('html'),
                 )
             ),
+            new \Twig_SimpleFunction(
+                'countCommentsWithRating',
+                array($this, 'countCommentsWithRating'),
+                array(
+                    'needs_environment' => true,
+                    'is_safe' => array('html'),
+                )
+            ),
         );
     }
 
@@ -114,6 +122,22 @@ class AppExtension extends \Twig_Extension
 
 
         return $rating;
+    }
+
+    public function countCommentsWithRating(\Twig_Environment $twig, Post $post)
+    {
+        $comments = $post->getComments();
+        $countCommentsWithRating = 0;
+        if (count($comments) !== 0) {
+
+            foreach ($comments as $comment) {
+                if (0 !== $comment->getRating()) {
+                    $countCommentsWithRating++;
+                }
+            }
+        }
+
+        return $countCommentsWithRating;
     }
 
     public function getTagCloud(\Twig_Environment $twig, $tags)

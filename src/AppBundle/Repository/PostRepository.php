@@ -63,8 +63,8 @@ class PostRepository extends EntityRepository
             ->join('p.comments', 'c')
             ->join('p.author', 'a')
             ->join('p.tags', 't')
-            ->groupBy('p')
             ->orderBy('rating', 'DESC')
+            ->groupBy('p')
             ->setMaxResults($number)
             ->getQuery()
             ->getResult();
