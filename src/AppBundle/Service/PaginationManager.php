@@ -10,15 +10,11 @@ namespace AppBundle\Service;
 
 
 use AppBundle\Entity\Post;
-use AppBundle\Form\PostType;
 use Symfony\Bridge\Doctrine\RegistryInterface;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Form;
-use Symfony\Component\HttpKernel\Exception\HttpNotFoundException;
 
 class PaginationManager
 {
@@ -79,8 +75,8 @@ class PaginationManager
             ? $nextPageUrl = $this->router->generate('manage_posts', ['page' => $nextPage])
             : false;
 
-        $deleteForms =[];
-        foreach($posts as $post) {
+        $deleteForms = [];
+        foreach ($posts as $post) {
             $deleteForms[$post->getId()] = $this->formManager->createPostDeleteForm($post)->createView();
         }
         $pagination['posts'] = $posts;
@@ -154,7 +150,7 @@ class PaginationManager
     {
         $tag = $this->doctrine->getManager()->getRepository('AppBundle:Tag')->findTagWithPosts($slug);
 
-        if(!$tag) {
+        if (!$tag) {
 
             throw new NotFoundHttpException('tag not found: '.$slug);
         }
@@ -199,8 +195,8 @@ class PaginationManager
             ? $nextPageUrl = $this->router->generate('manage_comments', ['page' => $nextPage])
             : false;
 
-        $deleteForms =[];
-        foreach($comments as $comment) {
+        $deleteForms = [];
+        foreach ($comments as $comment) {
             $deleteForms[$comment->getId()] = $this->formManager->createCommentDeleteForm($comment)->createView();
         }
         $pagination['comments'] = $comments;
@@ -227,8 +223,8 @@ class PaginationManager
             ? $nextPageUrl = $this->router->generate('manage_tags', ['page' => $nextPage])
             : false;
 
-        $deleteForms =[];
-        foreach($tags as $tag) {
+        $deleteForms = [];
+        foreach ($tags as $tag) {
             $deleteForms[$tag->getId()] = $this->formManager->createTagDeleteForm($tag)->createView();
         }
         $pagination['tags'] = $tags;
