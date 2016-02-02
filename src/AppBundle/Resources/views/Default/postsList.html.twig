@@ -1,6 +1,9 @@
 {% for post in posts %}
 
     <div class="blog-article">
+        {#
+
+        #}
         <h3 class="h3 text-left img-rounded post-title">
             <a href="{{ path('show_post', {'slug': post.slug}) }}">
                 {{ post.title }}
@@ -26,7 +29,7 @@
         <div class="clearfix img-rounded" style="padding: 15px">
             <div class="pull-left" style="padding-top: 25px">
                 {% if post.webPath is not null %}
-                    <img src="{{ post.webPath | imagine_filter('my_thumb') }}" alt="image" class="img-rounded">
+                    <img src="{{ post.webPath | imagine_filter('my_thumb') }}" alt="image" class="img-rounded" style="display: block">
                 {% endif %}
             </div>
             <div class="pull-left post-preview">

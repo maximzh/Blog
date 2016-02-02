@@ -1,13 +1,14 @@
 {% extends 'AppBundle:Default:ajax_scrollable.html.twig' %}
 {% block body %}
-    <div class="content-container center-block">
-        <div class="clearfix">
-            <div class="pull-left center-block body-container img-rounded" style="border: 1px solid lavender; margin-top: 75px; padding: 15px">
+    <div class="content-container center-block container-fluid">
+        <div class="row center-block">
+            <div class="col-md-2"></div>
+            <div class="body-container col-md-6" style="border: 1px solid lavender; margin-top: 75px; padding: 15px">
 
                 {% include 'AppBundle:Default:postsList.html.twig' %}
 
             </div>
-            <div id="homepage-sidebar" class="pull-left img-rounded">
+            <div id="homepage-sidebar" class="col-md-3 col-xs-offset-0">
                 {% include 'AppBundle:Default:sidebar.html.twig' %}
             </div>
         </div>
