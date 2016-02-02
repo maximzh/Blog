@@ -2,6 +2,8 @@
 <html>
     <head>
         <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}
             <link href="{{ asset('css/app.css') }}" rel="stylesheet"/>
@@ -10,10 +12,10 @@
     </head>
     <body>
         {% block header %}
-            <div id="header-menu">
+            <div id="header-menu" class="row">
                 <nav class="header-menu navbar-fixed-top">
 
-                    <ul class="nav navbar-nav">
+                    <ul class="nav navbar-nav pull-left">
                         <li class="active">
                             <a href="{{ path('homepage') }}">Homepage</a>
                         </li>
@@ -29,6 +31,7 @@
                             </div>
                         </form>
                     </div>
+                    <div class="clearfix"></div>
                 </nav>
             </div>
         {% endblock %}
