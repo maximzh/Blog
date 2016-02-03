@@ -13,7 +13,7 @@ body {
 }
 
 .post-preview {
-    width: 250px;
+
     padding: 20px
 }
 
@@ -194,8 +194,7 @@ a:hover {
 }
 
 .comment-form {
-    padding: 20px;
-    border: 1px solid;
+    border: 3px solid;
     border-color: lavender;
     border-radius: 15px;
     margin-top: 20px;

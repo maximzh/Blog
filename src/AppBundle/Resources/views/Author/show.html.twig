@@ -9,11 +9,16 @@
 
         {% if posts is not empty %}
             <h1 class="text-center"><span style="color: #7a43b6">{{ count }}</span> posts found:</h1>
-            <div class="pull-left center-block body-container img-rounded" style=" margin-top: 15px; padding: 15px">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="body-container img-rounded col-md-6 col-md-offset-3" style=" margin-top: 15px; padding: 15px">
 
-                {% include 'AppBundle:Default:postsList.html.twig' %}
+                        {% include 'AppBundle:Default:postsList.html.twig' %}
 
+                    </div>
+                </div>
             </div>
+
         {% endif %}
 
     </div>

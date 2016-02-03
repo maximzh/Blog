@@ -9,7 +9,7 @@
                 {{ post.title }}
             </a>
 
-            <div class="rating-container rating-gly-star" data-content="">
+            <div class="pull-right rating-container rating-gly-star" data-content="">
                 <div class="rating-stars" style="width: {{ postRating(post) * 20 }}%" data-content=""></div>
             </div>
 
@@ -26,15 +26,15 @@
             <i class="glyphicon glyphicon-time"></i> {{ post.createdAt|date('d M Y') }}
         </span>
 
-        <div class="clearfix img-rounded" style="padding: 15px">
-            <div class="pull-left" style="padding-top: 25px">
+
+            <div class="col-md-7" style="padding-top: 25px">
                 {% if post.webPath is not null %}
                     <img src="{{ post.webPath | imagine_filter('my_thumb') }}" alt="image" class="img-rounded" style="display: block">
                 {% endif %}
             </div>
-            <div class="pull-left post-preview">
+            <div class=" post-preview col-md-5">
 
-                {{ post.text|slice(0, 350)|raw }}...
+                {{ post.text|slice(0, 650)|raw }}...
 
                 <div class="read-more pull-right">
                     <a href="{{ path('show_post', { 'slug': post.slug }) }}">
@@ -42,6 +42,7 @@
                     </a>
                 </div>
             </div>
+        <div class="clearfix img-rounded" style="padding: 15px">
         </div>
 
 

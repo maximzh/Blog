@@ -91,7 +91,7 @@ liip_imagine:
         default_thumb:
                     quality: 100
                     filters:
-                        thumbnail: { size: [760, 570], mode: outbound }
+                        thumbnail: { size: [900, 570], mode: outbound }
         small_thumb:
                     quality: 100
                     filters:

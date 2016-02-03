@@ -2,13 +2,13 @@
 {% block body %}
     <div class="content-container center-block container-fluid">
         <div class="row center-block">
-            <div class="col-md-2"></div>
-            <div class="body-container col-md-6" style="border: 1px solid lavender; margin-top: 75px; padding: 15px">
+
+            <div class="body-container col-md-6 col-md-offset-2 col-sm-12" style="border: 1px solid lavender; margin-top: 75px; padding: 15px; overflow: hidden">
 
                 {% include 'AppBundle:Default:postsList.html.twig' %}
 
             </div>
-            <div id="homepage-sidebar" class="col-md-3 col-xs-offset-0">
+            <div id="homepage-sidebar" class="col-lg-3 col-md-3">
                 {% include 'AppBundle:Default:sidebar.html.twig' %}
             </div>
         </div>
