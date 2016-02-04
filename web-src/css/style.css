@@ -95,6 +95,7 @@ h6 {
 .post-title {
     background-color: #131313;
     padding: 5px;
+    border-radius: 15px;
 }
 
 .post-title a {
@@ -194,12 +195,13 @@ a:hover {
 }
 
 .comment-form {
-    border: 3px solid;
-    border-color: lavender;
+    color: #7A43B6;
+    background-color: #F7F7F7;
+    padding: 10px;
+
     border-radius: 15px;
     margin-top: 20px;
     margin-bottom: 20px;
-    background-color: whitesmoke;
 }
 
 .show-post-posted-at {
@@ -238,7 +240,8 @@ a:hover {
 }
 
 .post-single-comment {
-    border: 2px solid whitesmoke;
+    background-color: lavender;
+    border: 1px dotted lavender;
     border-radius: 5px;
     margin-bottom: 10px;
     padding: 10px;
