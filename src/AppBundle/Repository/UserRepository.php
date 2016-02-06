@@ -12,5 +12,18 @@ use Doctrine\ORM\EntityRepository;
  */
 class UserRepository extends EntityRepository
 {
+    public function findUserWithDependencies($slug)
+    {
+        return $this->createQueryBuilder('u')
+            ->select('u, p, t, c')
+            ->join('u.posts', 'p')
+            ->join('p.tags', 't')
+            ->leftJoin('p.comments', 'c')
+            ->where('u.slug = :slug')
+            ->setParameter('slug', $slug)
+            ->orderBy('p.createdAt', 'DESC')
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 
 }

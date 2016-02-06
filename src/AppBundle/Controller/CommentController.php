@@ -41,6 +41,8 @@ class CommentController extends Controller
 
             if ($form->isValid()) {
 
+                $user = $this->getUser();
+                $comment->setUser($user);
                 $em->persist($comment);
                 $em->flush();
 

@@ -25,6 +25,11 @@
                 <li>
                     <a href="{{ path('manage_comments') }}">Comments</a>
                 </li>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li>
+                        <a href="{{ path('show_all_users') }}">Users</a>
+                    </li>
+                {% endif %}
                 <li class="pull-right">
                     <a href="{{ path('homepage') }}">To blog</a>
                 </li>

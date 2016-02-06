@@ -8,6 +8,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -84,14 +85,21 @@ class User implements UserInterface, \Serializable
         $this->isActive = true;
         $this->isModerator = false;
         $this->isAdmin = false;
-        // may not be needed, see section on salt below
-        // $this->salt = md5(uniqid(null, true));
+
+        $this->posts = new ArrayCollection();
+        $this->comments = new ArrayCollection();
+
     }
 
     /**
      * @ORM\OneToMany(targetEntity="Post", mappedBy="author")
      */
     private $posts;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="user")
+     */
+    private $comments;
 
     /**
      * @var \DateTime
@@ -454,5 +462,39 @@ class User implements UserInterface, \Serializable
     public function getIsAdmin()
     {
         return $this->isAdmin;
+    }
+
+    /**
+     * Add comment
+     *
+     * @param \AppBundle\Entity\Comment $comment
+     *
+     * @return User
+     */
+    public function addComment(\AppBundle\Entity\Comment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \AppBundle\Entity\Comment $comment
+     */
+    public function removeComment(\AppBundle\Entity\Comment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }

@@ -52,14 +52,7 @@ class PostType extends AbstractType
                     'class' => 'checkbox-inline'
                 ]
             ))
-            ->add(
-                'author',
-                EntityType::class,
-                array(
-                    'class' => 'AppBundle:Author',
-                    'choice_label' => 'name',
-                )
-            );
+            ;
 
     }
 

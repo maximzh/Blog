@@ -78,6 +78,8 @@ class PostController extends Controller
 
             if ($form->isValid()) {
 
+                $user = $this->getUser();
+                $post->setAuthor($user);
                 $em->persist($post);
                 $em->flush();
 

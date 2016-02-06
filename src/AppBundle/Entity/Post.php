@@ -61,7 +61,7 @@ class Post
     private $text;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Author", inversedBy="posts")
+     *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="posts")
      */
     private $author;
@@ -279,11 +279,11 @@ class Post
     /**
      * Set author
      *
-     * @param Author $author
+     * @param User $author
      *
      * @return Post
      */
-    public function setAuthor(Author $author = null)
+    public function setAuthor(User $author = null)
     {
         $this->author = $author;
 
@@ -293,7 +293,7 @@ class Post
     /**
      * Get author
      *
-     * @return Author
+     * @return User
      */
     public function getAuthor()
     {
