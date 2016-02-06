@@ -12,8 +12,8 @@ security:
                 property: username
 
     role_hierarchy:
-             ROLE_ADMIN:       ROLE_USER
-             ROLE_SUPER_ADMIN: ROLE_ADMIN
+             ROLE_MODERATOR: ROLE_USER
+             ROLE_ADMIN: ROLE_MODERATOR
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -33,9 +33,10 @@ security:
             logout:
                 path: /logout
                 target: /
+                invalidate_session: false
 
     access_control:
         - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY  }
         - { path: ^/admin/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY  }
-        - { path: ^/admin/users/, roles: ROLE_SUPER_ADMIN  }
-        - { path: ^/admin/, roles: ROLE_ADMIN  }
+        - { path: ^/admin/users/, roles: ROLE_ADMIN  }
+        - { path: ^/admin/, roles: ROLE_MODERATOR  }

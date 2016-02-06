@@ -9,6 +9,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -31,6 +32,17 @@ class User implements UserInterface, \Serializable
      * @Assert\NotBlank()
      */
     private $username;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="slug", type="string", length=35, unique=true)
+     * @Gedmo\Slug(fields={"username"}, updatable=true, separator="-")
+     *
+     * @Assert\Length(max="35")
+     */
+    private $slug;
 
     /**
      * @Assert\NotBlank()
@@ -57,12 +69,55 @@ class User implements UserInterface, \Serializable
      */
     private $isActive;
 
+    /**
+     * @ORM\Column(name="is_moderator", type="boolean")
+     */
+    private $isModerator;
+
+    /**
+     * @ORM\Column(name="is_admin", type="boolean")
+     */
+    private $isAdmin;
+
     public function __construct()
     {
         $this->isActive = true;
+        $this->isModerator = false;
+        $this->isAdmin = false;
         // may not be needed, see section on salt below
         // $this->salt = md5(uniqid(null, true));
     }
+
+    /**
+     * @ORM\OneToMany(targetEntity="Post", mappedBy="author")
+     */
+    private $posts;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created_at", type="datetime")
+     * @Gedmo\Timestampable(on="create")
+     * @Assert\DateTime()
+     */
+    private $createdAt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
+     * @Gedmo\Timestampable(on="change", field={"title", "text"})
+     * @Assert\DateTime()
+     */
+    private $updatedAt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="deleted_at", type="datetime", nullable=true)
+     * @Assert\DateTime()
+     */
+    private $deletedAt;
 
     public function getUsername()
     {
@@ -83,7 +138,16 @@ class User implements UserInterface, \Serializable
 
     public function getRoles()
     {
-        return array('ROLE_USER');
+        if (true === $this->getIsAdmin()) {
+
+            return array('ROLE_ADMIN');
+        } elseif (true === $this->getIsModerator()) {
+
+            return array('ROLE_MODERATOR');
+        } else {
+
+            return array('ROLE_USER');
+        }
     }
 
     public function eraseCredentials()
@@ -212,5 +276,183 @@ class User implements UserInterface, \Serializable
     public function getIsActive()
     {
         return $this->isActive;
+    }
+
+    /**
+     * Set isModerator
+     *
+     * @param boolean $isModerator
+     *
+     * @return User
+     */
+    public function setIsModerator($isModerator)
+    {
+        $this->isModerator = $isModerator;
+
+        return $this;
+    }
+
+    /**
+     * Get isModerator
+     *
+     * @return boolean
+     */
+    public function getIsModerator()
+    {
+        return $this->isModerator;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     *
+     * @return User
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return User
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     *
+     * @return User
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * Set deletedAt
+     *
+     * @param \DateTime $deletedAt
+     *
+     * @return User
+     */
+    public function setDeletedAt($deletedAt)
+    {
+        $this->deletedAt = $deletedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get deletedAt
+     *
+     * @return \DateTime
+     */
+    public function getDeletedAt()
+    {
+        return $this->deletedAt;
+    }
+
+    /**
+     * Add post
+     *
+     * @param \AppBundle\Entity\Post $post
+     *
+     * @return User
+     */
+    public function addPost(\AppBundle\Entity\Post $post)
+    {
+        $this->posts[] = $post;
+
+        return $this;
+    }
+
+    /**
+     * Remove post
+     *
+     * @param \AppBundle\Entity\Post $post
+     */
+    public function removePost(\AppBundle\Entity\Post $post)
+    {
+        $this->posts->removeElement($post);
+    }
+
+    /**
+     * Get posts
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPosts()
+    {
+        return $this->posts;
+    }
+
+    /**
+     * Set isAdmin
+     *
+     * @param boolean $isAdmin
+     *
+     * @return User
+     */
+    public function setIsAdmin($isAdmin)
+    {
+        $this->isAdmin = $isAdmin;
+
+        return $this;
+    }
+
+    /**
+     * Get isAdmin
+     *
+     * @return boolean
+     */
+    public function getIsAdmin()
+    {
+        return $this->isAdmin;
     }
 }

@@ -62,6 +62,7 @@ class Post
 
     /**
      * @ORM\ManyToOne(targetEntity="Author", inversedBy="posts")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="posts")
      */
     private $author;
 
@@ -533,4 +534,18 @@ class Post
         return $rating;
     }
 */
+
+    /**
+     * Set path
+     *
+     * @param string $path
+     *
+     * @return Post
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+
+        return $this;
+    }
 }
