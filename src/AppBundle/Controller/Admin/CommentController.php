@@ -91,7 +91,9 @@ class CommentController extends Controller
     public function removeAction(Request $request, Comment $comment)
     {
         $em = $this->getDoctrine()->getManager();
-        $form = $this->createDeleteForm($comment);
+        $formManager = $this->get('app.form_manager');
+        $form = $formManager->createCommentDeleteForm($comment);
+        //$form = $this->createDeleteForm($comment);
 
         if ($request->getMethod() == 'DELETE') {
 
@@ -100,32 +102,9 @@ class CommentController extends Controller
             if ($form->isValid()) {
                 $em->remove($comment);
                 $em->flush();
-
-
             }
         }
 
         return $this->redirectToRoute('manage_comments');
-
-
-    }
-
-
-
-    /**
-     * @param Comment $comment
-     * @return \Symfony\Component\Form\Form
-     */
-    private function createDeleteForm(Comment $comment)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('remove_comment', array('id' => $comment->getId())))
-            ->setMethod('DELETE')
-            ->add(
-                'submit',
-                SubmitType::class,
-                ['label' => ' ', 'attr' => ['class' => 'glyphicon glyphicon-trash btn-link']]
-            )
-            ->getForm();
     }
 }
