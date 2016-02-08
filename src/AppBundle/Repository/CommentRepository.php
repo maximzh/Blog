@@ -91,4 +91,24 @@ class CommentRepository extends EntityRepository
 
         return new Paginator($query);
     }
+
+    public function findAllCommentsByUserInAdminPosts($currentPage, $limit, $user, $admin)
+    {
+        $query = $this->createQueryBuilder('c')
+            ->select('c, p, u')
+            ->join('c.user', 'u')
+            ->leftJoin('c.post', 'p')
+            ->join('p.author', 'a')
+            ->where('u.slug =:slug')
+            ->andWhere('a.slug =:adminslug')
+            ->setParameter('slug', $user->getSlug())
+            ->setParameter('adminslug', $admin->getSlug())
+            //->addGroupBy('u')
+            ->orderBy('c.createdAt', 'DESC')
+            ->getQuery()
+            ->setFirstResult($limit * ($currentPage -1))
+            ->setMaxResults($limit);
+
+        return new Paginator($query);
+    }
 }

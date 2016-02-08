@@ -10,6 +10,7 @@ namespace AppBundle\Controller\Admin;
 
 
 use AppBundle\Entity\Comment;
+use AppBundle\Entity\User;
 use AppBundle\Form\CommentType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -57,6 +58,44 @@ class CommentController extends Controller
             'nextPage' => $pagination['nextPage'],
             'deleteForms' => $pagination['deleteForms'],
         ];
+    }
+
+    /**
+     * @param Request $request
+     * @param User $user
+     * @return array
+     * @Route("/admin/comment/user/{id}", name="manage_user_comments")
+     * @Template("@App/Admin/Comment/userComments.html.twig")
+     */
+    public function showUserComments(Request $request, User $user) {
+
+        $admin = $this->getUser();
+        $paginationManager = $this->get('app.pagination_manager');
+        $formManager = $this->get('app.form_manager');
+        $pagination = $paginationManager->setLimit(10)->setFormManager($formManager)->getUserCommentsWithDeleteForms($request, $user, $admin);
+
+        if ($request->isXmlHttpRequest()) {
+            $content = $this->renderView(
+                'AppBundle:Admin/Comment:commentList.html.twig',
+                [
+                    'comments' => $pagination['comments'],
+                    'nextPageUrl' => $pagination['nextPageUrl'],
+                    'nextPage' => $pagination['nextPage'],
+                    'deleteForms' => $pagination['deleteForms'],
+                ]
+            );
+
+            return new Response($content);
+        }
+
+
+        return [
+            'comments' => $pagination['comments'],
+            'nextPageUrl' => $pagination['nextPageUrl'],
+            'nextPage' => $pagination['nextPage'],
+            'deleteForms' => $pagination['deleteForms'],
+        ];
+
     }
 
 
@@ -107,4 +146,5 @@ class CommentController extends Controller
 
         return $this->redirectToRoute('manage_comments');
     }
+
 }

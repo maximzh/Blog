@@ -237,6 +237,35 @@ class PaginationManager
         return $pagination;
     }
 
+    public function getUserCommentsWithDeleteForms(Request $request, User $user, User $admin)
+    {
+        $currentPage = $request->query->getInt('page', 1);
+        $repository = $this->doctrine->getManager()->getRepository('AppBundle:Comment');
+        $count = $repository->countAllComments();
+
+        $nextPage = $count > $this->limit * $currentPage
+            ? $currentPage + 1
+            : false;
+
+            $comments = $repository->findAllCommentsByUserInAdminPosts($currentPage, $this->limit, $user, $admin);
+
+
+        $nextPageUrl = $nextPage
+            ? $nextPageUrl = $this->router->generate('manage_user_comments', ['id' => $user->getId() ,'page' => $nextPage])
+            : false;
+
+        $deleteForms = [];
+        foreach ($comments as $comment) {
+            $deleteForms[$comment->getId()] = $this->formManager->createCommentDeleteForm($comment)->createView();
+        }
+        $pagination['comments'] = $comments;
+        $pagination['nextPageUrl'] = $nextPageUrl;
+        $pagination['nextPage'] = $nextPage;
+        $pagination['deleteForms'] = $deleteForms;
+
+        return $pagination;
+    }
+
     public function getTagsWithDeleteForms(Request $request)
     {
         $currentPage = $request->query->getInt('page', 1);
