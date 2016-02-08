@@ -10,14 +10,12 @@ namespace AppBundle\Service;
 
 
 use AppBundle\Entity\Post;
-use AppBundle\Form\PostType;
+use AppBundle\Entity\User;
 use Symfony\Bridge\Doctrine\RegistryInterface;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Form;
 
 class PaginationManager
 {
@@ -62,7 +60,7 @@ class PaginationManager
     }
 
 
-    public function getPostsWithDeleteForms(Request $request)
+    public function getPostsWithDeleteForms(Request $request, User $user)
     {
         $currentPage = $request->query->getInt('page', 1);
         $repository = $this->doctrine->getManager()->getRepository('AppBundle:Post');
@@ -72,16 +70,25 @@ class PaginationManager
             ? $currentPage + 1
             : false;
 
-        $posts = $repository->findAllPostsWithDependencies($currentPage, $this->limit);
+        if ($user->getIsAdmin()) {
+            $posts = $repository->findAllPostsWithDependencies($currentPage, $this->limit);
+        } else {
+            $posts = $repository->findAllUserPostsWithDependencies($currentPage, $this->limit, $user);
+        }
+
 
         $nextPageUrl = $nextPage
             ? $nextPageUrl = $this->router->generate('manage_posts', ['page' => $nextPage])
             : false;
 
-        $deleteForms =[];
-        foreach($posts as $post) {
-            $deleteForms[$post->getId()] = $this->formManager->createPostDeleteForm($post)->createView();
+        $deleteForms = [];
+        if ($this->formManager) {
+
+            foreach ($posts as $post) {
+                $deleteForms[$post->getId()] = $this->formManager->createPostDeleteForm($post)->createView();
+            }
         }
+
         $pagination['posts'] = $posts;
         $pagination['nextPageUrl'] = $nextPageUrl;
         $pagination['nextPage'] = $nextPage;
@@ -101,28 +108,38 @@ class PaginationManager
             ->getRepository('AppBundle:Comment')
             ->findCommentsByPost($slug);
 
+        $deleteForms = [];
+        if ($this->formManager) {
+
+            foreach ($comments as $comment) {
+                $deleteForms[$comment->getId()] = $this->formManager->createPostCommentDeleteForm($comment)->createView(
+                );
+            }
+        }
+
 
         return [
             'post' => $post,
             'comments' => $comments,
+            'deleteForms' => $deleteForms,
         ];
     }
 
 
-    public function getAuthorWithPosts($slug)
+    public function getUserWithPosts($slug)
     {
-        $authorWithPosts = $this->doctrine
-            ->getRepository('AppBundle:Author')
-            ->findAuthorWithDependencies($slug);
+        $userWithPosts = $this->doctrine
+            ->getRepository('AppBundle:User')
+            ->findUserWithDependencies($slug);
 
-        return $authorWithPosts;
+        return $userWithPosts;
     }
 
 
-    public function getPostsByAuthor(Request $request, $slug)
+    public function getPostsByUser(Request $request, $slug)
     {
-        $author = $this->doctrine->getRepository('AppBundle:Author')
-            ->findAuthorWithDependencies($slug);
+        $author = $this->doctrine->getRepository('AppBundle:User')
+            ->findUserWithDependencies($slug);
 
         if (!$author) {
             throw new NotFoundHttpException('author not found: '.$slug);
@@ -139,7 +156,7 @@ class PaginationManager
         $posts = $repository->findPostsByAuthor($slug, $currentPage, $this->limit);
 
         $nextPageUrl = $nextPage
-            ? $nextPageUrl = $this->router->generate('show_author_posts', ['slug' => $slug, 'page' => $nextPage])
+            ? $nextPageUrl = $this->router->generate('show_user_posts', ['slug' => $slug, 'page' => $nextPage])
             : false;
 
         $pagination['posts'] = $posts;
@@ -151,6 +168,11 @@ class PaginationManager
     }
 
 
+    /**
+     * @param Request $request
+     * @param $slug
+     * @return mixed
+     */
     public function getPostsByTag(Request $request, $slug)
     {
         $tag = $this->doctrine->getManager()->getRepository('AppBundle:Tag')->findTagWithPosts($slug);
@@ -183,7 +205,7 @@ class PaginationManager
         return $pagination;
     }
 
-    public function getCommentsWithDeleteForms(Request $request)
+    public function getCommentsWithDeleteForms(Request $request, User $user)
     {
         $currentPage = $request->query->getInt('page', 1);
         $repository = $this->doctrine->getManager()->getRepository('AppBundle:Comment');
@@ -193,14 +215,51 @@ class PaginationManager
             ? $currentPage + 1
             : false;
 
-        $comments = $repository->findAllCommentsWithDependencies($currentPage, $this->limit);
+        if ($user->getIsAdmin()) {
+            $comments = $repository->findAllCommentsWithDependencies($currentPage, $this->limit);
+        } else {
+            $comments = $repository->findAllCommentsByUserAndUserPosts($currentPage, $this->limit, $user);
+        }
+
 
         $nextPageUrl = $nextPage
             ? $nextPageUrl = $this->router->generate('manage_comments', ['page' => $nextPage])
             : false;
 
-        $deleteForms =[];
-        foreach($comments as $comment) {
+        $deleteForms = [];
+        foreach ($comments as $comment) {
+            $deleteForms[$comment->getId()] = $this->formManager->createCommentDeleteForm($comment)->createView();
+        }
+        $pagination['comments'] = $comments;
+        $pagination['nextPageUrl'] = $nextPageUrl;
+        $pagination['nextPage'] = $nextPage;
+        $pagination['deleteForms'] = $deleteForms;
+
+        return $pagination;
+    }
+
+    public function getUserCommentsWithDeleteForms(Request $request, User $user, User $admin)
+    {
+        $currentPage = $request->query->getInt('page', 1);
+        $repository = $this->doctrine->getManager()->getRepository('AppBundle:Comment');
+        $count = $repository->countAllComments();
+
+        $nextPage = $count > $this->limit * $currentPage
+            ? $currentPage + 1
+            : false;
+
+        $comments = $repository->findAllCommentsByUserInAdminPosts($currentPage, $this->limit, $user, $admin);
+
+
+        $nextPageUrl = $nextPage
+            ? $nextPageUrl = $this->router->generate(
+                'manage_user_comments',
+                ['id' => $user->getId(), 'page' => $nextPage]
+            )
+            : false;
+
+        $deleteForms = [];
+        foreach ($comments as $comment) {
             $deleteForms[$comment->getId()] = $this->formManager->createCommentDeleteForm($comment)->createView();
         }
         $pagination['comments'] = $comments;
@@ -227,8 +286,8 @@ class PaginationManager
             ? $nextPageUrl = $this->router->generate('manage_tags', ['page' => $nextPage])
             : false;
 
-        $deleteForms =[];
-        foreach($tags as $tag) {
+        $deleteForms = [];
+        foreach ($tags as $tag) {
             $deleteForms[$tag->getId()] = $this->formManager->createTagDeleteForm($tag)->createView();
         }
         $pagination['tags'] = $tags;

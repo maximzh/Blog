@@ -29,7 +29,7 @@ class SearchManager
         $text = strip_tags(trim($request->get('search_text')));
 
         if ($text == null or $text == '') {
-            return ;
+            return;
         }
 
         $posts = $this->doctrine->getRepository('AppBundle:Post')

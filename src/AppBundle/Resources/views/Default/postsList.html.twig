@@ -1,17 +1,21 @@
 {% for post in posts %}
 
     <div class="blog-article">
-        <h3 class="h3 text-left img-rounded post-title">
+        {#
+
+        #}
+        <h3 class="h3 text-left post-title">
             <a href="{{ path('show_post', {'slug': post.slug}) }}">
                 {{ post.title }}
             </a>
 
-            <div class="rating-container rating-gly-star" data-content="">
+            <div class="pull-right rating-container rating-gly-star" data-content="">
                 <div class="rating-stars" style="width: {{ postRating(post) * 20 }}%" data-content=""></div>
             </div>
 
         </h3>
 
+        {#
         {% if post.author.smallAvatar is not null %}
             <img src="{{ post.author.smallAvatar }}" class="img-circle">
         {% endif %}
@@ -19,26 +23,39 @@
         <a href="{{ path('show_author_posts', {'slug': post.author.slug}) }}">
             <span class="author-name">{{ post.author.name }}</span>
         </a>
+
+        #}
+        <span class="pull-left">
+            Author:
+            <a href="{{ path('show_user_posts', {'slug': post.author.slug}) }}">
+                {{ post.author.username }}
+            </a>
+        </span>
+
         <span class="pull-right">
             <i class="glyphicon glyphicon-time"></i> {{ post.createdAt|date('d M Y') }}
         </span>
 
+        <div class="clearfix"></div>
+
+
+        <div class="col-md-7" style="padding-top: 25px">
+            {% if post.webPath is not null %}
+                <img src="{{ post.webPath | imagine_filter('my_thumb') }}" alt="image" class="img-rounded"
+                     style="display: block">
+            {% endif %}
+        </div>
+        <div class=" post-preview col-md-5">
+
+            {{ post.text|slice(0, 320)|raw }}...
+
+            <div class="read-more pull-right">
+                <a href="{{ path('show_post', { 'slug': post.slug }) }}">
+                    Read more <i class="glyphicon glyphicon-arrow-right"></i>
+                </a>
+            </div>
+        </div>
         <div class="clearfix img-rounded" style="padding: 15px">
-            <div class="pull-left" style="padding-top: 25px">
-                {% if post.webPath is not null %}
-                    <img src="{{ post.webPath | imagine_filter('my_thumb') }}" alt="image" class="img-rounded">
-                {% endif %}
-            </div>
-            <div class="pull-left post-preview">
-
-                {{ post.text|slice(0, 350)|raw }}...
-
-                <div class="read-more pull-right">
-                    <a href="{{ path('show_post', { 'slug': post.slug }) }}">
-                        Read more <i class="glyphicon glyphicon-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
         </div>
 
 

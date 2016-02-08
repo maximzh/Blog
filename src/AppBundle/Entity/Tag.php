@@ -8,7 +8,6 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Entity\Post;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -110,6 +109,7 @@ class Tag
     {
         return $this->slug;
     }
+
     /**
      * Constructor
      */

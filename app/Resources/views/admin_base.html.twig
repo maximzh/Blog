@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>{% block title %}{% endblock %}</title>
     {% block stylesheets %}
         <link href="{{ asset('css/app.css') }}" rel="stylesheet"/>
     {% endblock %}
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
 </head>
 <body>
 {% block header %}
-    <div id="admin-header-menu" style="height: 50px; background-color: lightgrey; z-index: 10000; position: fixed; top: 0px; width: 100%">
+    <div id="admin-header-menu"
+         style="height: 50px; background-color: lightgrey; z-index: 10000; position: fixed; top: 0px; width: 100%">
         <nav class="header-menu">
 
             <ul class="nav navbar-nav">
@@ -23,10 +26,21 @@
                 <li>
                     <a href="{{ path('manage_comments') }}">Comments</a>
                 </li>
-                <li class="pull-right">
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li>
+                        <a href="{{ path('show_all_users') }}">Users</a>
+                    </li>
+                {% endif %}
+
+                <li>
                     <a href="{{ path('homepage') }}">To blog</a>
                 </li>
+                <li>
+                    <a href="{{ path('logout') }}" class="navbar-link">Logout</a>
+                </li>
             </ul>
+
+
         </nav>
     </div>
     <div style="margin-top: 50px"></div>
@@ -38,7 +52,6 @@
 </div>
 
 
-
 {% block javascripts %}
     <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
     <script type="text/javascript">
@@ -47,15 +60,15 @@
 
         var amountScrolled = 1000;
 
-        $(window).scroll(function() {
-            if ( $(window).scrollTop() > amountScrolled ) {
+        $(window).scroll(function () {
+            if ($(window).scrollTop() > amountScrolled) {
                 $('a.back-to-top').fadeIn('slow');
             } else {
                 $('a.back-to-top').fadeOut('slow');
             }
         });
 
-        $('a.back-to-top, a.simple-back-to-top').click(function() {
+        $('a.back-to-top, a.simple-back-to-top').click(function () {
             $('html, body').animate({
                 scrollTop: 0
             }, 700);

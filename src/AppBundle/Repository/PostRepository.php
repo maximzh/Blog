@@ -2,6 +2,7 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\User;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
@@ -28,7 +29,7 @@ class PostRepository extends EntityRepository
             ->leftJoin('p.tags', 't')
             ->orderBy('p.createdAt', 'DESC')
             ->getQuery()
-            ->setFirstResult($limit * ($currentPage -1))
+            ->setFirstResult($limit * ($currentPage - 1))
             ->setMaxResults($limit);
 
         return new Paginator($query);
@@ -63,8 +64,8 @@ class PostRepository extends EntityRepository
             ->join('p.comments', 'c')
             ->join('p.author', 'a')
             ->join('p.tags', 't')
-            ->groupBy('p')
             ->orderBy('rating', 'DESC')
+            ->groupBy('p')
             ->setMaxResults($number)
             ->getQuery()
             ->getResult();
@@ -76,7 +77,7 @@ class PostRepository extends EntityRepository
             ->select('p, t, c')
             ->leftJoin('p.tags', 't')
             ->leftJoin('p.comments', 'c')
-            ->where('p.title LIKE :text' )
+            ->where('p.title LIKE :text')
             ->orWhere('t.name = :name')
             ->setParameter('text', '%'.$text.'%')
             ->setParameter('name', $text)
@@ -102,7 +103,7 @@ class PostRepository extends EntityRepository
             ->setParameter('slug', $slug)
             ->orderBy('p.createdAt', 'DESC')
             ->getQuery()
-            ->setFirstResult($limit * ($currentPage -1))
+            ->setFirstResult($limit * ($currentPage - 1))
             ->setMaxResults($limit);
 
         return new Paginator($query);
@@ -120,7 +121,7 @@ class PostRepository extends EntityRepository
             ->setParameter('slug', $slug)
             ->orderBy('p.createdAt', 'DESC')
             ->getQuery()
-            ->setFirstResult($limit * ($currentPage -1))
+            ->setFirstResult($limit * ($currentPage - 1))
             ->setMaxResults($limit);
 
         return new Paginator($query);
@@ -136,5 +137,22 @@ class PostRepository extends EntityRepository
             ->setParameter('slug', $slug)
             ->getQuery()
             ->getSingleScalarResult();
+    }
+
+    public function findAllUserPostsWithDependencies($currentPage, $limit, User $user)
+    {
+        $query = $this->createQueryBuilder('p')
+            ->select('p, a, c, t')
+            ->leftJoin('p.author', 'a')
+            ->leftJoin('p.comments', 'c')
+            ->leftJoin('p.tags', 't')
+            ->where('a.slug = :slug')
+            ->setParameter('slug', $user->getSlug())
+            ->orderBy('p.createdAt', 'DESC')
+            ->getQuery()
+            ->setFirstResult($limit * ($currentPage - 1))
+            ->setMaxResults($limit);
+
+        return new Paginator($query);
     }
 }

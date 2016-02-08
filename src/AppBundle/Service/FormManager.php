@@ -11,6 +11,7 @@ namespace AppBundle\Service;
 use AppBundle\Entity\Comment;
 use AppBundle\Entity\Post;
 use AppBundle\Entity\Tag;
+use AppBundle\Entity\User;
 use AppBundle\Form\CommentType;
 use AppBundle\Form\PostType;
 use AppBundle\Form\TagType;
@@ -119,10 +120,43 @@ class FormManager
 
     }
 
+    public function createPostCommentDeleteForm(Comment $comment)
+    {
+        //$builder = $this->formFactory->createBuilder();
+        $form = $this->builder->setAction(
+            $this->router->generate('remove_post_comment', array('id' => $comment->getId()))
+        )
+            ->setMethod('DELETE')
+            ->add(
+                'submit',
+                SubmitType::class,
+                ['label' => ' ', 'attr' => ['class' => 'glyphicon glyphicon-trash btn-link']]
+            )
+            ->getForm();
+
+        return $form;
+
+    }
+
     public function createTagDeleteForm(Tag $tag)
     {
         //$builder = $this->formFactory->createBuilder();
         $form = $this->builder->setAction($this->router->generate('remove_tag', array('id' => $tag->getId())))
+            ->setMethod('DELETE')
+            ->add(
+                'submit',
+                SubmitType::class,
+                ['label' => ' ', 'attr' => ['class' => 'glyphicon glyphicon-trash btn-link']]
+            )
+            ->getForm();
+
+        return $form;
+
+    }
+
+    public function createUserDeleteForm(User $user)
+    {
+        $form = $this->builder->setAction($this->router->generate('remove_user', array('id' => $user->getId())))
             ->setMethod('DELETE')
             ->add(
                 'submit',

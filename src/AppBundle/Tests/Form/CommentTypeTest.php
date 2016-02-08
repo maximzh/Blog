@@ -11,6 +11,7 @@ namespace AppBundle\Tests\Form;
 use AppBundle\Form\CommentType;
 use Symfony\Component\Form\Test\TypeTestCase;
 use AppBundle\Entity\Comment;
+use AppBundle\Entity\User;
 
 
 class CommentTypeTest extends TypeTestCase
@@ -20,13 +21,12 @@ class CommentTypeTest extends TypeTestCase
         $formData = array(
             'rating' => '3',
             'text' => 'Some text',
-            'commentAuthor' => 'Some Author'
         );
         $form = $this->factory->create(CommentType::class);
+
         $object = new Comment();
-        $object->setRating(3);
+        $object->setRating(3.0);
         $object->setText('Some text');
-        $object->setCommentAuthor('Some Author');
         $form->submit($formData);
         $this->assertTrue($form->isSynchronized());
         $this->assertEquals($object, $form->getData());

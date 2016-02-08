@@ -10,11 +10,12 @@ namespace AppBundle\Controller\Admin;
 
 
 use AppBundle\Entity\Comment;
+use AppBundle\Entity\User;
 use AppBundle\Form\CommentType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -27,13 +28,19 @@ class CommentController extends Controller
      *
      * @Route("/admin/comment", name="manage_comments")
      * @Template()
+     *
+     * @Security("has_role('ROLE_MODERATOR')")
      */
     public function indexAction(Request $request)
     {
+        $user = $this->getUser();
 
         $paginationManager = $this->get('app.pagination_manager');
         $formManager = $this->get('app.form_manager');
-        $pagination = $paginationManager->setLimit(10)->setFormManager($formManager)->getCommentsWithDeleteForms($request);
+        $pagination = $paginationManager->setLimit(10)->setFormManager($formManager)->getCommentsWithDeleteForms(
+            $request,
+            $user
+        );
 
         if ($request->isXmlHttpRequest()) {
             $content = $this->renderView(
@@ -58,6 +65,49 @@ class CommentController extends Controller
         ];
     }
 
+    /**
+     * @param Request $request
+     * @param User $user
+     * @return array
+     * @Route("/admin/comment/user/{id}", name="manage_user_comments")
+     * @Template("@App/Admin/Comment/userComments.html.twig")
+     */
+    public function showUserComments(Request $request, User $user)
+    {
+
+        $admin = $this->getUser();
+        $paginationManager = $this->get('app.pagination_manager');
+        $formManager = $this->get('app.form_manager');
+        $pagination = $paginationManager->setLimit(10)->setFormManager($formManager)->getUserCommentsWithDeleteForms(
+            $request,
+            $user,
+            $admin
+        );
+
+        if ($request->isXmlHttpRequest()) {
+            $content = $this->renderView(
+                'AppBundle:Admin/Comment:commentList.html.twig',
+                [
+                    'comments' => $pagination['comments'],
+                    'nextPageUrl' => $pagination['nextPageUrl'],
+                    'nextPage' => $pagination['nextPage'],
+                    'deleteForms' => $pagination['deleteForms'],
+                ]
+            );
+
+            return new Response($content);
+        }
+
+
+        return [
+            'comments' => $pagination['comments'],
+            'nextPageUrl' => $pagination['nextPageUrl'],
+            'nextPage' => $pagination['nextPage'],
+            'deleteForms' => $pagination['deleteForms'],
+        ];
+
+    }
+
 
     /**
      *
@@ -73,8 +123,10 @@ class CommentController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($comment);
             $em->flush();
+
             return $this->redirectToRoute('manage_comments');
         }
+
         return [
             'comment' => $comment,
             'edit_form' => $editForm->createView(),
@@ -90,7 +142,9 @@ class CommentController extends Controller
     public function removeAction(Request $request, Comment $comment)
     {
         $em = $this->getDoctrine()->getManager();
-        $form = $this->createDeleteForm($comment);
+        $formManager = $this->get('app.form_manager');
+        $form = $formManager->createCommentDeleteForm($comment);
+        //$form = $this->createDeleteForm($comment);
 
         if ($request->getMethod() == 'DELETE') {
 
@@ -99,32 +153,10 @@ class CommentController extends Controller
             if ($form->isValid()) {
                 $em->remove($comment);
                 $em->flush();
-
-
             }
         }
 
         return $this->redirectToRoute('manage_comments');
-
-
     }
 
-
-
-    /**
-     * @param Comment $comment
-     * @return \Symfony\Component\Form\Form
-     */
-    private function createDeleteForm(Comment $comment)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('remove_comment', array('id' => $comment->getId())))
-            ->setMethod('DELETE')
-            ->add(
-                'submit',
-                SubmitType::class,
-                ['label' => ' ', 'attr' => ['class' => 'glyphicon glyphicon-trash btn-link']]
-            )
-            ->getForm();
-    }
 }

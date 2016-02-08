@@ -1,9 +1,30 @@
-AppBundle\Entity\Author:
-    author1:
-        name: <firstNameMale()> <lastName()>
-        email: <email>
-        smallAvatar: "/uploads/images/small_avatar.png"
+AppBundle\Entity\User:
+    user1:
+        username: 'admin'
+        email (unique): <email()>
         createdAt: <dateTimeBetween('-2 years', 'now')>
+        isAdmin: true
+        isModerator: true
+        password: $2y$13$.JRhjWXa8HnJxrWgIL8F.eAglK7unk7fzaS5m5NAZFH9tFFUF60ri
+        plainPassword: 123456
+
+    user2:
+        username: 'moderator'
+        email: <email()>
+        createdAt: <dateTimeBetween('-2 years', 'now')>
+        isAdmin: false
+        isModerator: true
+        password: $2y$13$.JRhjWXa8HnJxrWgIL8F.eAglK7unk7fzaS5m5NAZFH9tFFUF60ri
+        plainPassword: 123456
+
+    user3:
+        username (unique): 'justuser'
+        email (unique): <email()>
+        createdAt: <dateTimeBetween('-2 years', 'now')>
+        isAdmin: false
+        isModerator: false
+        password: $2y$13$.JRhjWXa8HnJxrWgIL8F.eAglK7unk7fzaS5m5NAZFH9tFFUF60ri
+        plainPassword: 123456
 
 AppBundle\Entity\Tag:
     tag{1..50}:
@@ -11,20 +32,28 @@ AppBundle\Entity\Tag:
         slug: <($name)>
 
 AppBundle\Entity\Post:
-    post{1..40}:
-        title: <text(30)>
+    post{1..20}:
+        title (unique): <text(30)>
         slug: <createSlug($title)>
         text: <paragraphs(10, true)>
         createdAt: <dateTimeBetween('-2 years', 'now')>
-        author: @author*
+        author: @user1
         path: <image()>
+        tags: 10x @tag*
 
+    post{21..40}:
+        title (unique): <text(30)>
+        slug: <createSlug($title)>
+        text: <paragraphs(10, true)>
+        createdAt: <dateTimeBetween('-2 years', 'now')>
+        author: @user2
+        path: <image()>
         tags: 10x @tag*
 
 
 AppBundle\Entity\Comment:
-    comment{1..220}:
-        commentAuthor: <name()>
+    comment{1..100}:
+        user: @user*
         text: <text(200)>
         rating: <randomElement([1, 2, 3, 4, 5])>
         post: '@post*'

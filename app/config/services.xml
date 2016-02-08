@@ -41,5 +41,17 @@
             <argument key="formManager" type="service" id="app.form_manager"/>
         </service>
 
+        <service id="app.comment_voter" class="AppBundle\Security\CommentVoter" public="false">
+            <argument type="service" id="security.access.decision_manager"/>
+            <argument type="service" id="doctrine"/>
+            <tag name="security.voter"/>
+        </service>
+
+        <service id="app.post_voter" class="AppBundle\Security\PostVoter" public="false">
+            <argument type="service" id="security.access.decision_manager"/>
+            <argument type="service" id="doctrine"/>
+            <tag name="security.voter"/>
+        </service>
+
     </services>
 </container>

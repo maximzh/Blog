@@ -1,9 +1,10 @@
 {% extends '::admin_base.html.twig' %}
 {% block body %}
-{{ parent() }}
+    {{ parent() }}
     <h2>
-        Total comments: <span class="text-danger">{{ countAllComments() }}</span>
+        Total comments: <span class="text-danger">{{ comments|length }}</span>
     </h2>
+    <h3><a href="{{ path('manage_user_comments', {'id': app.user.id }) }}">Show only my comments</a></h3>
     <div class="admin-posts">
         {% include 'AppBundle:Admin/Comment:commentList.html.twig' %}
     </div>

@@ -2,36 +2,56 @@
 
 {% block body %}
     <div class="search-results-container">
-        <h1>
-            <span>Search results for '<span class="text-primary">{{ search_text }}</span>' :</span>
-        </h1>
+
         {% if posts is empty %}
             <h2>Nothing found...</h2>
         {% endif %}
         {% if posts is not empty %}
-            {% for post in posts %}
-                <div class="clearfix search-result">
-                    <div class="pull-left" style="width: 200px; padding-top: 30px;">
-                        {% if post.webPath is not null %}
-                            <img src="{{ post.webPath | imagine_filter('small_thumb') }}" alt="image">
-                        {% endif %}
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3">
+                        <h1>
+                            <span>Search results for '<span class="text-primary">{{ search_text }}</span>' :</span>
+                        </h1>
                     </div>
-                    <div class="pull-right" style="width: 500px">
-                        <h3>
-                            {{ post.title }}
-                            <div class="rating-container rating-gly-star" data-content="">
-                                <div class="rating-stars" style="width: {{ postRating(post) * 20 }}%" data-content=""></div>
-                            </div>
-                        </h3>
-                        {{ post.text|slice(0, 200)|raw }}<br>
+                </div>
+            </div>
 
-                        <div class="read-more pull-right">
-                            <a href="{{ path('show_post', { 'slug': post.slug }) }}">
-                                Read more <i class="glyphicon glyphicon-arrow-right"></i>
-                            </a>
+            {% for post in posts %}
+                <div class="container-fluid">
+
+                    <div class="row">
+                        <div class="col-md-6 col-md-offset-3">
+                            <div class="container-fluid search-result">
+                                <div class="row">
+                                    <div class="col-md-6" style="width: 200px; padding-top: 30px;">
+                                        {% if post.webPath is not null %}
+                                            <img src="{{ post.webPath | imagine_filter('small_thumb') }}" alt="image">
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-6" style="width: 500px">
+                                        <h3>
+                                            {{ post.title }}
+                                            <div class="rating-container rating-gly-star" data-content="">
+                                                <div class="rating-stars" style="width: {{ postRating(post) * 20 }}%"
+                                                     data-content=""></div>
+                                            </div>
+                                        </h3>
+                                        {{ post.text|slice(0, 200)|raw }}<br>
+
+                                        <div class="read-more pull-right">
+                                            <a href="{{ path('show_post', { 'slug': post.slug }) }}">
+                                                Read more <i class="glyphicon glyphicon-arrow-right"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                 </div>
+
             {% endfor %}
         {% endif %}
     </div>

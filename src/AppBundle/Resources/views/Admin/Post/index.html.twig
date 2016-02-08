@@ -1,18 +1,26 @@
 {% extends '::admin_base.html.twig' %}
 
 {% block body %}
-{{ parent() }}
+    {{ parent() }}
     <h1>
-        <a href="{{ path('new_post') }}" style="position: fixed; left: 5%; top: 15%"><i class="glyphicon glyphicon-plus-sign"></i></a>
+        <a href="{{ path('new_post') }}" style="position: fixed; left: 5%; top: 15%"><i
+                    class="glyphicon glyphicon-plus-sign"></i></a>
         <a href="{{ path('new_post') }}">Create new post</a>
     </h1>
-    <h2>
-        Total posts: <span class="text-danger">{{ countAllPosts() }}</span>
-    </h2>
+    {% if is_granted('ROLE_ADMIN') %}
+        <h2>
+            Total posts: <span class="text-danger">{{ posts|length }}</span>
+        </h2>
+    {% else %}
+        <h2>
+            Your posts: <span class="text-danger">{{ posts|length }}</span>
+        </h2>
+    {% endif %}
 
-<div class="admin-posts">
-    {% include 'AppBundle:Admin/Post:postsList.html.twig' %}
-</div>
+
+    <div class="admin-posts">
+        {% include 'AppBundle:Admin/Post:postsList.html.twig' %}
+    </div>
 
 {% endblock %}
 {% block javascripts %}

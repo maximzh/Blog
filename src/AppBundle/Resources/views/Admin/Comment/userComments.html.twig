@@ -1,0 +1,41 @@
+{% extends '::admin_base.html.twig' %}
+{% block body %}
+    {{ parent() }}
+    <h2>
+        Total comments: <span class="text-danger">{{ comments|length }}</span>
+    </h2>
+    <h3>
+        <a href="{{ path('manage_comments') }}">Show all comments</a>
+    </h3>
+    <div class="admin-posts">
+        {% include 'AppBundle:Admin/Comment:commentList.html.twig' %}
+    </div>
+
+{% endblock body %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        function loadRows() {
+            var url = $('.pagination span a').attr('href');
+            $.get(url, function (data) {
+                var content = $(data),
+                        articlesList = content.closest('.blog-article'),
+                        nextLink = content.find('.next-page');
+                $('.admin-posts').append(articlesList);
+                if (nextLink.length) {
+                    $('.pagination').html(nextLink);
+                } else {
+                    $('.pagination').remove();
+                }
+            });
+        }
+        $(window).scroll(function () {
+            if ($(window).scrollTop() == $(document).height() - $(window).height() && $('.pagination span a').length) {
+                loadRows();
+            }
+        });
+    </script>
+
+{% endblock %}

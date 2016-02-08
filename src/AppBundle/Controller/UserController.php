@@ -2,12 +2,11 @@
 /**
  * Created by PhpStorm.
  * User: fumus
- * Date: 20.01.16
- * Time: 15:21
+ * Date: 08.02.16
+ * Time: 20:43
  */
 
 namespace AppBundle\Controller;
-
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -15,22 +14,21 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * Class AuthorController
- * @package AppBundle\Controller
- * @Route("/author")
- */
-class AuthorController extends Controller
-{
 
+/**
+ * Class UserController
+ * @Route("/user")
+ */
+class UserController extends Controller
+{
     /**
-     * @Route("/{slug}", requirements={"slug" = "^[a-zA-z-]+$"},name="show_author_posts")
+     * @Route("/{slug}", requirements={"slug" = "^[a-zA-Z0-9-]+$"},name="show_user_posts")
      * @Template()
      */
     public function showAction(Request $request, $slug)
     {
         $paginationManager = $this->get('app.pagination_manager');
-        $pagination = $paginationManager->setLimit(5)->getPostsByAuthor($request, $slug);
+        $pagination = $paginationManager->setLimit(5)->getPostsByUser($request, $slug);
 
         if ($request->isXmlHttpRequest()) {
             $content = $this->renderView(
@@ -54,5 +52,4 @@ class AuthorController extends Controller
         ];
 
     }
-
 }

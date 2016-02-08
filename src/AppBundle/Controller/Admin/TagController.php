@@ -12,9 +12,9 @@ namespace AppBundle\Controller\Admin;
 use AppBundle\Entity\Tag;
 use AppBundle\Form\TagType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,6 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class TagController
  * @package AppBundle\Controller\Admin
  * @Route("/admin/tag")
+ * @Security("has_role('ROLE_MODERATOR')")
  */
 class TagController extends Controller
 {
@@ -131,8 +132,10 @@ class TagController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($tag);
             $em->flush();
+
             return $this->redirectToRoute('manage_tags');
         }
+
         return [
             'tag' => $tag,
             'edit_form' => $editForm->createView(),
@@ -166,7 +169,6 @@ class TagController extends Controller
 
 
     }
-
 
 
 }

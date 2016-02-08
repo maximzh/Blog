@@ -16,3 +16,4 @@
 /web/fonts/
 /web/uploads/
 /web/media/
+/src/AppBundle/Entity/*.php~

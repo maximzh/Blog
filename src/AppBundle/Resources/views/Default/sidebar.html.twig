@@ -4,22 +4,36 @@
         {% for post in topPosts() %}
             <div class="sidebar-top-post-container">
                 <div>
+                    <span style="font-weight: bold;">{{ post.0.title }}</span><br>
+
+                    <div class="rating-container rating-gly-star" data-content="">
+                        <div class="rating-stars" style="width: {{ postRating(post.0) * 20 }}%"
+                             data-content="">
+                        </div>
+                    </div>
+                    ({{ postRating(post.0)|number_format(2) }})
+                    <br>
                     <a href="{{ path('show_post', {'slug': post.0.slug}) }}">
-                        <div class="rating-container rating-gly-star" data-content="">
-                            <div class="rating-stars" style="width: {{ postRating(post.0) * 20 }}%"
-                                 data-content="">
-                            </div>
-                        </div>({{ postRating(post.0)|number_format(2) }})
-                        <br>
-                        <span style="font-weight: bold">{{ post.0.title }}</span><br>
 
 
                         {% if post.0.webPath is not null %}
                             <img src="{{ post.0.webPath | imagine_filter('small_thumb') }}" alt="image"
-                                 class="img-rounded">
+                                 class="img-circle">
                         {% endif %}
                     </a>
-                    <div class="pull-right" style="width: 150px; padding: 5px; background-color: white">{{ post.0.text|slice(0, 70)|raw }}...</div>
+
+                    <div class="pull-right" style="width: 150px; padding: 5px; font-size: 18px">
+
+                        {#
+                        {{ post.0.text|slice(0, 30)|raw }}...
+                        #}
+                        <i class="glyphicon glyphicon-time"></i>
+                        {{ post.0.createdAt|date('d M Y') }}<br>
+                        <i class="glyphicon glyphicon-comment"></i>
+                        {{ post.0.comments|length }}<br>
+                        <i class="glyphicon glyphicon-star-empty"></i>
+                        {{ countCommentsWithRating(post.0) }}
+                    </div>
                 </div>
             </div>
         {% endfor %}
@@ -32,7 +46,7 @@
     <div id="last-comments" class="img-rounded">
         {% for comment in lastComments() %}
             <h6>
-                {{ comment.commentAuthor }} ({{ comment.createdAt|date('d-m-Y') }})
+                {{ comment.user.username }} ({{ comment.createdAt|date('d-m-Y') }})
             </h6>
             <a href="{{ path('show_post', {'slug': comment.post.slug}) }}">
                 {{ comment.text|length > 50 ? comment.text|slice(0, 50) ~ '...' :comment.text }}

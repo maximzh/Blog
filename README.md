@@ -2,5 +2,13 @@
 ====
 Blog - GeekHub Symfony Homework
 
-DoctrineEventSubscriber is in "withoutStofBundle" branch
+admin:
+    login: admin
+    password: 123456
+moderator:
+    login: moderator
+    password: 123456
+user:
+    login: justuser
+    password: 123456
 

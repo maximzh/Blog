@@ -9,7 +9,6 @@
 namespace AppBundle\Controller;
 
 
-use AppBundle\Entity\Post;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -34,7 +33,8 @@ class PostController extends Controller
      */
     public function showAction($slug)
     {
-        $data = $this->get('app.pagination_manager')->getSinglePostWithComments($slug);
+        $formManager = $this->get('app.form_manager');
+        $data = $this->get('app.pagination_manager')->setFormManager($formManager)->getSinglePostWithComments($slug);
 
         if (null == $data['post']) {
             throw $this->createNotFoundException('Post not found :'.$slug);

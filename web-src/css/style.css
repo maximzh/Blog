@@ -2,9 +2,9 @@ body {
     margin: auto;
 }
 
-.blog-post-body-container {
+/*.blog-post-body-container {
     width: 800px
-}
+}*/
 
 #homepage-sidebar {
     width: 360px;
@@ -13,7 +13,7 @@ body {
 }
 
 .post-preview {
-    width: 250px;
+
     padding: 20px
 }
 
@@ -45,16 +45,16 @@ body {
 #header-menu ul li a:hover {
     color:#131313
 }
-
+/*
 .content-container {
-    width: 1100px; background-color: white
+    width: 1170px; background-color: white
 }
 
 #single-post-container {
-    width: 900px;
+    width: 1170px;
     background-color: white;
     padding: 50px}
-
+*/
 
 h1,
 h2,
@@ -95,6 +95,7 @@ h6 {
 .post-title {
     background-color: #131313;
     padding: 5px;
+    border-radius: 15px;
 }
 
 .post-title a {
@@ -194,13 +195,13 @@ a:hover {
 }
 
 .comment-form {
-    padding: 20px;
-    border: 1px solid;
-    border-color: lavender;
+    color: #286090;
+    background-color:#F5F5F5;
+    padding: 10px;
+    /*border: 2px solid #CFF8B6;*/
     border-radius: 15px;
     margin-top: 20px;
     margin-bottom: 20px;
-    background-color: whitesmoke;
 }
 
 .show-post-posted-at {
@@ -208,7 +209,7 @@ a:hover {
 }
 
 .search-results-container {
-    width: 800px;
+
     margin: auto;
     padding: 20px;
     padding-top: 60px;
@@ -239,7 +240,8 @@ a:hover {
 }
 
 .post-single-comment {
-    border: 2px solid whitesmoke;
+    background-color: #F5F5F5;
+
     border-radius: 5px;
     margin-bottom: 10px;
     padding: 10px;
@@ -266,4 +268,8 @@ a:hover.back-to-top {
 
 .admin-base-body {
     width: 80%;
+}
+
+.blog-article:hover {
+    background-color: #f7f7f7;
 }

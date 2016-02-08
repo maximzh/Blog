@@ -61,7 +61,8 @@ class Post
     private $text;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Author", inversedBy="posts")
+     *
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="posts")
      */
     private $author;
 
@@ -278,11 +279,11 @@ class Post
     /**
      * Set author
      *
-     * @param Author $author
+     * @param User $author
      *
      * @return Post
      */
-    public function setAuthor(Author $author = null)
+    public function setAuthor(User $author = null)
     {
         $this->author = $author;
 
@@ -292,7 +293,7 @@ class Post
     /**
      * Get author
      *
-     * @return Author
+     * @return User
      */
     public function getAuthor()
     {
@@ -507,30 +508,44 @@ class Post
     {
         return $this->path;
     }
-/*
-    public function getRating()
-    {
-        $comments = $this->getComments();
-        $rating = 0;
-        $countCommentsWithRating = 0;
+    /*
+        public function getRating()
+        {
+            $comments = $this->getComments();
+            $rating = 0;
+            $countCommentsWithRating = 0;
 
-        if (count($comments) !== 0) {
+            if (count($comments) !== 0) {
 
-            foreach ($comments as $comment) {
-                if (null !== $comment->getRating()) {
-                    $countCommentsWithRating++;
-                    $rating = $rating + $comment->getRating();
+                foreach ($comments as $comment) {
+                    if (null !== $comment->getRating()) {
+                        $countCommentsWithRating++;
+                        $rating = $rating + $comment->getRating();
+                    }
                 }
+
+                if ($countCommentsWithRating !== 0) {
+                    $rating = $rating / $countCommentsWithRating;
+                }
+
             }
 
-            if ($countCommentsWithRating !== 0) {
-                $rating = $rating / $countCommentsWithRating;
-            }
 
+            return $rating;
         }
+    */
 
+    /**
+     * Set path
+     *
+     * @param string $path
+     *
+     * @return Post
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
 
-        return $rating;
+        return $this;
     }
-*/
 }

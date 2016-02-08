@@ -32,11 +32,19 @@ class Comment
 
     /**
      * @var string
-     * @ORM\Column(name="comment_author", type="string", length=50, nullable=false)
-     * @Assert\NotBlank()
+     * @ORM\Column(name="comment_author", type="string", length=50, nullable=true)
+     *
      * @Assert\Length(max="50")
      */
     private $commentAuthor;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="comments")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     *
+     *
+     */
+    private $user;
 
     /**
      * @var string
@@ -262,5 +270,29 @@ class Comment
     public function getDeletedAt()
     {
         return $this->deletedAt;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return Comment
+     */
+    public function setUser(\AppBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }
