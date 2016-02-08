@@ -7,9 +7,16 @@
                     class="glyphicon glyphicon-plus-sign"></i></a>
         <a href="{{ path('new_post') }}">Create new post</a>
     </h1>
-    <h2>
-        Total posts: <span class="text-danger">{{ posts|length }}</span>
-    </h2>
+    {% if is_granted('ROLE_ADMIN') %}
+        <h2>
+            Total posts: <span class="text-danger">{{ posts|length }}</span>
+        </h2>
+    {% else %}
+        <h2>
+            Your posts: <span class="text-danger">{{ posts|length }}</span>
+        </h2>
+    {% endif %}
+
 
     <div class="admin-posts">
         {% include 'AppBundle:Admin/Post:postsList.html.twig' %}
