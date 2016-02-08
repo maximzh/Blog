@@ -82,9 +82,17 @@
                                 {{ comment.text|nl2br  }}
                             </p>
                             {% if is_granted('remove', comment) %}
-                                {{ form_start(deleteForms[comment.id], {attr : {onsubmit: 'return confirm("Are you sure?");' }}) }}
-                                {{ form_widget(deleteForms[comment.id].submit) }}
-                                {{ form_end(deleteForms[comment.id]) }}
+                                <div class="pull-right">
+                                    {{ form_start(deleteForms[comment.id], {attr : {onsubmit: 'return confirm("Are you sure?");' }}) }}
+                                    {{ form_widget(deleteForms[comment.id].submit) }}
+                                    {{ form_end(deleteForms[comment.id]) }}
+                                </div>
+                                <div class="pull-right">
+                                    <a href="{{ path('edit_post_comment', {'id': comment.id}) }}"><i class="glyphicon glyphicon-pencil"></i></a>
+
+                                </div>
+                                <div class="clearfix"></div>
+
                             {% endif %}
                         </div>
 

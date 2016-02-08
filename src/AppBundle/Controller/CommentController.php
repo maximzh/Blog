@@ -84,4 +84,26 @@ class CommentController extends Controller
 
 
     }
+
+    /**
+     *
+     * @Route("/comment/edit/{id}", name="edit_post_comment")
+     * @Method({"GET", "POST"})
+     * @Template()
+     */
+    public function editAction(Request $request, Comment $comment)
+    {
+        $editForm = $this->createForm(CommentType::class, $comment);
+        $editForm->handleRequest($request);
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            //$em->persist($comment);
+            $em->flush();
+            return $this->redirectToRoute('show_post', ['slug' => $comment->getPost()->getSlug()]);
+        }
+        return [
+            'comment' => $comment,
+            'edit_form' => $editForm->createView(),
+        ];
+    }
 }
