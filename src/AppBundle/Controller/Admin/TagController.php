@@ -12,6 +12,7 @@ namespace AppBundle\Controller\Admin;
 use AppBundle\Entity\Tag;
 use AppBundle\Form\TagType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,6 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class TagController
  * @package AppBundle\Controller\Admin
  * @Route("/admin/tag")
+ * @Security("has_role('ROLE_MODERATOR')")
  */
 class TagController extends Controller
 {
