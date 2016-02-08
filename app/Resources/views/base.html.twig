@@ -1,81 +1,92 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}
-            <link href="{{ asset('css/app.css') }}" rel="stylesheet"/>
-        {% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    </head>
-    <body>
-        {% block header %}
-            <div id="header-menu" class="row">
-                <nav class="header-menu navbar-fixed-top">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet"/>
+    {% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+</head>
+<body>
+{% block header %}
+    <div id="header-menu" class="row">
+        <nav class="header-menu navbar-fixed-top">
 
-                    <ul class="nav navbar-nav pull-left">
-                        <li class="active">
-                            <a href="{{ path('homepage') }}">Homepage</a>
-                        </li>
+            <ul class="nav navbar-nav pull-left">
+                <li class="active">
+                    <a href="{{ path('homepage') }}">Homepage</a>
+                </li>
 
-                    </ul>
-                    <div class="navbar-text">
-                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                            <a href="{{ path('logout') }}" class="navbar-link">Logout</a>
-                        {% else %}
-                            <a href="{{ path('login_route') }}" class="navbar-link">Login</a> <span class="text-warning"> or </span>
-                            <a href="{{ path('user_registration') }}" class="navbar-link">Registration</a>
-                        {% endif %}
-                    </div>
-                    <div class="navbar-text">
-                        {% if is_granted('ROLE_MODERATOR') %}
-                            <a href="{{ path('admin_default') }}" class="navbar-link">Admin area</a>
-                        {% endif %}
-                    </div>
-                    <div class="col-sm-3 col-md-3 pull-right">
-                        <form class="navbar-form" role="search" method="POST" action="{{ path('search') }}">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Search" name="search_text" id="srch-term">
-                                <div class="input-group-btn">
-                                    <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="clearfix"></div>
-                </nav>
+            </ul>
+            <div class="navbar-text">
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+
+                    <span style="color: yellow">Hello, {{ app.user.username }}!  </span>
+
+                {% endif %}
             </div>
-        {% endblock %}
-        {% block body %}
+            <div class="navbar-text">
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
 
-        {% endblock %}
+                    <a href="{{ path('logout') }}" class="navbar-link"> Logout</a>
+                {% else %}
+                    <a href="{{ path('login_route') }}" class="navbar-link">Login</a> <span
+                        class="text-warning"> or </span>
+                    <a href="{{ path('user_registration') }}" class="navbar-link">Registration</a>
+                {% endif %}
+            </div>
+            <div class="navbar-text">
+                {% if is_granted('ROLE_MODERATOR') %}
+                    <a href="{{ path('admin_default') }}" class="navbar-link">Admin area</a>
+                {% endif %}
+            </div>
+            <div class="col-sm-3 col-md-3 pull-right">
+                <form class="navbar-form" role="search" method="POST" action="{{ path('search') }}">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="search_text" id="srch-term">
 
-        {% block javascripts %}
-            <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="clearfix"></div>
+        </nav>
+    </div>
+{% endblock %}
+{% block body %}
 
-            <script type="text/javascript">
-                // create the back to top button
-                $('body').prepend('<a href="#" class="back-to-top"><img src="{{ asset('uploads/images/arrow-up.png') }}"></a>');
+{% endblock %}
 
-                var amountScrolled = 1000;
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
 
-                $(window).scroll(function() {
-                    if ( $(window).scrollTop() > amountScrolled ) {
-                        $('a.back-to-top').fadeIn('slow');
-                    } else {
-                        $('a.back-to-top').fadeOut('slow');
-                    }
-                });
+    <script type="text/javascript">
+        // create the back to top button
+        $('body').prepend('<a href="#" class="back-to-top"><img src="{{ asset('uploads/images/arrow-up.png') }}"></a>');
 
-                $('a.back-to-top, a.simple-back-to-top').click(function() {
-                    $('html, body').animate({
-                       scrollTop: 0
-                    }, 700);
-                    return false;
-                });
-            </script>
-        {% endblock %}
-    </body>
+        var amountScrolled = 1000;
+
+        $(window).scroll(function () {
+            if ($(window).scrollTop() > amountScrolled) {
+                $('a.back-to-top').fadeIn('slow');
+            } else {
+                $('a.back-to-top').fadeOut('slow');
+            }
+        });
+
+        $('a.back-to-top, a.simple-back-to-top').click(function () {
+            $('html, body').animate({
+                scrollTop: 0
+            }, 700);
+            return false;
+        });
+    </script>
+{% endblock %}
+</body>
 </html>

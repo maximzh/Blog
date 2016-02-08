@@ -52,7 +52,7 @@ AppBundle\Entity\Post:
 
 
 AppBundle\Entity\Comment:
-    comment{1..220}:
+    comment{1..100}:
         user: @user*
         text: <text(200)>
         rating: <randomElement([1, 2, 3, 4, 5])>

@@ -120,6 +120,16 @@ class CreateAdminCommand extends ContainerAwareCommand
     {
         $em = $this->getContainer()->get('doctrine')->getManager();
 
+        $users = $em->getRepository('AppBundle:User')
+            ->findAll();
+        if ($users) {
+            foreach ($users as $user) {
+                if ($user->getIsAdmin()) {
+                    throw new \RuntimeException('Admin already exists!');
+                }
+            }
+        }
+
         $name = $input->getArgument('name');
         $email = $input->getArgument('email');
         $plainPassword = $input->getArgument('password');
