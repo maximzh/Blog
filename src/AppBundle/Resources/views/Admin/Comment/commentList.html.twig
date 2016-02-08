@@ -26,11 +26,19 @@
                     <span class="text-primary">{{ comment.updatedAt|date('d M Y') }}</span>
                 {% endif %}
             </td>
-            <td style="width: 5%"><a href="{{ path('edit_comment', {'id': comment.id}) }}"><i class="glyphicon glyphicon-pencil"></i></a> </td>
             <td style="width: 5%">
-                {{ form_start(deleteForms[comment.id], {attr : {onsubmit: 'return confirm("Are you sure?");' }}) }}
-                {{ form_widget(deleteForms[comment.id].submit) }}
-                {{ form_end(deleteForms[comment.id]) }}
+                {% if is_granted('edit', comment) %}
+                    <a href="{{ path('edit_comment', {'id': comment.id}) }}"><i class="glyphicon glyphicon-pencil"></i></a>
+                {% endif %}
+
+            </td>
+            <td style="width: 5%">
+                {% if is_granted('remove', comment) %}
+                    {{ form_start(deleteForms[comment.id], {attr : {onsubmit: 'return confirm("Are you sure?");' }}) }}
+                    {{ form_widget(deleteForms[comment.id].submit) }}
+                    {{ form_end(deleteForms[comment.id]) }}
+                {% endif %}
+
             </td>
         </tr>
 
