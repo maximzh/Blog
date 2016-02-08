@@ -46,7 +46,7 @@
     <div id="last-comments" class="img-rounded">
         {% for comment in lastComments() %}
             <h6>
-                {{ comment.commentAuthor }} ({{ comment.createdAt|date('d-m-Y') }})
+                {{ comment.user.username }} ({{ comment.createdAt|date('d-m-Y') }})
             </h6>
             <a href="{{ path('show_post', {'slug': comment.post.slug}) }}">
                 {{ comment.text|length > 50 ? comment.text|slice(0, 50) ~ '...' :comment.text }}

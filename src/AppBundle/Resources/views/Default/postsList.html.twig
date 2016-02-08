@@ -25,28 +25,36 @@
         </a>
 
         #}
-
+        <span class="pull-left">
+            Author:
+            <a href="{{ path('show_user_posts', {'slug': post.author.slug}) }}">
+                {{ post.author.username }}
+            </a>
+        </span>
 
         <span class="pull-right">
             <i class="glyphicon glyphicon-time"></i> {{ post.createdAt|date('d M Y') }}
         </span>
 
+        <div class="clearfix"></div>
 
-            <div class="col-md-7" style="padding-top: 25px">
-                {% if post.webPath is not null %}
-                    <img src="{{ post.webPath | imagine_filter('my_thumb') }}" alt="image" class="img-rounded" style="display: block">
-                {% endif %}
+
+        <div class="col-md-7" style="padding-top: 25px">
+            {% if post.webPath is not null %}
+                <img src="{{ post.webPath | imagine_filter('my_thumb') }}" alt="image" class="img-rounded"
+                     style="display: block">
+            {% endif %}
+        </div>
+        <div class=" post-preview col-md-5">
+
+            {{ post.text|slice(0, 320)|raw }}...
+
+            <div class="read-more pull-right">
+                <a href="{{ path('show_post', { 'slug': post.slug }) }}">
+                    Read more <i class="glyphicon glyphicon-arrow-right"></i>
+                </a>
             </div>
-            <div class=" post-preview col-md-5">
-
-                {{ post.text|slice(0, 320)|raw }}...
-
-                <div class="read-more pull-right">
-                    <a href="{{ path('show_post', { 'slug': post.slug }) }}">
-                        Read more <i class="glyphicon glyphicon-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
+        </div>
         <div class="clearfix img-rounded" style="padding: 15px">
         </div>
 

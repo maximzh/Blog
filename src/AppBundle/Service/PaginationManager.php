@@ -125,20 +125,20 @@ class PaginationManager
     }
 
 
-    public function getAuthorWithPosts($slug)
+    public function getUserWithPosts($slug)
     {
-        $authorWithPosts = $this->doctrine
-            ->getRepository('AppBundle:Author')
-            ->findAuthorWithDependencies($slug);
+        $userWithPosts = $this->doctrine
+            ->getRepository('AppBundle:User')
+            ->findUserWithDependencies($slug);
 
-        return $authorWithPosts;
+        return $userWithPosts;
     }
 
 
-    public function getPostsByAuthor(Request $request, $slug)
+    public function getPostsByUser(Request $request, $slug)
     {
-        $author = $this->doctrine->getRepository('AppBundle:Author')
-            ->findAuthorWithDependencies($slug);
+        $author = $this->doctrine->getRepository('AppBundle:User')
+            ->findUserWithDependencies($slug);
 
         if (!$author) {
             throw new NotFoundHttpException('author not found: '.$slug);
@@ -155,7 +155,7 @@ class PaginationManager
         $posts = $repository->findPostsByAuthor($slug, $currentPage, $this->limit);
 
         $nextPageUrl = $nextPage
-            ? $nextPageUrl = $this->router->generate('show_author_posts', ['slug' => $slug, 'page' => $nextPage])
+            ? $nextPageUrl = $this->router->generate('show_user_posts', ['slug' => $slug, 'page' => $nextPage])
             : false;
 
         $pagination['posts'] = $posts;
