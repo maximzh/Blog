@@ -16,10 +16,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Class UserController
  * @Route("/admin/users")
+ * @Security("has_role('ROLE_ADMIN')")
  */
 class UserController extends Controller
 {

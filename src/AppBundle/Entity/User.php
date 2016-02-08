@@ -11,6 +11,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -19,7 +20,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="app_users")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  */
-class User implements UserInterface, \Serializable
+class User implements AdvancedUserInterface, \Serializable
 {
     /**
      * @ORM\Column(type="integer")
@@ -146,10 +147,10 @@ class User implements UserInterface, \Serializable
 
     public function getRoles()
     {
-        if (true === $this->getIsAdmin()) {
+        if ($this->getIsAdmin()) {
 
             return array('ROLE_ADMIN');
-        } elseif (true === $this->getIsModerator()) {
+        } elseif ($this->getIsModerator()) {
 
             return array('ROLE_MODERATOR');
         } else {
@@ -497,4 +498,28 @@ class User implements UserInterface, \Serializable
     {
         return $this->comments;
     }
+
+    public function isAccountNonExpired()
+    {
+        return true;
+    }
+
+    public function isAccountNonLocked()
+    {
+        return $this->getIsActive();
+
+    }
+
+    public function isCredentialsNonExpired()
+    {
+        return true;
+
+    }
+
+    public function isEnabled()
+    {
+        return true;
+
+    }
+
 }

@@ -10,6 +10,7 @@ namespace AppBundle\Service;
 
 
 use AppBundle\Entity\Post;
+use AppBundle\Entity\User;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Form;
 use Symfony\Component\HttpFoundation\Request;
@@ -59,7 +60,7 @@ class PaginationManager
     }
 
 
-    public function getPostsWithDeleteForms(Request $request)
+    public function getPostsWithDeleteForms(Request $request, User $user)
     {
         $currentPage = $request->query->getInt('page', 1);
         $repository = $this->doctrine->getManager()->getRepository('AppBundle:Post');
@@ -69,7 +70,12 @@ class PaginationManager
             ? $currentPage + 1
             : false;
 
-        $posts = $repository->findAllPostsWithDependencies($currentPage, $this->limit);
+        if ($user->getIsAdmin()) {
+            $posts = $repository->findAllPostsWithDependencies($currentPage, $this->limit);
+        } else {
+            $posts = $repository->findAllUserPostsWithDependencies($currentPage, $this->limit, $user);
+        }
+
 
         $nextPageUrl = $nextPage
             ? $nextPageUrl = $this->router->generate('manage_posts', ['page' => $nextPage])
@@ -102,10 +108,19 @@ class PaginationManager
             ->getRepository('AppBundle:Comment')
             ->findCommentsByPost($slug);
 
+        $deleteForms = [];
+        if ($this->formManager) {
+
+            foreach ($comments as $comment) {
+                $deleteForms[$comment->getId()] = $this->formManager->createPostCommentDeleteForm($comment)->createView();
+            }
+        }
+
 
         return [
             'post' => $post,
             'comments' => $comments,
+            'deleteForms' => $deleteForms,
         ];
     }
 

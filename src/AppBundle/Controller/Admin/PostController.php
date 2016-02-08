@@ -12,6 +12,7 @@ namespace AppBundle\Controller\Admin;
 use AppBundle\Entity\Post;
 use AppBundle\Form\PostType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,6 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class PostController
  * @package AppBundle\Controller\Admin
  * @Route("/admin/post")
+ * @Security("has_role('ROLE_MODERATOR')")
  */
 class PostController extends Controller
 {
@@ -32,10 +34,10 @@ class PostController extends Controller
      */
     public function indexAction(Request $request)
     {
-
+        $user = $this->getUser();
         $paginationManager = $this->get('app.pagination_manager');
         $formManager = $this->get('app.form_manager');
-        $pagination = $paginationManager->setLimit(10)->setFormManager($formManager)->getPostsWithDeleteForms($request);
+        $pagination = $paginationManager->setLimit(10)->setFormManager($formManager)->getPostsWithDeleteForms($request, $user);
 
         if ($request->isXmlHttpRequest()) {
             $content = $this->renderView(

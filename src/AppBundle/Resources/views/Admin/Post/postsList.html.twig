@@ -1,48 +1,52 @@
 
 {% for post in posts %}
 
-    <table class="table table-hover blog-article">
-        <tr>
-        <td class="bg-info" style="width: 5%">
-            <span class="text-primary">Id:</span> {{ post.id }}
-        </td>
-        <td>
-            {% if post.webPath is not null %}
-                <img src="{{ post.webPath | imagine_filter('small_thumb') }}" alt="image">
-            {% endif %}
+    {% if is_granted('view', post) %}
+        <table class="table table-hover blog-article">
+            <tr>
+                <td class="bg-info" style="width: 5%">
+                    <span class="text-primary">Id:</span> {{ post.id }}
+                </td>
+                <td>
+                    {% if post.webPath is not null %}
+                        <img src="{{ post.webPath | imagine_filter('small_thumb') }}" alt="image">
+                    {% endif %}
 
-        </td>
-        <td style="width: 20%">
-            <span class="text-primary">Title: </span><br>
-            {{ post.title }}
+                </td>
+                <td style="width: 20%">
+                    <span class="text-primary">Title: </span><br>
+                    {{ post.title }}
 
-        </td>
-        <td style="width: 20%">
-            <span>Author:</span><br>
-            <span class="text-primary">{{ post.author.username }}</span>
-        </td>
-        <td style="width: 20%">
-            <span>Created:</span><br>
-            <span class="text-primary">{{ post.createdAt|date('d M Y') }} at {{ post.createdAt|date('H:m') }}</span>
-        </td>
-        <td style="width: 20%">
-            <span>Updated:</span><br>
-            {% if post.updatedAt is not null %}
-                <span class="text-primary">{{ post.updatedAt|date('d M Y') }}</span>
-            {% endif %}
-            {% if post.updatedAt is null %}
-                <span class="text-primary">Never</span>
-            {% endif %}
-        </td>
-        <td style="width: 5%"><a href="{{ path('edit_post', {'id': post.id}) }}"><i class="glyphicon glyphicon-pencil"></i></a> </td>
-        <td style="width: 5%">
-            {{ form_start(deleteForms[post.id], {attr : {onsubmit: 'return confirm("Are you sure?");' }}) }}
-            {{ form_widget(deleteForms[post.id].submit) }}
-            {{ form_end(deleteForms[post.id]) }}
-        </td>
-        </tr>
+                </td>
+                <td style="width: 20%">
+                    <span>Author:</span><br>
+                    <span class="text-primary">{{ post.author.username }}</span>
+                </td>
+                <td style="width: 20%">
+                    <span>Created:</span><br>
+                    <span class="text-primary">{{ post.createdAt|date('d M Y') }} at {{ post.createdAt|date('H:m') }}</span>
+                </td>
+                <td style="width: 20%">
+                    <span>Updated:</span><br>
+                    {% if post.updatedAt is not null %}
+                        <span class="text-primary">{{ post.updatedAt|date('d M Y') }}</span>
+                    {% endif %}
+                    {% if post.updatedAt is null %}
+                        <span class="text-primary">Never</span>
+                    {% endif %}
+                </td>
+                <td style="width: 5%"><a href="{{ path('edit_post', {'id': post.id}) }}"><i class="glyphicon glyphicon-pencil"></i></a> </td>
+                <td style="width: 5%">
+                    {{ form_start(deleteForms[post.id], {attr : {onsubmit: 'return confirm("Are you sure?");' }}) }}
+                    {{ form_widget(deleteForms[post.id].submit) }}
+                    {{ form_end(deleteForms[post.id]) }}
+                </td>
+            </tr>
 
-    </table>
+        </table>
+    {% endif %}
+
+
 
 
 

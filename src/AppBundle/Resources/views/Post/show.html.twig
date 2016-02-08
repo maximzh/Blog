@@ -15,6 +15,7 @@
 
                 </h1>
                 <i class="glyphicon glyphicon-time"> {{ post.createdAt|date('d M Y') }}</i>
+                <span class="pull-right">Author: {{ post.author.username }}</span>
                 <img src="{{ post.webPath | imagine_filter('default_thumb') }}" alt="image" class="img-rounded">
                 <br><br>
 
@@ -80,6 +81,11 @@
                             <p>
                                 {{ comment.text|nl2br  }}
                             </p>
+                            {% if is_granted('remove', comment) %}
+                                {{ form_start(deleteForms[comment.id], {attr : {onsubmit: 'return confirm("Are you sure?");' }}) }}
+                                {{ form_widget(deleteForms[comment.id].submit) }}
+                                {{ form_end(deleteForms[comment.id]) }}
+                            {% endif %}
                         </div>
 
                     {% endfor %}

@@ -55,4 +55,33 @@ class CommentController extends Controller
             'form' => $form->createView(),
         ];
     }
+
+    /**
+     * @param Request $request
+     * @Route("/comment/remove/{id}", name="remove_post_comment")
+     * @Method("DELETE")
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function removeAction(Request $request, Comment $comment)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $formManager = $this->get('app.form_manager');
+        $form = $formManager->createPostCommentDeleteForm($comment);
+
+        if ($request->getMethod() == 'DELETE') {
+
+            $form->handleRequest($request);
+
+            if ($form->isValid()) {
+                $em->remove($comment);
+                $em->flush();
+
+
+            }
+        }
+
+        return $this->redirectToRoute('show_post', ['slug' => $comment->getPost()->getSlug()]);
+
+
+    }
 }

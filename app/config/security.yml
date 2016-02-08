@@ -28,6 +28,7 @@ security:
                 provider: user_provider
                 login_path: /login
                 check_path: /login_check
+                csrf_token_generator: security.csrf.token_manager
                 username_parameter: _username
                 password_parameter: _password
             logout:
@@ -37,6 +38,5 @@ security:
 
     access_control:
         - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY  }
-        - { path: ^/admin/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY  }
         - { path: ^/admin/users, roles: ROLE_ADMIN  }
         - { path: ^/admin/, roles: ROLE_MODERATOR  }

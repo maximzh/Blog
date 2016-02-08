@@ -120,6 +120,22 @@ class FormManager
 
     }
 
+    public function createPostCommentDeleteForm(Comment $comment)
+    {
+        //$builder = $this->formFactory->createBuilder();
+        $form = $this->builder->setAction($this->router->generate('remove_post_comment', array('id' => $comment->getId())))
+            ->setMethod('DELETE')
+            ->add(
+                'submit',
+                SubmitType::class,
+                ['label' => ' ', 'attr' => ['class' => 'glyphicon glyphicon-trash btn-link']]
+            )
+            ->getForm();
+
+        return $form;
+
+    }
+
     public function createTagDeleteForm(Tag $tag)
     {
         //$builder = $this->formFactory->createBuilder();

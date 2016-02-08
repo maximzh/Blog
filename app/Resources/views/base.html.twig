@@ -21,6 +21,19 @@
                         </li>
 
                     </ul>
+                    <div class="navbar-text">
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            <a href="{{ path('logout') }}" class="navbar-link">Logout</a>
+                        {% else %}
+                            <a href="{{ path('login_route') }}" class="navbar-link">Login</a> <span class="text-warning"> or </span>
+                            <a href="{{ path('user_registration') }}" class="navbar-link">Registration</a>
+                        {% endif %}
+                    </div>
+                    <div class="navbar-text">
+                        {% if is_granted('ROLE_MODERATOR') %}
+                            <a href="{{ path('admin_default') }}" class="navbar-link">Admin area</a>
+                        {% endif %}
+                    </div>
                     <div class="col-sm-3 col-md-3 pull-right">
                         <form class="navbar-form" role="search" method="POST" action="{{ path('search') }}">
                             <div class="input-group">
