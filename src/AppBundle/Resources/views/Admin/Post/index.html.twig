@@ -7,7 +7,7 @@
         <a href="{{ path('new_post') }}">Create new post</a>
     </h1>
     <h2>
-        Total posts: <span class="text-danger">{{ countAllPosts() }}</span>
+        Total posts: <span class="text-danger">{{ posts|length }}</span>
     </h2>
 
 <div class="admin-posts">

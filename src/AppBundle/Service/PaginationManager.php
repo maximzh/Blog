@@ -204,7 +204,7 @@ class PaginationManager
         return $pagination;
     }
 
-    public function getCommentsWithDeleteForms(Request $request)
+    public function getCommentsWithDeleteForms(Request $request, User $user)
     {
         $currentPage = $request->query->getInt('page', 1);
         $repository = $this->doctrine->getManager()->getRepository('AppBundle:Comment');
@@ -214,7 +214,12 @@ class PaginationManager
             ? $currentPage + 1
             : false;
 
-        $comments = $repository->findAllCommentsWithDependencies($currentPage, $this->limit);
+        if ($user->getIsAdmin()) {
+            $comments = $repository->findAllCommentsWithDependencies($currentPage, $this->limit);
+        } else {
+            $comments = $repository->findAllCommentsByUserAndUserPosts($currentPage, $this->limit, $user);
+        }
+
 
         $nextPageUrl = $nextPage
             ? $nextPageUrl = $this->router->generate('manage_comments', ['page' => $nextPage])

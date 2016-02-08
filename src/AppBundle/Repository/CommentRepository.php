@@ -2,6 +2,7 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\User;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
@@ -60,7 +61,8 @@ class CommentRepository extends EntityRepository
     public function findAllCommentsWithDependencies($currentPage, $limit)
     {
         $query = $this->createQueryBuilder('c')
-            ->select('c, p')
+            ->select('c, p, u')
+            ->join('c.user', 'u')
             ->leftJoin('c.post', 'p')
             ->orderBy('c.createdAt', 'DESC')
             ->getQuery()
@@ -69,5 +71,24 @@ class CommentRepository extends EntityRepository
 
         return new Paginator($query);
 
+    }
+
+    public function findAllCommentsByUserAndUserPosts($currentPage, $limit, User $user)
+    {
+        $query = $this->createQueryBuilder('c')
+            ->select('c, p, u')
+            ->join('c.user', 'u')
+            ->leftJoin('c.post', 'p')
+            ->join('p.author', 'a')
+            ->where('u.slug =:slug')
+            ->orWhere('a.slug =:slug')
+            ->setParameter('slug', $user->getSlug())
+            //->addGroupBy('u')
+            ->orderBy('c.createdAt', 'DESC')
+            ->getQuery()
+            ->setFirstResult($limit * ($currentPage -1))
+            ->setMaxResults($limit);
+
+        return new Paginator($query);
     }
 }

@@ -7,7 +7,7 @@
         <a href="{{ path('new_tag') }}">Create new tag</a>
     </h1>
     <h2>
-        Total tags: <span class="text-danger">{{ countAllTags() }}</span>
+        Total tags: <span class="text-danger">{{ tags|length }}</span>
     </h2>
     <table class="table blog-article bg-info">
         <tr>

@@ -30,10 +30,11 @@ class CommentController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $user = $this->getUser();
 
         $paginationManager = $this->get('app.pagination_manager');
         $formManager = $this->get('app.form_manager');
-        $pagination = $paginationManager->setLimit(10)->setFormManager($formManager)->getCommentsWithDeleteForms($request);
+        $pagination = $paginationManager->setLimit(10)->setFormManager($formManager)->getCommentsWithDeleteForms($request, $user);
 
         if ($request->isXmlHttpRequest()) {
             $content = $this->renderView(
