@@ -1,9 +1,12 @@
-AppBundle\Entity\Author:
-    author1:
-        name: "John Doe"
+AppBundle\Entity\User:
+    user1:
+        username: "John Doe"
         email: "john_doe@domain.com"
-        smallAvatar: "/uploads/images/small_avatar.png"
         createdAt: <dateTimeBetween('-2 years', 'now')>
+        isAdmin: true
+        isModerator: true
+        password: $2y$13$.JRhjWXa8HnJxrWgIL8F.eAglK7unk7fzaS5m5NAZFH9tFFUF60ri
+        plainPassword: 123456
 
 AppBundle\Entity\Tag:
     tag1:
@@ -19,14 +22,14 @@ AppBundle\Entity\Post:
         slug: <createSlug($title)>
         text: <paragraphs(20, true)>
         createdAt: <dateTimeBetween('-2 years', 'now')>
-        author: @author1
+        author: @user1
         path: <image()>
         tags: 2x @tag*
 
 
 AppBundle\Entity\Comment:
     comment{1..3}:
-        commentAuthor: <name()>
+        user: @user1
         text: <text(700)>
         rating: <randomElement([0, 1, 2, 3, 4, 5])>
         post: '@post1'

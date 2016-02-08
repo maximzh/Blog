@@ -26,18 +26,18 @@ class PostControllerTest extends AbstractController
 
     public function testNew()
     {
-        $this->requestTest(200, "/admin/post/new", 'GET');
+        $this->requestTest(302, "/admin/post/new", 'GET');
     }
 
     public function testEdit()
     {
-        $this->requestTest(200, "/admin/post/edit/1", 'GET');
+        $this->requestTest(302, "/admin/post/edit/1", 'GET');
     }
 
     public function indexProvider()
     {
         return [
-            [200, "/admin/post"],
+            [302, "/admin/post"],
             ];
     }
 }
