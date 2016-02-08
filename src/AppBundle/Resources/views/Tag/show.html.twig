@@ -2,8 +2,8 @@
 {% block body %}
 
     <div class="search-results-container">
-
-        <h1 class="text-center"><span style="color: #7a43b6">{{ count }}</span> posts have tag <span style="color: #7a43b6">#{{ tag }}</span></h1>
+        <h1 class="text-center"><span style="color: #7a43b6">{{ count }}</span> posts have tag <span
+                    style="color: #7a43b6">#{{ tag }}</span></h1>
         {% if posts is not empty %}
             <div class="container-fluid">
                 <div class="row">
@@ -16,11 +16,6 @@
                     <div class="clearfix"></div>
                 </div>
             </div>
-
-
-
         {% endif %}
-
     </div>
-
 {% endblock %}

@@ -37,7 +37,10 @@ class PostController extends Controller
         $user = $this->getUser();
         $paginationManager = $this->get('app.pagination_manager');
         $formManager = $this->get('app.form_manager');
-        $pagination = $paginationManager->setLimit(10)->setFormManager($formManager)->getPostsWithDeleteForms($request, $user);
+        $pagination = $paginationManager->setLimit(10)->setFormManager($formManager)->getPostsWithDeleteForms(
+            $request,
+            $user
+        );
 
         if ($request->isXmlHttpRequest()) {
             $content = $this->renderView(

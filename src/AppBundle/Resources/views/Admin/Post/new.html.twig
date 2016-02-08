@@ -1,21 +1,20 @@
 {% extends '::admin_base.html.twig' %}
 
 {% block body %}
-<div class="admin-form-container center-block"}>
-    <h1>Create a new post</h1>
+    <div class="admin-form-container center-block" }>
+        <h1>Create a new post</h1>
         {{ tinymce_init({
-                theme: {'simple':{'height': 500, plugins: ['link code'],}},
-                toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent"})
-        }}
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
+            theme: {'simple':{'height': 500, plugins: ['link code'],}},
+            toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent"}) }}
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
 
-    <input type="submit" value="Create"
-           class="btn btn-default pull-left" />
-    {{ form_end(form) }}
-</div>
+        <input type="submit" value="Create"
+               class="btn btn-default pull-left"/>
+        {{ form_end(form) }}
+    </div>
 
 {% endblock %}
 {% block javascripts %}
-{{ parent() }}
+    {{ parent() }}
 {% endblock %}

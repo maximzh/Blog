@@ -8,9 +8,9 @@
 
 namespace AppBundle\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 class SecurityController extends Controller
 {
@@ -32,7 +32,7 @@ class SecurityController extends Controller
             array(
                 // last username entered by the user
                 'last_username' => $lastUsername,
-                'error'         => $error,
+                'error' => $error,
             )
         );
     }

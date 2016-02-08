@@ -50,7 +50,7 @@ class TagRepository extends EntityRepository
             ->select('t')
             ->orderBy('t.name', 'ASC')
             ->getQuery()
-            ->setFirstResult($limit * ($currentPage -1))
+            ->setFirstResult($limit * ($currentPage - 1))
             ->setMaxResults($limit);
 
         return new Paginator($query);
@@ -61,7 +61,6 @@ class TagRepository extends EntityRepository
     {
         return $this->createQueryBuilder('t')
             ->select('count(t.id)')
-
             ->getQuery()
             ->getSingleScalarResult();
     }

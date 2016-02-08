@@ -508,32 +508,32 @@ class Post
     {
         return $this->path;
     }
-/*
-    public function getRating()
-    {
-        $comments = $this->getComments();
-        $rating = 0;
-        $countCommentsWithRating = 0;
+    /*
+        public function getRating()
+        {
+            $comments = $this->getComments();
+            $rating = 0;
+            $countCommentsWithRating = 0;
 
-        if (count($comments) !== 0) {
+            if (count($comments) !== 0) {
 
-            foreach ($comments as $comment) {
-                if (null !== $comment->getRating()) {
-                    $countCommentsWithRating++;
-                    $rating = $rating + $comment->getRating();
+                foreach ($comments as $comment) {
+                    if (null !== $comment->getRating()) {
+                        $countCommentsWithRating++;
+                        $rating = $rating + $comment->getRating();
+                    }
                 }
+
+                if ($countCommentsWithRating !== 0) {
+                    $rating = $rating / $countCommentsWithRating;
+                }
+
             }
 
-            if ($countCommentsWithRating !== 0) {
-                $rating = $rating / $countCommentsWithRating;
-            }
 
+            return $rating;
         }
-
-
-        return $rating;
-    }
-*/
+    */
 
     /**
      * Set path

@@ -1,9 +1,10 @@
 {% extends '::admin_base.html.twig' %}
 
 {% block body %}
-{{ parent() }}
+    {{ parent() }}
     <h1>
-        <a href="{{ path('new_tag') }}" style="position: fixed; left: 5%; top: 15%"><i class="glyphicon glyphicon-plus-sign"></i></a>
+        <a href="{{ path('new_tag') }}" style="position: fixed; left: 5%; top: 15%"><i
+                    class="glyphicon glyphicon-plus-sign"></i></a>
         <a href="{{ path('new_tag') }}">Create new tag</a>
     </h1>
     <h2>
@@ -12,7 +13,7 @@
     <table class="table blog-article bg-info">
         <tr>
             <td style="width: 5%">
-               <p>Id</p>
+                <p>Id</p>
             </td>
 
             <td style="width: 20%">

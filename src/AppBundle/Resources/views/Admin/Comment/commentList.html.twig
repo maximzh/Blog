@@ -17,11 +17,13 @@
 
             </td>
             <td style="width: 20%; background-color: whitesmoke">
-                <span class="text-primary"><span class="text-danger">{{ comment.user.username }}: </span> <br>{{ comment.text }}</span>
+                <span class="text-primary"><span class="text-danger">{{ comment.user.username }}
+                        : </span> <br>{{ comment.text }}</span>
             </td>
             <td style="width: 20%">
                 <span>Created:</span><br>
-                <span class="text-primary">{{ comment.createdAt|date('d M Y') }} at {{ comment.createdAt|date('H:m') }}</span>
+                <span class="text-primary">{{ comment.createdAt|date('d M Y') }}
+                    at {{ comment.createdAt|date('H:m') }}</span>
             </td>
             <td style="width: 20%">
                 <span>Updated:</span><br>

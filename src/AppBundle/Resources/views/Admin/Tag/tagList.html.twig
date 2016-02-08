@@ -10,11 +10,12 @@
                 <span>
                     {{ tag.name }}
                 </span>
-
-
             </td>
-
-            <td style="width: 5%"><a href="{{ path('edit_tag', {'id': tag.id}) }}"><i class="glyphicon glyphicon-pencil"></i></a> </td>
+            <td style="width: 5%">
+                <a href="{{ path('edit_tag', {'id': tag.id}) }}">
+                    <i class="glyphicon glyphicon-pencil"></i>
+                </a>
+            </td>
             <td style="width: 5%">
                 {{ form_start(deleteForms[tag.id], {attr : {onsubmit: 'return confirm("Are you sure?");' }}) }}
                 {{ form_widget(deleteForms[tag.id].submit) }}

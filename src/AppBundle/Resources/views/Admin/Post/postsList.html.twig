@@ -1,4 +1,3 @@
-
 {% for post in posts %}
 
     {% if is_granted('view', post) %}
@@ -24,7 +23,8 @@
                 </td>
                 <td style="width: 20%">
                     <span>Created:</span><br>
-                    <span class="text-primary">{{ post.createdAt|date('d M Y') }} at {{ post.createdAt|date('H:m') }}</span>
+                    <span class="text-primary">{{ post.createdAt|date('d M Y') }}
+                        at {{ post.createdAt|date('H:m') }}</span>
                 </td>
                 <td style="width: 20%">
                     <span>Updated:</span><br>
@@ -35,7 +35,8 @@
                         <span class="text-primary">Never</span>
                     {% endif %}
                 </td>
-                <td style="width: 5%"><a href="{{ path('edit_post', {'id': post.id}) }}"><i class="glyphicon glyphicon-pencil"></i></a> </td>
+                <td style="width: 5%"><a href="{{ path('edit_post', {'id': post.id}) }}"><i
+                                class="glyphicon glyphicon-pencil"></i></a></td>
                 <td style="width: 5%">
                     {{ form_start(deleteForms[post.id], {attr : {onsubmit: 'return confirm("Are you sure?");' }}) }}
                     {{ form_widget(deleteForms[post.id].submit) }}
@@ -45,11 +46,6 @@
 
         </table>
     {% endif %}
-
-
-
-
-
 {% endfor %}
 
 {% if nextPageUrl %}

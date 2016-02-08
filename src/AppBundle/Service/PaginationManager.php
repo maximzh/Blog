@@ -112,7 +112,8 @@ class PaginationManager
         if ($this->formManager) {
 
             foreach ($comments as $comment) {
-                $deleteForms[$comment->getId()] = $this->formManager->createPostCommentDeleteForm($comment)->createView();
+                $deleteForms[$comment->getId()] = $this->formManager->createPostCommentDeleteForm($comment)->createView(
+                );
             }
         }
 
@@ -247,11 +248,14 @@ class PaginationManager
             ? $currentPage + 1
             : false;
 
-            $comments = $repository->findAllCommentsByUserInAdminPosts($currentPage, $this->limit, $user, $admin);
+        $comments = $repository->findAllCommentsByUserInAdminPosts($currentPage, $this->limit, $user, $admin);
 
 
         $nextPageUrl = $nextPage
-            ? $nextPageUrl = $this->router->generate('manage_user_comments', ['id' => $user->getId() ,'page' => $nextPage])
+            ? $nextPageUrl = $this->router->generate(
+                'manage_user_comments',
+                ['id' => $user->getId(), 'page' => $nextPage]
+            )
             : false;
 
         $deleteForms = [];

@@ -22,7 +22,8 @@
                 <td>{{ user.email }}</td>
                 <td>{{ user.password }}</td>
                 <td>{{ user.roles.0 }}</td>
-                <td><a href="{{ path('admin_edit_user', {'id': user.id}) }}"><i class="glyphicon glyphicon-pencil"></i></a></td>
+                <td><a href="{{ path('admin_edit_user', {'id': user.id}) }}"><i class="glyphicon glyphicon-pencil"></i></a>
+                </td>
                 <td>
                     {{ form_start(deleteForms[user.id], {attr : {onsubmit: 'return confirm("Are you sure?");' }}) }}
                     {{ form_widget(deleteForms[user.id].submit) }}

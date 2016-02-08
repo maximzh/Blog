@@ -14,7 +14,6 @@ use AppBundle\Form\CommentType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -99,8 +98,10 @@ class CommentController extends Controller
             $em = $this->getDoctrine()->getManager();
             //$em->persist($comment);
             $em->flush();
+
             return $this->redirectToRoute('show_post', ['slug' => $comment->getPost()->getSlug()]);
         }
+
         return [
             'comment' => $comment,
             'edit_form' => $editForm->createView(),

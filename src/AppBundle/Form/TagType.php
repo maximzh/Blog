@@ -23,17 +23,22 @@ class TagType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class, array(
-                'label' => 'tag'
-            ))
-        ;
+            ->add(
+                'name',
+                TextType::class,
+                array(
+                    'label' => 'tag',
+                )
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'data_class' => 'AppBundle\Entity\Tag'
-        ]);
+        $resolver->setDefaults(
+            [
+                'data_class' => 'AppBundle\Entity\Tag',
+            ]
+        );
     }
 
 }

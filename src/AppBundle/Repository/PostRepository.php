@@ -29,7 +29,7 @@ class PostRepository extends EntityRepository
             ->leftJoin('p.tags', 't')
             ->orderBy('p.createdAt', 'DESC')
             ->getQuery()
-            ->setFirstResult($limit * ($currentPage -1))
+            ->setFirstResult($limit * ($currentPage - 1))
             ->setMaxResults($limit);
 
         return new Paginator($query);
@@ -77,7 +77,7 @@ class PostRepository extends EntityRepository
             ->select('p, t, c')
             ->leftJoin('p.tags', 't')
             ->leftJoin('p.comments', 'c')
-            ->where('p.title LIKE :text' )
+            ->where('p.title LIKE :text')
             ->orWhere('t.name = :name')
             ->setParameter('text', '%'.$text.'%')
             ->setParameter('name', $text)
@@ -103,7 +103,7 @@ class PostRepository extends EntityRepository
             ->setParameter('slug', $slug)
             ->orderBy('p.createdAt', 'DESC')
             ->getQuery()
-            ->setFirstResult($limit * ($currentPage -1))
+            ->setFirstResult($limit * ($currentPage - 1))
             ->setMaxResults($limit);
 
         return new Paginator($query);
@@ -121,7 +121,7 @@ class PostRepository extends EntityRepository
             ->setParameter('slug', $slug)
             ->orderBy('p.createdAt', 'DESC')
             ->getQuery()
-            ->setFirstResult($limit * ($currentPage -1))
+            ->setFirstResult($limit * ($currentPage - 1))
             ->setMaxResults($limit);
 
         return new Paginator($query);
@@ -150,7 +150,7 @@ class PostRepository extends EntityRepository
             ->setParameter('slug', $user->getSlug())
             ->orderBy('p.createdAt', 'DESC')
             ->getQuery()
-            ->setFirstResult($limit * ($currentPage -1))
+            ->setFirstResult($limit * ($currentPage - 1))
             ->setMaxResults($limit);
 
         return new Paginator($query);

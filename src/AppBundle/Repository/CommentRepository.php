@@ -66,7 +66,7 @@ class CommentRepository extends EntityRepository
             ->leftJoin('c.post', 'p')
             ->orderBy('c.createdAt', 'DESC')
             ->getQuery()
-            ->setFirstResult($limit * ($currentPage -1))
+            ->setFirstResult($limit * ($currentPage - 1))
             ->setMaxResults($limit);
 
         return new Paginator($query);
@@ -86,7 +86,7 @@ class CommentRepository extends EntityRepository
             //->addGroupBy('u')
             ->orderBy('c.createdAt', 'DESC')
             ->getQuery()
-            ->setFirstResult($limit * ($currentPage -1))
+            ->setFirstResult($limit * ($currentPage - 1))
             ->setMaxResults($limit);
 
         return new Paginator($query);
@@ -106,7 +106,7 @@ class CommentRepository extends EntityRepository
             //->addGroupBy('u')
             ->orderBy('c.createdAt', 'DESC')
             ->getQuery()
-            ->setFirstResult($limit * ($currentPage -1))
+            ->setFirstResult($limit * ($currentPage - 1))
             ->setMaxResults($limit);
 
         return new Paginator($query);

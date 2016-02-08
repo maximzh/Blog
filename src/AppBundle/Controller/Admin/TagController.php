@@ -14,7 +14,6 @@ use AppBundle\Form\TagType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -131,8 +130,10 @@ class TagController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($tag);
             $em->flush();
+
             return $this->redirectToRoute('manage_tags');
         }
+
         return [
             'tag' => $tag,
             'edit_form' => $editForm->createView(),
@@ -166,7 +167,6 @@ class TagController extends Controller
 
 
     }
-
 
 
 }

@@ -123,7 +123,9 @@ class FormManager
     public function createPostCommentDeleteForm(Comment $comment)
     {
         //$builder = $this->formFactory->createBuilder();
-        $form = $this->builder->setAction($this->router->generate('remove_post_comment', array('id' => $comment->getId())))
+        $form = $this->builder->setAction(
+            $this->router->generate('remove_post_comment', array('id' => $comment->getId()))
+        )
             ->setMethod('DELETE')
             ->add(
                 'submit',
