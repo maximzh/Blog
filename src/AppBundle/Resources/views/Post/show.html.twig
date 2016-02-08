@@ -52,13 +52,16 @@
         </div>
         <div class="row">
             {% if is_granted('ROLE_USER') %}
-                <div class="comment-form col-md-6 col-md-offset-3">
-                    <h2 style="color: #7A43B6">
-                        Add comment:
-                    </h2>
-                    <div>
-                        {{ render(controller('AppBundle:Comment:new', {'slug': post.slug})) }}
+                <div class="comment-form col-md-6 col-md-offset-3" style="background-color: white">
+                    <div style="background-color: #F5F5F5; padding: 10px; border-radius: 10px">
+                        <h2 style="color: #286090">
+                            Add comment:
+                        </h2>
+                        <div>
+                            {{ render(controller('AppBundle:Comment:new', {'slug': post.slug})) }}
+                        </div>
                     </div>
+
                 </div>
             {% endif %}
 

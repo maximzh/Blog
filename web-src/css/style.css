@@ -195,10 +195,10 @@ a:hover {
 }
 
 .comment-form {
-    color: #7A43B6;
-    background-color: #F7F7F7;
+    color: #286090;
+    background-color:#F5F5F5;
     padding: 10px;
-
+    /*border: 2px solid #CFF8B6;*/
     border-radius: 15px;
     margin-top: 20px;
     margin-bottom: 20px;
@@ -240,8 +240,8 @@ a:hover {
 }
 
 .post-single-comment {
-    background-color: lavender;
-    border: 1px dotted lavender;
+    background-color: #F5F5F5;
+
     border-radius: 5px;
     margin-bottom: 10px;
     padding: 10px;
