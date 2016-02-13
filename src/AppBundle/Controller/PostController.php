@@ -28,17 +28,13 @@ class PostController extends Controller
      * @param $slug
      * @return array
      * @Route("/{slug}", requirements={"slug" = "^[a-z0-9-]+$"}, name="show_post")
-     * @Method("GET")
+     *
      * @Template()
      */
-    public function showAction($slug)
+    public function showAction(Request $request, $slug)
     {
         $formManager = $this->get('app.form_manager');
-        $data = $this->get('app.pagination_manager')->setFormManager($formManager)->getSinglePostWithComments($slug);
-
-        if (null == $data['post']) {
-            throw $this->createNotFoundException('Post not found :'.$slug);
-        }
+        $data = $this->get('app.pagination_manager')->setFormManager($formManager)->getSinglePostWithComments($request, $slug);
 
         return $data;
     }

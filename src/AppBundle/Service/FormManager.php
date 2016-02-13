@@ -53,7 +53,7 @@ class FormManager
             [
                 'em' => $em,
                 'method' => Request::METHOD_POST,
-                'action' => $this->router->generate('new_comment', ['slug' => $slug]),
+                //'action' => $this->router->generate('new_comment', ['slug' => $slug]),
             ]
         );
 

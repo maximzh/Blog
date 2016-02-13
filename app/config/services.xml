@@ -38,6 +38,7 @@
             <argument key="doctrine" type="service" id="doctrine"/>
             <argument key="limit" type="string" >%posts.limit%</argument>
             <argument key="router" type="service" id="router"/>
+            <argument key="tokenStorage" type="service" id="security.token_storage"/>
             <argument key="formManager" type="service" id="app.form_manager"/>
         </service>
 
