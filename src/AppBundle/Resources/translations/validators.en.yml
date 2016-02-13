@@ -1,0 +1,4 @@
+comment:
+    text:
+        not_blank: Comment should not be blank
+        max_length: The comment is too long
