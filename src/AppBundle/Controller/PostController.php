@@ -18,11 +18,26 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Class PostController
  * @package AppBundle\Controller
- * @Route("/post")
+ * @Route("{_locale}/post", requirements={"_locale" : "en|ru"}, defaults={"_locale" : "en" })
  */
 class PostController extends Controller
 {
+    /**
+     * @Route("/search", name="search")
+     * @Method("GET")
+     * @Template()
+     * @param Request $request
+     * @return array
+     */
+    public function searchAction(Request $request)
+    {
+        $result = $this->get('app.search_manager')->search($request);
 
+        return [
+            'posts' => $result['posts'],
+            'search_text' => $result['search_text'],
+        ];
+    }
 
     /**
      * @param $slug
@@ -39,19 +54,6 @@ class PostController extends Controller
         return $data;
     }
 
-    /**
-     * @Route("/search", name="search")
-     * @Method("POST")
-     * @Template()
-     */
-    public function searchAction(Request $request)
-    {
-        $result = $this->get('app.search_manager')->search($request);
 
-        return [
-            'posts' => $result['posts'],
-            'search_text' => $result['search_text'],
-        ];
-    }
 
 }

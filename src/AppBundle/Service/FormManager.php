@@ -63,6 +63,7 @@ class FormManager
                 SubmitType::class,
                 array(
                     'label' => 'Submit Comment',
+                    'translation_domain' => 'messages',
                     'attr' => array('class' => "btn btn-primary"),
                 )
             );

@@ -21,7 +21,7 @@ class CommentController extends Controller
 {
     /**
      * @param Request $request
-     * @Route("/comment/remove/{id}", name="remove_post_comment")
+     * @Route("{_locale}/comment/remove/{id}", name="remove_post_comment", requirements={"_locale" : "en|ru"}, defaults={"_locale" : "en" })
      * @Method("DELETE")
      * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      */
@@ -50,7 +50,7 @@ class CommentController extends Controller
 
     /**
      *
-     * @Route("/comment/edit/{id}", name="edit_post_comment")
+     * @Route("{_locale}/comment/edit/{id}", name="edit_post_comment")
      * @Method({"GET", "POST"})
      * @Template()
      */

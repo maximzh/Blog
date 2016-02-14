@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/", name="homepage")
+     * @Route("/{_locale}", name="homepage", requirements={"_locale" : "en|ru"}, defaults={"_locale" : "en"})
      * @Method("GET")
      * @Template()
      * @param Request $request

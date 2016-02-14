@@ -49,7 +49,7 @@ class Comment
     /**
      * @var int
      * @ORM\Column(name="rating", type="integer", nullable=true)
-     * @Assert\Range(min=0, max=5)
+     * @Assert\Range(min=0, max=5, minMessage="comment.rating.min_value", maxMessage="comment.rating.max_value")
      */
     private $rating;
 

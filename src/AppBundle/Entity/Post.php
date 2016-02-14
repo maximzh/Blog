@@ -38,7 +38,7 @@ class Post
      *
      * @ORM\Column(name="title", type="string", length=150)
      * @Assert\NotBlank()
-     * @Assert\Length(max="150")
+     * @Assert\Length(max="150", maxMessage="post.title.max_length")
      */
     private $title;
 
@@ -56,7 +56,7 @@ class Post
      * @var string
      *
      * @ORM\Column(name="text", type="text")
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message="post.text.not_blank")
      */
     private $text;
 
@@ -88,7 +88,9 @@ class Post
     /**
      * @Assert\File(
      *     maxSize="6000000",
-     *     mimeTypes={"image/jpeg", "image/pjpeg", "image/png", "image/x-png"}
+     *     mimeTypes={"image/jpeg", "image/pjpeg", "image/png", "image/x-png"},
+     *     maxSizeMessage="post.file.max_size",
+     *     mimeTypesMessage="post.file.mime_types"
      * )
      */
     private $file;

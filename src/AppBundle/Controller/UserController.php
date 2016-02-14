@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class UserController
- * @Route("/user")
+ * @Route("{_locale}/user", requirements={"_locale" : "en|ru"}, defaults={"_locale" : "en" })
  */
 class UserController extends Controller
 {

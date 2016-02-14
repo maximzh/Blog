@@ -1,6 +1,6 @@
 <div class="img-rounded border-left" id="top-posts">
     {% if topPosts() %}
-        <h4 class="sidebar-block-header text-center"><i class="glyphicon glyphicon-thumbs-up"></i> Top 5 </h4>
+        <h4 class="sidebar-block-header text-center"><i class="glyphicon glyphicon-thumbs-up"></i> {{ 'Top 5'|trans }} </h4>
         {% for post in topPosts() %}
             <div class="sidebar-top-post-container">
                 <div>
@@ -24,11 +24,8 @@
 
                     <div class="pull-right" style="width: 150px; padding: 5px; font-size: 18px">
 
-                        {#
-                        {{ post.0.text|slice(0, 30)|raw }}...
-                        #}
                         <i class="glyphicon glyphicon-time"></i>
-                        {{ post.0.createdAt|date('d M Y') }}<br>
+                        {{ post.0.createdAt|date('d.m.Y') }}<br>
                         <i class="glyphicon glyphicon-comment"></i>
                         {{ post.0.comments|length }}<br>
                         <i class="glyphicon glyphicon-star-empty"></i>
@@ -42,7 +39,7 @@
 </div>
 
 {% if lastComments() is not empty %}
-    <h4 class="sidebar-block-header text-center"><i class="glyphicon glyphicon-comment"></i> Last comments</h4>
+    <h4 class="sidebar-block-header text-center"><i class="glyphicon glyphicon-comment"></i> {{ 'Last comments'|trans }}</h4>
     <div id="last-comments" class="img-rounded">
         {% for comment in lastComments() %}
             <h6>

@@ -35,7 +35,12 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * @ORM\Column(type="string", length=25, unique=true)
      *
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message="user.username.not_blank")
+     * @Assert\Length(min="3",
+     *     max="25",
+     *     minMessage="user.username.min_length",
+     *     maxMessage="user.username.max_length"
+     * )
      */
     private $username;
 
@@ -52,7 +57,9 @@ class User implements AdvancedUserInterface, \Serializable
 
     /**
      * @Assert\NotBlank()
-     * @Assert\Length(min = 6)
+     * @Assert\Length(min = 6,
+     *     minMessage="user.password.min_length"
+     * )
      */
     private $plainPassword;
 
@@ -66,7 +73,7 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * @ORM\Column(type="string", length=60, unique=true)
      * @Assert\NotBlank()
-     * @Assert\Email()
+     * @Assert\Email(message="user.email.wrong_email")
      */
     private $email;
 
