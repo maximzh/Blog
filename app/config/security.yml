@@ -35,6 +35,10 @@ security:
                 path: /logout
                 target: /
                 invalidate_session: false
+            remember_me:
+                secret:   '%secret%'
+                lifetime: 604800
+                path:     homepage
 
     access_control:
         - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY  }

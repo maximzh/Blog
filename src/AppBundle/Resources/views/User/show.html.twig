@@ -1,7 +1,7 @@
 {% extends 'AppBundle:Default:ajax_scrollable.html.twig' %}
 {% block body %}
     <div class="search-results-container">
-        <h1 class="text-center"><span style="color: #7a43b6">{{ count }}</span> results</h1>
+        <h1 class="text-center">{{ 'Results'|trans }}: <span style="color: #7a43b6">{{ count }}</span></h1>
         {% if posts is not empty %}
             <div class="container-fluid">
                 <div class="row">

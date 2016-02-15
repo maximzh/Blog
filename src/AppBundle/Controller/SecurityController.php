@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 class SecurityController extends Controller
 {
     /**
-     * @Route("{_locale}/login", name="login_route", requirements={"_locale" : "en|ru"}, defaults={"_locale" : "en" })
+     * @Route("/login", name="login_route")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
