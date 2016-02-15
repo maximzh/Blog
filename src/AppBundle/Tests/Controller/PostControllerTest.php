@@ -37,7 +37,7 @@ class PostControllerTest extends AbstractController
     {
         return
             [
-                [200, "/post/post-one"],
+                [200, "en/post/post-one"],
                 [404, "/post/2"]
             ];
     }
