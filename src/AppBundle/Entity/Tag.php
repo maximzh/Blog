@@ -33,8 +33,8 @@ class Tag
     /**
      * @var string
      * @ORM\Column(name="name", type="string", length=40)
-     * @Assert\NotBlank()
-     * @Assert\Length(max="40")
+     * @Assert\NotBlank(message="tag.name.not_blank")
+     * @Assert\Length(max="40", maxMessage="tag.name.max_length")
      */
     private $name;
 

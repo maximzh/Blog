@@ -5,11 +5,11 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-4 col-md-offset-4 bg-info" style="margin-top: 10%; padding: 30px;">
-                <h1>Edit comment</h1>
+                <h1>{{ 'Edit comment'|trans }}</h1>
                 {{ form_start(edit_form) }}
                 {{ form_widget(edit_form) }}
 
-                <input type="submit" value="Update"
+                <input type="submit" value="{{ 'Update comment'|trans }}"
                        class="btn btn-default pull-left"/>
                 {{ form_end(edit_form) }}
             </div>

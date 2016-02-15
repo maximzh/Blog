@@ -53,7 +53,7 @@ class FormManager
             [
                 'em' => $em,
                 'method' => Request::METHOD_POST,
-                'action' => $this->router->generate('new_comment', ['slug' => $slug]),
+                //'action' => $this->router->generate('new_comment', ['slug' => $slug]),
             ]
         );
 
@@ -63,6 +63,7 @@ class FormManager
                 SubmitType::class,
                 array(
                     'label' => 'Submit Comment',
+                    'translation_domain' => 'messages',
                     'attr' => array('class' => "btn btn-primary"),
                 )
             );

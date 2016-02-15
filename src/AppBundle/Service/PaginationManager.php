@@ -9,13 +9,16 @@
 namespace AppBundle\Service;
 
 
+use AppBundle\Entity\Comment;
 use AppBundle\Entity\Post;
 use AppBundle\Entity\User;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Form;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class PaginationManager
 {
@@ -23,16 +26,19 @@ class PaginationManager
     protected $doctrine;
     protected $limit;
     protected $router;
-    protected $formManager;
+    protected $formManager = null;
+    protected $tokenStorage;
 
     public function __construct(
         RegistryInterface $doctrine,
         $limit,
-        RouterInterface $router
+        RouterInterface $router,
+        TokenStorageInterface $tokenStorage
     ) {
         $this->doctrine = $doctrine;
         $this->limit = $limit;
         $this->router = $router;
+        $this->tokenStorage = $tokenStorage;
     }
 
 
@@ -98,11 +104,35 @@ class PaginationManager
     }
 
 
-    public function getSinglePostWithComments($slug)
+    public function getSinglePostWithComments(Request $request, $slug)
     {
         $post = $this->doctrine
             ->getRepository('AppBundle:Post')
             ->findPostBySlug($slug);
+
+        if (!$post) {
+            throw new NotFoundHttpException('Post not found');
+        }
+
+        $comment = new Comment();
+        $commentForm = $this->formManager->createNewCommentForm($post->getSlug(), $comment);
+
+        if ($request->getMethod() == 'POST') {
+            $commentForm->handleRequest($request);
+            if ($commentForm->isValid()) {
+                $em = $this->doctrine->getManager();
+
+                $user = $this->tokenStorage->getToken()->getUser();
+                $comment->setUser($user);
+
+                $em->persist($comment);
+                $em->flush();
+                $url = $this->router->generate('show_post', ['slug' => $post->getSlug()]);
+
+                return new RedirectResponse($url, 301);
+
+            }
+        }
 
         $comments = $this->doctrine
             ->getRepository('AppBundle:Comment')
@@ -122,6 +152,7 @@ class PaginationManager
             'post' => $post,
             'comments' => $comments,
             'deleteForms' => $deleteForms,
+            'commentForm' => $commentForm->createView(),
         ];
     }
 

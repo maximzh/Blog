@@ -31,14 +31,6 @@ class Comment
     private $id;
 
     /**
-     * @var string
-     * @ORM\Column(name="comment_author", type="string", length=50, nullable=true)
-     *
-     * @Assert\Length(max="50")
-     */
-    private $commentAuthor;
-
-    /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="comments")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      *
@@ -49,22 +41,22 @@ class Comment
     /**
      * @var string
      * @ORM\Column(name="text", type="text")
-     * @Assert\NotBlank()
-     * @Assert\Length(max="1500")
+     * @Assert\NotBlank(message="comment.text.not_blank")
+     * @Assert\Length(max="1500", maxMessage="comment.text.max_length")
      */
     private $text;
 
     /**
      * @var int
      * @ORM\Column(name="rating", type="integer", nullable=true)
-     * @Assert\Range(min=0, max=5)
+     * @Assert\Range(min=0, max=5, minMessage="comment.rating.min_value", maxMessage="comment.rating.max_value")
      */
     private $rating;
 
     /**
      * @ORM\ManyToOne(targetEntity="Post", inversedBy="comments")
      * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
-     * @Assert\NotBlank()
+     *
      */
     private $post;
 
@@ -102,30 +94,6 @@ class Comment
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set commentAuthor
-     *
-     * @param string $commentAuthor
-     *
-     * @return Comment
-     */
-    public function setCommentAuthor($commentAuthor)
-    {
-        $this->commentAuthor = $commentAuthor;
-
-        return $this;
-    }
-
-    /**
-     * Get commentAuthor
-     *
-     * @return string
-     */
-    public function getCommentAuthor()
-    {
-        return $this->commentAuthor;
     }
 
     /**

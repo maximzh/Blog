@@ -21,43 +21,7 @@ class CommentController extends Controller
 {
     /**
      * @param Request $request
-     * @param $slug
-     * @Method("POST")
-     * @Route("/{slug}/comment/new", name="new_comment")
-     * @Template("AppBundle:Comment:comment_form.html.twig")
-     * @return array
-     */
-    public function newAction(Request $request, $slug)
-    {
-
-        $em = $this->getDoctrine()->getManager();
-        $comment = new Comment();
-        $form = $this->get('app.form_manager')->createNewCommentForm($slug, $comment);
-
-        if ($request->getMethod() == 'POST') {
-
-            $form->handleRequest($request);
-
-            if ($form->isValid()) {
-
-                $user = $this->getUser();
-                $comment->setUser($user);
-                $em->persist($comment);
-                $em->flush();
-
-                return $this->redirectToRoute('show_post', ['slug' => $slug]);
-            }
-        }
-
-
-        return [
-            'form' => $form->createView(),
-        ];
-    }
-
-    /**
-     * @param Request $request
-     * @Route("/comment/remove/{id}", name="remove_post_comment")
+     * @Route("{_locale}/comment/remove/{id}", name="remove_post_comment", requirements={"_locale" : "en|ru"}, defaults={"_locale" : "en" })
      * @Method("DELETE")
      * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      */
@@ -86,7 +50,7 @@ class CommentController extends Controller
 
     /**
      *
-     * @Route("/comment/edit/{id}", name="edit_post_comment")
+     * @Route("{_locale}/comment/edit/{id}", name="edit_post_comment")
      * @Method({"GET", "POST"})
      * @Template()
      */

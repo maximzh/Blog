@@ -18,35 +18,16 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Class PostController
  * @package AppBundle\Controller
- * @Route("/post")
+ * @Route("{_locale}/post", requirements={"_locale" : "en|ru"}, defaults={"_locale" : "en" })
  */
 class PostController extends Controller
 {
-
-
-    /**
-     * @param $slug
-     * @return array
-     * @Route("/{slug}", requirements={"slug" = "^[a-z0-9-]+$"}, name="show_post")
-     * @Method("GET")
-     * @Template()
-     */
-    public function showAction($slug)
-    {
-        $formManager = $this->get('app.form_manager');
-        $data = $this->get('app.pagination_manager')->setFormManager($formManager)->getSinglePostWithComments($slug);
-
-        if (null == $data['post']) {
-            throw $this->createNotFoundException('Post not found :'.$slug);
-        }
-
-        return $data;
-    }
-
     /**
      * @Route("/search", name="search")
-     * @Method("POST")
+     * @Method("GET")
      * @Template()
+     * @param Request $request
+     * @return array
      */
     public function searchAction(Request $request)
     {
@@ -57,5 +38,22 @@ class PostController extends Controller
             'search_text' => $result['search_text'],
         ];
     }
+
+    /**
+     * @param $slug
+     * @return array
+     * @Route("/{slug}", requirements={"slug" = "^[a-z0-9-]+$"}, name="show_post")
+     *
+     * @Template()
+     */
+    public function showAction(Request $request, $slug)
+    {
+        $formManager = $this->get('app.form_manager');
+        $data = $this->get('app.pagination_manager')->setFormManager($formManager)->getSinglePostWithComments($request, $slug);
+
+        return $data;
+    }
+
+
 
 }

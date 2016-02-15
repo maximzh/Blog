@@ -1,0 +1,31 @@
+comment:
+    text:
+        not_blank: Comment should not be blank
+        max_length: The comment is too long
+    rating:
+        min_value: minimum rating value is 0
+        max_value: maximum rating value is 5
+
+post:
+    title:
+        max_length: Length of post title should not be more than 150 characters
+    text:
+        not_blank: The post should contain some text
+    file:
+        max_size: Maximum acceptable file size is 6000000 bytes
+        mime_types: Acceptable file types are jpeg, png
+
+tag:
+    name:
+        not_blank: Tag name should not be blank
+        max_length: Max length of tag name is 40 characters
+
+user:
+    username:
+        not_blank: User name should not be blank
+        min_length: Username length should be at least 3 characters
+        max_length: Username length should not be more than 25 characters
+    password:
+        min_length: Your password length should be at least 6 characters
+    email:
+        wrong_email: wrong email format

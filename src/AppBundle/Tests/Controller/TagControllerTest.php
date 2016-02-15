@@ -29,8 +29,8 @@ class TagControllerTest extends AbstractController
     {
         return
             [
-                [200, "/tag/tagone"],
-                [200, "/tag/tagtwo"],
+                [200, "en/tag/tagone"],
+                [200, "ru/tag/tagtwo"],
                 [404, "/tag/2"]
             ];
     }

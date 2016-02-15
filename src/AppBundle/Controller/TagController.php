@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Class TagController
  * @package AppBundle\Controller
- * @Route("/tag")
+ * @Route("{_locale}/tag", requirements={"_locale" : "en|ru"}, defaults={"_locale" : "en" })
  */
 class TagController extends Controller
 {

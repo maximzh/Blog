@@ -16,6 +16,8 @@ class SecurityController extends Controller
 {
     /**
      * @Route("/login", name="login_route")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function loginAction(Request $request)
     {
@@ -34,12 +36,4 @@ class SecurityController extends Controller
         );
     }
 
-    /**
-     * @Route("/login_check", name="login_check")
-     */
-    public function loginCheckAction()
-    {
-        // this controller will not be executed,
-        // as the route is handled by the Security system
-    }
 }

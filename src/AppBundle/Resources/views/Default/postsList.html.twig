@@ -1,9 +1,7 @@
 {% for post in posts %}
 
     <div class="blog-article">
-        {#
 
-        #}
         <h3 class="h3 text-left post-title">
             <a href="{{ path('show_post', {'slug': post.slug}) }}">
                 {{ post.title }}
@@ -15,25 +13,15 @@
 
         </h3>
 
-        {#
-        {% if post.author.smallAvatar is not null %}
-            <img src="{{ post.author.smallAvatar }}" class="img-circle">
-        {% endif %}
-        Author:
-        <a href="{{ path('show_author_posts', {'slug': post.author.slug}) }}">
-            <span class="author-name">{{ post.author.name }}</span>
-        </a>
-
-        #}
         <span class="pull-left">
-            Author:
+            {{ 'Author'|trans }}:
             <a href="{{ path('show_user_posts', {'slug': post.author.slug}) }}">
                 {{ post.author.username }}
             </a>
         </span>
 
         <span class="pull-right">
-            <i class="glyphicon glyphicon-time"></i> {{ post.createdAt|date('d M Y') }}
+            <i class="glyphicon glyphicon-time"></i> {{ post.createdAt|date('d.m.Y') }}
         </span>
 
         <div class="clearfix"></div>
@@ -51,7 +39,7 @@
 
             <div class="read-more pull-right">
                 <a href="{{ path('show_post', { 'slug': post.slug }) }}">
-                    Read more <i class="glyphicon glyphicon-arrow-right"></i>
+                    {{ 'Read more'|trans }} <i class="glyphicon glyphicon-arrow-right"></i>
                 </a>
             </div>
         </div>
