@@ -5,5 +5,8 @@ app:
 _liip_imagine:
     resource: "@LiipImagineBundle/Resources/config/routing.xml"
 
+login_check:
+    path: /login_check
+
 logout:
     path: /logout

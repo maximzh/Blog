@@ -43,7 +43,18 @@
                     <a href="{{ path('admin_default') }}" class="navbar-link">{{ 'Admin area'|trans }}</a>
                 {% endif %}
             </div>
+            <div class="navbar-text">
+                {% if app.request.get('_locale') == 'en' %}
+                    <a href="{{ path(app.request.get('_route'), app.request.get('_route_params')|merge({'_locale' : 'ru'})) }}"
+                       class="navbar-link">rus</a>
+                {% else %}
+                    <a href="{{ path(app.request.get('_route'), app.request.get('_route_params')|merge({'_locale' : 'en'})) }}"
+                       class="navbar-link">eng</a>
+                {% endif %}
+            </div>
+
             <div class="col-sm-3 col-md-3 pull-right">
+
                 <form class="navbar-form" role="search" method="GET" action="{{ path('search') }}">
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="{{ 'Search'|trans }}" name="search_text" id="srch-term">
@@ -54,6 +65,7 @@
                         </div>
                     </div>
                 </form>
+
             </div>
             <div class="clearfix"></div>
         </nav>

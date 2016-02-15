@@ -4,7 +4,7 @@
         {% for post in topPosts() %}
             <div class="sidebar-top-post-container">
                 <div>
-                    <span style="font-weight: bold;">{{ post.0.title }}</span><br>
+                    <span class="bg-warning" style="font-weight: bold;">{{ post.0.title }}</span><br>
 
                     <div class="rating-container rating-gly-star" data-content="">
                         <div class="rating-stars" style="width: {{ postRating(post.0) * 20 }}%"
@@ -42,11 +42,11 @@
     <h4 class="sidebar-block-header text-center"><i class="glyphicon glyphicon-comment"></i> {{ 'Last comments'|trans }}</h4>
     <div id="last-comments" class="img-rounded">
         {% for comment in lastComments() %}
-            <h6>
-                {{ comment.user.username }} ({{ comment.createdAt|date('d-m-Y') }})
+            <h6 class="bg-warning">
+                <span class="text-warning">{{ comment.user.username }} </span>({{ comment.createdAt|date('d.m.Y') }})
             </h6>
             <a href="{{ path('show_post', {'slug': comment.post.slug}) }}">
-                {{ comment.text|length > 50 ? comment.text|slice(0, 50) ~ '...' :comment.text }}
+                {{ comment.text|length > 90 ? comment.text|slice(0, 90) ~ '...' :comment.text }}
             </a>
 
         {% endfor %}
