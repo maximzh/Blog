@@ -86,6 +86,31 @@ class PostRepository extends EntityRepository
 
     }
 
+    public function searchModeratorPosts($text, User $user)
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p, t, c, a')
+            ->join('p.author', 'a')
+            ->leftJoin('p.tags', 't')
+            ->leftJoin('p.comments', 'c')
+            ->where('p.title LIKE :text')
+            ->orWhere('t.name = :name')
+            ->andWhere('a.id = :id')
+            ->setParameter('id', $user->getId())
+            ->setParameter('text', '%'.$text.'%')
+            ->setParameter('name', $text)
+            ->getQuery()
+            ->getResult();
+
+    }
+    /**
+    public function searchAdminPosts($text)
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p')
+            ->join('p.author', 'user')
+    }
+*/
     /**
      * @param $slug
      * @param $currentPage

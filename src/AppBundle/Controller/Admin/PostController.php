@@ -150,4 +150,21 @@ class PostController extends Controller
 
     }
 
+    /**
+     * @Route("/search", name="admin_post_search")
+     * @Method("GET")
+     * @Template()
+     */
+    public function searchAction(Request$request)
+    {
+        $formManager = $this->get('app.form_manager');
+        $user = $this->getUser();
+        $searchResult = $this->get('app.search_manager')->setFormManager($formManager)->adminPostSearch($request, $user);
+
+        return [
+            'posts' => $searchResult['posts'],
+            'deleteForms' => $searchResult['deleteForms'],
+        ];
+    }
+
 }

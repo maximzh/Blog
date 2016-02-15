@@ -44,6 +44,7 @@ class PaginationManager
 
     public function getPosts(Request $request)
     {
+        $pagination = array();
         $currentPage = $request->query->getInt('page', 1);
         $repository = $this->doctrine->getManager()->getRepository('AppBundle:Post');
         $count = $repository->countAllPosts();
@@ -142,8 +143,9 @@ class PaginationManager
         if ($this->formManager) {
 
             foreach ($comments as $comment) {
-                $deleteForms[$comment->getId()] = $this->formManager->createPostCommentDeleteForm($comment)->createView(
-                );
+                $deleteForms[$comment->getId()] = $this->formManager
+                    ->createPostCommentDeleteForm($comment)
+                    ->createView();
             }
         }
 
